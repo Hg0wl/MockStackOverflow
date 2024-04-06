@@ -1,0 +1,35 @@
+.sideBarNav {
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    height: 100%;
+    border-right: 1px solid #dddddd;
+    padding: 2% 0 10% 0;
+    align-items: right;
+}
+
+.menu-button-container {
+    display: flex;
+    align-items: center;
+}
+
+.menu_button:first-child {
+    margin-top: 0;
+}
+
+.menu_button {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: .9rem;
+    width: 80%;
+    margin-top: 5px;
+    margin-left: 10%;
+    border-radius: 5px;
+    text-align: left;
+    line-height: 40px;
+    color: black;
+}
+
+.menu_selected {
+    font-weight: bold;
+    background: #cccccc;
+}

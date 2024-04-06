@@ -1,0 +1,34 @@
+.login-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-right: 5%;
+}
+
+button {
+    border-radius: .5rem;
+    border-color: #3A86FF;
+    border-style: solid;
+    padding: 10%;
+    margin: 5%;
+    cursor: pointer;
+}
+
+.clear-button {
+    background-color: white;
+    color: #3A86FF;
+}
+
+.clear-button:hover {
+    background-color: #dddddd;
+}
+
+.filled-button {
+    background-color: #3A86FF;
+    color: white;
+}
+
+.filled-button:hover {
+    background-color: #2656a1;
+    border-color: #2656a1;
+}
