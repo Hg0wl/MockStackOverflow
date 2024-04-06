@@ -10,7 +10,13 @@ const SideBarNav = ({ selected = "", handleQuestions, handleTags }) => {
           handleQuestions();
         }}
       >
-        Questions
+        <div className="menu-button-container">
+          <img
+            style={{ width: "20%", height: "20%", margin: "0 5% 0 0" }}
+            src="https://cdn-icons-png.flaticon.com/512/61/61951.png"
+          ></img>
+          Questions
+        </div>
       </div>
       <div
         id="menu_tag"
@@ -19,7 +25,13 @@ const SideBarNav = ({ selected = "", handleQuestions, handleTags }) => {
           handleTags();
         }}
       >
-        Tags
+        <div className="menu-button-container">
+          <img
+            style={{ width: "20%", height: "20%", margin: "0 5% 0 0" }}
+            src="https://cdn-icons-png.flaticon.com/512/126/126422.png"
+          ></img>
+          Tags
+        </div>
       </div>
     </div>
   );
