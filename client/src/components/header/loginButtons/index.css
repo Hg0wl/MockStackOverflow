@@ -5,7 +5,7 @@
     margin-right: 5%;
 }
 
-button {
+#login-button {
     border-radius: .5rem;
     border-color: #3A86FF;
     border-style: solid;

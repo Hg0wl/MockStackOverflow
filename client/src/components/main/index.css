@@ -9,6 +9,9 @@
     overflow: auto;
 }
 
+.main_container {
+    height: 100%;
+}
 .space_between {
     display: flex;
     justify-content: space-between;
@@ -16,21 +19,6 @@
 
 .right_padding {
     padding: 2% 0 2% 2%;
-}
-
-.bold_title {
-    font-size: 24px;
-    font-weight: 800;
-    line-height: 40px;
-}
-
-.bluebtn {
-    background: #3090e2;
-    color: #ffffff;
-    border: #000000 1px solid;
-    font-size: 20px;
-    padding: 10px 10px 10px 10px;
-    margin-right: 5%;
 }
 
 .btn_indicator_container {
