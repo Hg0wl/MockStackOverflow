@@ -1,0 +1,9 @@
+.question_list:last-child {
+    border-bottom: #ddd 1px solid;
+}
+
+.question-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
