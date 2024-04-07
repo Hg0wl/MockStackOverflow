@@ -1,0 +1,49 @@
+.btns {
+  display: flex;
+  width: fit-content;
+  border: 1px solid #ddd;
+}
+
+.bold_title {
+  font-size: 30px;
+  line-height: 40px;
+}
+
+.bluebtn {
+  border-radius: 0.5rem;
+  background-color: #3a86ff;
+  border-style: none;
+  padding: 0.75rem;
+  margin: 0;
+  cursor: pointer;
+  color: white;
+}
+
+.left-alligned {
+  margin-left: 2.5%;
+}
+
+.underline {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.right-alligned {
+  margin-right: 2.5%;
+}
+
+.bluebtn:hover {
+  background-color: #2656a1;
+  border-color: #2656a1;
+}
+.header_row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin: 5% 0 0% 0;
+}
+
+.q_header {
+  width: 100%;
+  height: fit-content;
+}
