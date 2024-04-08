@@ -1,0 +1,12 @@
+.a_header_row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin: 1% 0 1% 0;
+}
+
+.a_header_second_row {
+  display: flex;
+  width: 100%;
+  margin: 1% 0 1% 0;
+}

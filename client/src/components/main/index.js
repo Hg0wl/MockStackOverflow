@@ -3,7 +3,7 @@ import { useState } from "react";
 import SideBarNav from "./sidebarNav";
 import QuestionPage from "./questionsPage";
 //import TagPage from "./tagPage";
-//import AnswerPage from "./answerPage";
+import AnswerPage from "./answerPage";
 //import NewQuestion from "./newQuestion";
 //import NewAnswer from "./newAnswer";
 
@@ -61,14 +61,6 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
       content = getQuestionPage(questionOrder.toLowerCase(), search);
       break;
     }
-    /* 
-    case "tag": {
-      selected = "t";
-      content = (
-        <TagPage clickTag={clickTag} handleNewQuestion={handleNewQuestion} />
-      );
-      break;
-    }
     case "answer": {
       selected = "";
       content = (
@@ -76,10 +68,18 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
           qid={qid}
           handleNewQuestion={handleNewQuestion}
           handleNewAnswer={handleNewAnswer}
+          clickTag={clickTag}
         />
       );
       break;
     }
+    /* 
+    case "tag": {
+      selected = "t";
+      content = (
+        <TagPage clickTag={clickTag} handleNewQuestion={handleNewQuestion} />
+      );
+      break;
     case "newQuestion": {
       selected = "";
       content = <NewQuestion handleQuestions={handleQuestions} />;

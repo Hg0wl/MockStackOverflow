@@ -4,19 +4,21 @@ import "./index.css";
 
 const Question = ({ q, clickTag, handleAnswer }) => {
   return (
-    <div
-      className="question right_padding"
-      onClick={() => {
-        handleAnswer(q._id);
-      }}
-    >
+    <div className="question right_padding">
       <div className="postStats">
         <div className="vote-stat">{q.votes} votes</div>
         <div>{q.answers.length || 0} answers</div>
         <div>{q.views} views</div>
       </div>
       <div className="question_mid">
-        <div className="postTitle">{q.title}</div>
+        <div
+          className="postTitle"
+          onClick={() => {
+            handleAnswer(q._id);
+          }}
+        >
+          {q.title}
+        </div>
         <div className="postText">{getPreviewText(q.text)}</div>
         <div className="question_tags">
           {q.tags.map((tag, idx) => {
