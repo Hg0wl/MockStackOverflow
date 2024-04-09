@@ -23,7 +23,7 @@ const TextArea = ({
                 value={val}
                 onInput={(e) => {setState(e.target.value);}}
             />
-            {err && <div className="input_error>">{err}</div>}
+            {err && <div className="input_error">{err}</div>}
         </>
     );
  };
