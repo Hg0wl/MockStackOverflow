@@ -4,8 +4,8 @@ import SideBarNav from "./sidebarNav";
 import QuestionPage from "./questionsPage";
 //import TagPage from "./tagPage";
 import AnswerPage from "./answerPage";
-//import NewQuestion from "./newQuestion";
-//import NewAnswer from "./newAnswer";
+import NewQuestion from "./newQuestion";
+import NewAnswer from "./newAnswer";
 
 const Main = ({ search = "", title, setQuesitonPage }) => {
   const [page, setPage] = useState("home");
@@ -80,6 +80,9 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
         <TagPage clickTag={clickTag} handleNewQuestion={handleNewQuestion} />
       );
       break;
+
+      */
+
     case "newQuestion": {
       selected = "";
       content = <NewQuestion handleQuestions={handleQuestions} />;
@@ -90,7 +93,7 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
       content = <NewAnswer qid={qid} handleAnswer={handleAnswer} />;
       break;
     }
-    */
+    
     default:
       selected = "q";
       content = getQuestionPage();
