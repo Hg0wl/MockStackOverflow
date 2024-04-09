@@ -67,10 +67,10 @@ const NewQuestion = ({ handleQuestions }) => {
             ask_date_time: new Date(),
         };
 
-        const res = await addQuestion(question);
-        if (res && res._id) {
-            handleQuestions();
-        }
+        // const res = await addQuestion(question);
+        // if (res && res._id) {
+        //     handleQuestions();
+        // }
     };
 
     return (
