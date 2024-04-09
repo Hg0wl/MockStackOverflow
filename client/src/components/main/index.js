@@ -2,7 +2,7 @@ import "./index.css";
 import { useState } from "react";
 import SideBarNav from "./sidebarNav";
 import QuestionPage from "./questionsPage";
-//import TagPage from "./tagPage";
+import TagPage from "./tagPage";
 import AnswerPage from "./answerPage";
 import NewQuestion from "./newQuestion";
 import NewAnswer from "./newAnswer";
@@ -73,15 +73,13 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
       );
       break;
     }
-    /* 
     case "tag": {
       selected = "t";
       content = (
         <TagPage clickTag={clickTag} handleNewQuestion={handleNewQuestion} />
       );
       break;
-
-      */
+    }
 
     case "newQuestion": {
       selected = "";
@@ -93,7 +91,7 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
       content = <NewAnswer qid={qid} handleAnswer={handleAnswer} />;
       break;
     }
-    
+
     default:
       selected = "q";
       content = getQuestionPage();
