@@ -28,7 +28,7 @@ const Header = ({ search, setQuestionPage, handleLogin, handleSignup }) => {
           />
         </div>
         {/*Add if statement to check if user is logged in*/}
-        <LoginButtons handleLogin={handleLogin} handleSignup={handleSignup}/>
+        <LoginButtons handleLogin={handleLogin} handleSignup={handleSignup} />
       </div>
     </div>
   );

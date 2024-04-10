@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import Header from "./header";
 import Main from "./main";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 
 export default function fakeStackOverflow() {
   const [search, setSearch] = useState("");
+  const [mainTitle, setMainTitle] = useState("All Questions");
   const [loginState, setLoginState] = useState("");
 
-  const setQuesitonPage = (search = "", title = "All Questions") => {
-    //TODO: implement
-    console.log("set question page");
+  const setQuestionPage = (search = "", title = "All Questions") => {
+    setSearch(search);
+    setMainTitle(title);
   };
 
   const handleLogin = () => {
@@ -17,23 +18,27 @@ export default function fakeStackOverflow() {
   };
 
   const handleSignup = () => {
-    setLoginState("signup")
-  }
+    setLoginState("signup");
+  };
 
-  useEffect(() => {if (loginState != "")  {setLoginState("")}}, [loginState])
+  useEffect(() => {
+    if (loginState != "") {
+      setLoginState("");
+    }
+  }, [loginState]);
 
   return (
     <div id="root">
       <Header
         search={search}
-        setQuesitonPage={setQuesitonPage}
+        setQuestionPage={setQuestionPage}
         handleLogin={handleLogin}
         handleSignup={handleSignup}
       />
       <Main
-        title={"All Questions"}
+        title={mainTitle}
         search={search}
-        setQuesitonPage={setQuesitonPage}
+        setQuestionPage={setQuestionPage}
         loginState={loginState}
       />
     </div>

@@ -5,118 +5,113 @@ import TextArea from "../baseComponents/textarea";
 import "./index.css";
 import { validateHyperlink } from "../../../tool";
 
-//import { addQuestion } from "../../../services/questionService";
+import { addQuestion } from "../../../services/questionService";
 
 const NewQuestion = ({ handleQuestions }) => {
-    const [title, setTitle] = useState("");
-    const [text, setText] = useState("");
-    const [tag, setTag] = useState("");
-    
-    const [titleErr, setTitleErr] = useState("");
-    const [textErr, setTextErr] = useState("");
-    const [tagErr, setTagErr] = useState("");
-    
-    const postQuestion = async () => {
-        let isValid = true;
-        if (!title) {
-            setTitleErr("Title cannot be empty");
-            isValid = false;
-        } else if (title.length > 100) {
-            setTitleErr("Title cannot be more than 100 characters");
-            isValid = false;
-        }
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [tag, setTag] = useState("");
 
-        if (!text) {
-            setTextErr("Question text cannot be empty");
-            isValid = false;
-        }
+  const [titleErr, setTitleErr] = useState("");
+  const [textErr, setTextErr] = useState("");
+  const [tagErr, setTagErr] = useState("");
 
-        //Hyperlink validation
-        if (!validateHyperlink(text)) {
-            setTextErr("Invalid hyperlink format.");
-            isValid = false;
-        }
+  const postQuestion = async () => {
+    let isValid = true;
+    if (!title) {
+      setTitleErr("Title cannot be empty");
+      isValid = false;
+    } else if (title.length > 100) {
+      setTitleErr("Title cannot be more than 100 characters");
+      isValid = false;
+    }
 
-        let tags = tag.split(" ").filter((tag) => tag.trim() != "");
-        if (tags.length == 0) {
-            // Do we want to keep this requirement from the previous assingment? I think its fine for questions to not have tags
-            // setTagErr("Should have at least 1 tag");
-            // isValid = false;
-        } else if (tags.length > 5) {
-            setTagErr("Cannot have more than 5 tags");
-            isValid = false;
-        }
+    if (!text) {
+      setTextErr("Question text cannot be empty");
+      isValid = false;
+    }
 
-        for (let tag of tags) {
-            if (tag.length > 20) {
-                setTagErr("New tag length cannot be more than 20");
-                isValid = false;
-                break;
-            }
-        }
+    //Hyperlink validation
+    if (!validateHyperlink(text)) {
+      setTextErr("Invalid hyperlink format.");
+      isValid = false;
+    }
 
-        if (!isValid) {
-            return;
-        }
+    let tags = tag.split(" ").filter((tag) => tag.trim() != "");
+    if (tags.length == 0) {
+      // Do we want to keep this requirement from the previous assingment? I think its fine for questions to not have tags
+      // setTagErr("Should have at least 1 tag");
+      // isValid = false;
+    } else if (tags.length > 5) {
+      setTagErr("Cannot have more than 5 tags");
+      isValid = false;
+    }
 
-        const question = {
-            title: title,
-            text: text,
-            tags: tags,
-            //asked_by: 
-            ask_date_time: new Date(),
-        };
+    for (let tag of tags) {
+      if (tag.length > 20) {
+        setTagErr("New tag length cannot be more than 20");
+        isValid = false;
+        break;
+      }
+    }
 
-        // const res = await addQuestion(question);
-        // if (res && res._id) {
-        //     handleQuestions();
-        // }
+    if (!isValid) {
+      return;
+    }
+
+    const question = {
+      title: title,
+      text: text,
+      tags: tags,
+      asked_by: "Default name for testing",
+      ask_date_time: new Date(),
     };
 
-    return (
-        <Form>
-            <Input
-                title={"Question Title"}
-                hint={"100 character limit"}
-                id={"formTitleInput"}
-                val={title}
-                setState={setTitle}
-                err={titleErr}
-            />
-            <TextArea
-                title={"Question Text"}
-                hint={"Add details"}
-                id={"formTextInput"}
-                val={text}
-                setState={setText}
-                err={textErr}
-            />
-            <Input
-                title={"Tags"}
-                hint={"Add keywords separated by whitespace"}
-                id={"formTagInput"}
-                val={tag}
-                setState={setTag}
-                err={tagErr}
-            />
-            <div className="btn_indicator_container">
-                <button
-                    className="form_postBtn"
-                    onClick={() => {
-                        postQuestion();
-                    }}
-                >
-                    Post Question
-                </button>
-                <div className="mandatory_indicator">
-                    * indicates mandatory fields
-                </div>
-            </div>
-        </Form>
-    
-    );
+    const res = await addQuestion(question);
+    if (res && res._id) {
+      handleQuestions();
+    }
+  };
 
-
+  return (
+    <Form>
+      <Input
+        title={"Question Title"}
+        hint={"100 character limit"}
+        id={"formTitleInput"}
+        val={title}
+        setState={setTitle}
+        err={titleErr}
+      />
+      <TextArea
+        title={"Question Text"}
+        hint={"Add details"}
+        id={"formTextInput"}
+        val={text}
+        setState={setText}
+        err={textErr}
+      />
+      <Input
+        title={"Tags"}
+        hint={"Add keywords separated by whitespace"}
+        id={"formTagInput"}
+        val={tag}
+        setState={setTag}
+        err={tagErr}
+      />
+      <div className="btn_indicator_container">
+        <button
+          className="form_postBtn"
+          onClick={() => {
+            postQuestion();
+          }}
+        >
+          Post Question
+        </button>
+        <div className="mandatory_indicator">* indicates mandatory fields</div>
+      </div>
+    </Form>
+  );
 };
 
 export default NewQuestion;

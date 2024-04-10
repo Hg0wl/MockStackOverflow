@@ -45,7 +45,7 @@ const getMetaData = (date) => {
   }
 };
 
-const getPreviewText = (text, maxLength = 225) => {
+const getPreviewText = (text, maxLength = 200) => {
     if (text.length < maxLength) {
         return text
     } else {

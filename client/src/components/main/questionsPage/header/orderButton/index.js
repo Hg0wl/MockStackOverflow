@@ -1,9 +1,9 @@
 import "./index.css";
 
-const OrderButton = ({ message, setQuestionOrder }) => {
+const OrderButton = ({ message, setQuestionOrder, questionOrder }) => {
   return (
     <button
-      className="btn"
+      className={message.toLowerCase() == questionOrder.toLowerCase() ? "btn-select":"btn"}
       onClick={() => {
         setQuestionOrder(message);
       }}
