@@ -5,7 +5,15 @@ import Author from "../author";
 import { handleHyperlink } from "../../../../tool";
 
 // Component for the Question's Body
-const QuestionBody = ({ text, askby, tags, meta, clickTag, numAnswers }) => {
+const QuestionBody = ({
+  text,
+  askby,
+  tags,
+  meta,
+  clickTag,
+  numAnswers,
+  handleUser,
+}) => {
   return (
     <div id="questionBody" className="questionBody right_padding">
       <div className="answer_question_text">
@@ -41,6 +49,7 @@ const QuestionBody = ({ text, askby, tags, meta, clickTag, numAnswers }) => {
               img={
                 "https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg"
               }
+              handleUser={handleUser}
             ></Author>
             <div className="num_answers">
               {numAnswers} {numAnswers != 1 ? "Answers" : "Answer"}

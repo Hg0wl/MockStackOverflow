@@ -2,7 +2,7 @@ import { getPreviewText } from "../../../../tool";
 import Author from "./author";
 import "./index.css";
 
-const Question = ({ q, clickTag, handleAnswer }) => {
+const Question = ({ q, clickTag, handleAnswer, handleUser }) => {
   return (
     <div className="question right_padding">
       <div className="postStats">
@@ -39,6 +39,7 @@ const Question = ({ q, clickTag, handleAnswer }) => {
       </div>
       <Author
         asked_by={q.asked_by}
+        handleUser={handleUser}
         ask_date_time={q.ask_date_time}
         ask_image={
           "https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg"

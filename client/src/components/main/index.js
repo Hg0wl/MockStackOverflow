@@ -6,6 +6,7 @@ import TagPage from "./tagPage";
 import AnswerPage from "./answerPage";
 import NewQuestion from "./newQuestion";
 import NewAnswer from "./newAnswer";
+import UserProfile from "./userProfile";
 
 const Main = ({ search = "", title, setQuesitonPage }) => {
   const [page, setPage] = useState("home");
@@ -26,6 +27,11 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
   const handleAnswer = (qid) => {
     setQid(qid);
     setPage("answer");
+  };
+
+  //Will likely need to pass some user id or username
+  const handleUser = () => {
+    setPage("user");
   };
 
   const clickTag = (tname) => {
@@ -51,6 +57,7 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
         clickTag={clickTag}
         handleAnswer={handleAnswer}
         handleNewQuestion={handleNewQuestion}
+        handleUser={handleUser}
       />
     );
   };
@@ -69,6 +76,7 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
           handleNewQuestion={handleNewQuestion}
           handleNewAnswer={handleNewAnswer}
           clickTag={clickTag}
+          handleUser={handleUser}
         />
       );
       break;
@@ -80,7 +88,11 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
       );
       break;
     }
-
+    case "user": {
+      selected = "";
+      content = <UserProfile />;
+      break;
+    }
     case "newQuestion": {
       selected = "";
       content = <NewQuestion handleQuestions={handleQuestions} />;

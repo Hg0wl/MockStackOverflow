@@ -4,7 +4,7 @@ import Author from "../author"
 import "./index.css";
 
 // Component for the Answer Page
-const Answer = ({ text, ansBy, meta, votes }) => {
+const Answer = ({ text, ansBy, meta, votes, handleUser }) => {
   return (
     <div className="answer">
       <Vote
@@ -23,6 +23,7 @@ const Answer = ({ text, ansBy, meta, votes }) => {
           img={
             "https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg"
           }
+          handleUser={handleUser}
         ></Author>
       </div>
     </div>

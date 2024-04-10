@@ -1,0 +1,44 @@
+.user-header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.header-profile {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+}
+
+.user-header-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-username {
+  font-size: xx-large;
+  margin: 0 0 5px 10px;
+}
+
+.user-header-meta {
+  font-size: small;
+  color: #939393;
+  margin: 0 0 3px 10px;
+}
+
+.qaLists {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 2.5%;
+  margin-top: 2.5%;
+}
+
+.qaList {
+  display: flex;
+  flex-direction: column;
+  width: 49%;
+}

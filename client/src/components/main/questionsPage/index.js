@@ -13,6 +13,7 @@ const QuestionPage = ({
   clickTag,
   handleAnswer,
   handleNewQuestion,
+  handleUser
 }) => {
   //For now using a hardcoded value for testing
   const [qlist, setQlist] = useState([
@@ -65,6 +66,7 @@ const QuestionPage = ({
             key={idx}
             clickTag={clickTag}
             handleAnswer={handleAnswer}
+            handleUser={handleUser}
           />
         ))}
       </div>

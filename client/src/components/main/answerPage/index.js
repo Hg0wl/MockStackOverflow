@@ -7,7 +7,7 @@ import QuestionBody from "./questionBody";
 //import { getQuestionById } from "../../../services/questionService";
 
 // Component for the Answers page
-const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer, clickTag }) => {
+const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer, clickTag, handleUser }) => {
   const [question, setQuestion] = useState({
     answers: [
       {
@@ -56,6 +56,7 @@ const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer, clickTag }) => {
         clickTag={clickTag}
         meta={question && getMetaData(new Date(question.ask_date_time))}
         numAnswers={question && question.answers.length}
+        handleUser = {handleUser}
       />
       {question &&
         question.answers &&
@@ -66,6 +67,7 @@ const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer, clickTag }) => {
             ansBy={a.ans_by}
             meta={getMetaData(new Date(a.ans_date_time))}
             votes = {a.votes}
+            handleUser={handleUser}
           />
         ))}
       <button

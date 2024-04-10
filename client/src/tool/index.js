@@ -45,11 +45,11 @@ const getMetaData = (date) => {
   }
 };
 
-const getPreviewText = (text) => {
-    if (text.length < 225) {
+const getPreviewText = (text, maxLength = 225) => {
+    if (text.length < maxLength) {
         return text
     } else {
-        return text.substring(0, 222) + "..."
+        return text.substring(0, maxLength-3) + "..."
     }
 }
 

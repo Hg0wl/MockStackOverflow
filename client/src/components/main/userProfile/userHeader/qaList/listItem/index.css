@@ -1,0 +1,28 @@
+.list-item-container {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px #ddd solid;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.list-meta {
+  font-size: small;
+  color: #939393;
+}
+
+.list-title {
+  color: #3090e2;
+  cursor: pointer;
+  width: 70%;
+}
+
+.list-votes {
+    border: 1px #ddd solid;
+    border-radius: 5px;
+    min-width: 38px;
+    display: flex;
+    justify-content: center;
+    font-size: small;
+    margin-right: 9px;
+}
