@@ -53,8 +53,6 @@ const QuestionPage = ({
     fetchData().catch((e) => console.log(e));
   }, [order, search]);
 
-  console.log(qlist);
-
   return (
     <div className="question-container">
       <QuestionHeader
