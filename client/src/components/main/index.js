@@ -90,7 +90,7 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
     }
     case "user": {
       selected = "";
-      content = <UserProfile />;
+      content = <UserProfile handleAnswer={handleAnswer} />;
       break;
     }
     case "newQuestion": {

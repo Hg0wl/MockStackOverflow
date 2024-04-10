@@ -2,7 +2,7 @@ import "./index.css";
 import UserHeader from "./userHeader";
 import QAList from "./userHeader/qaList";
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, handleAnswer }) => {
   return (
     <div className="profile">
       <UserHeader
@@ -30,6 +30,7 @@ const UserProfile = ({ user }) => {
                 ask_date_time: new Date(),
               },
             ]}
+            handleAnswer={handleAnswer}
           ></QAList>
         </div>
 
@@ -51,6 +52,7 @@ const UserProfile = ({ user }) => {
                 ask_date_time: new Date(),
               },
             ]}
+            handleAnswer={handleAnswer}
           ></QAList>
         </div>
       </div>
