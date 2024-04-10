@@ -7,8 +7,10 @@ import AnswerPage from "./answerPage";
 import NewQuestion from "./newQuestion";
 import NewAnswer from "./newAnswer";
 import UserProfile from "./userProfile";
+import Login from "./loginPage";
+import Signup from "./signupPage";
 
-const Main = ({ search = "", title, setQuesitonPage }) => {
+const Main = ({ search = "", title, setQuesitonPage, loginState }) => {
   const [page, setPage] = useState("home");
   const [questionOrder, setQuestionOrder] = useState("newest");
   const [qid, setQid] = useState("");
@@ -28,6 +30,14 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
     setQid(qid);
     setPage("answer");
   };
+
+  const handleLogin = () => {
+    setPage("login");
+  };
+
+  const handleSignup = () => {
+    setPage("signup")
+  }
 
   //Will likely need to pass some user id or username
   const handleUser = () => {
@@ -62,6 +72,12 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
     );
   };
 
+  if (loginState == "login" && page != "login") {
+    handleLogin();
+  } else if (loginState == "signup" && page != "signup") {
+    handleSignup()
+  }
+
   switch (page) {
     case "home": {
       selected = "q";
@@ -91,6 +107,16 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
     case "user": {
       selected = "";
       content = <UserProfile handleAnswer={handleAnswer} />;
+      break;
+    }
+    case "login": {
+      selected = "";
+      content = <Login handleSignup={handleSignup}/>;
+      break;
+    }
+    case "signup": {
+      selected = "";
+      content = <Signup handleLogin={handleLogin}/>;
       break;
     }
     case "newQuestion": {

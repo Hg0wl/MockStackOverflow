@@ -15,7 +15,7 @@ const NewQuestion = ({ handleQuestions }) => {
     const [titleErr, setTitleErr] = useState("");
     const [textErr, setTextErr] = useState("");
     const [tagErr, setTagErr] = useState("");
-
+    
     const postQuestion = async () => {
         let isValid = true;
         if (!title) {
