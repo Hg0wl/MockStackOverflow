@@ -24,7 +24,7 @@ const NewAnswer = ({ qid, handleAnswer }) => {
     if (!isValid) {
       return;
     }
-
+    
     const answer = {
       text: text,
       ans_by: "Default name for testing",
