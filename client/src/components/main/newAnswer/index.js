@@ -31,10 +31,10 @@ const NewAnswer = ({ qid, handleAnswer }) => {
             ans_date_time: new Date(),
         };
 
-        const res = await addAnswer(qid, answer);
-        if (res && res._id) {
-            handleAnswer(qid);
-        }
+        // const res = await addAnswer(qid, answer);
+        // if (res && res._id) {
+        //     handleAnswer(qid);
+        // }
     };
     return (
         <Form>
