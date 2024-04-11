@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import "./index.css";
 import Tag from "./tag";
-//import { getTagsWithQuestionNumber } from "../../../services/tagService";
+import { getTagsWithQuestionNumber } from "../../../services/tagService";
 
 const TagPage = ({ clickTag, handleNewQuestion }) => {
+  const [tlist, setTlist] = useState([]);
+  /*
   const [tlist, setTlist] = useState([
     { name: "java", qcnt: 1 },
     { name: "java", qcnt: 1 },
@@ -26,10 +28,10 @@ const TagPage = ({ clickTag, handleNewQuestion }) => {
     { name: "java", qcnt: 1 },
     { name: "java", qcnt: 1 },
     { name: "java", qcnt: 1 }
-  ]);
+  ]); */
 
   // Should use this to read questions from server
-  /*
+  
   useEffect(() => {
     const fetchData = async () => {
       let res = await getTagsWithQuestionNumber();
@@ -37,7 +39,7 @@ const TagPage = ({ clickTag, handleNewQuestion }) => {
     };
 
     fetchData().catch((e) => console.log(e));
-  }, []); */
+  }, []); 
   return (
     <div className="q_header">
       <div className="header_row">

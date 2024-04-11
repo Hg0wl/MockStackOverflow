@@ -10,7 +10,7 @@ import UserProfile from "./userProfile";
 import Login from "./loginPage";
 import Signup from "./signupPage";
 
-const Main = ({ search = "", title, setQuesitonPage, loginState }) => {
+const Main = ({ search = "", title, setQuestionPage, loginState }) => {
   const [page, setPage] = useState("home");
   const [questionOrder, setQuestionOrder] = useState("newest");
   const [qid, setQid] = useState("");
@@ -18,7 +18,7 @@ const Main = ({ search = "", title, setQuesitonPage, loginState }) => {
   let content = null;
 
   const handleQuestions = () => {
-    setQuesitonPage();
+    setQuestionPage();
     setPage("home");
   };
 
@@ -26,8 +26,8 @@ const Main = ({ search = "", title, setQuesitonPage, loginState }) => {
     setPage("tag");
   };
 
-  const handleAnswer = (qid) => {
-    setQid(qid);
+  const handleAnswer = (_qid) => {
+    setQid(_qid);
     setPage("answer");
   };
 
@@ -36,8 +36,8 @@ const Main = ({ search = "", title, setQuesitonPage, loginState }) => {
   };
 
   const handleSignup = () => {
-    setPage("signup")
-  }
+    setPage("signup");
+  };
 
   //Will likely need to pass some user id or username
   const handleUser = () => {
@@ -45,7 +45,7 @@ const Main = ({ search = "", title, setQuesitonPage, loginState }) => {
   };
 
   const clickTag = (tname) => {
-    setQuesitonPage("[" + tname + "]", tname);
+    setQuestionPage("[" + tname + "]", tname);
     setPage("home");
   };
 
@@ -68,6 +68,7 @@ const Main = ({ search = "", title, setQuesitonPage, loginState }) => {
         handleAnswer={handleAnswer}
         handleNewQuestion={handleNewQuestion}
         handleUser={handleUser}
+        questionOrder={questionOrder}
       />
     );
   };
@@ -75,7 +76,7 @@ const Main = ({ search = "", title, setQuesitonPage, loginState }) => {
   if (loginState == "login" && page != "login") {
     handleLogin();
   } else if (loginState == "signup" && page != "signup") {
-    handleSignup()
+    handleSignup();
   }
 
   switch (page) {
@@ -111,12 +112,12 @@ const Main = ({ search = "", title, setQuesitonPage, loginState }) => {
     }
     case "login": {
       selected = "";
-      content = <Login handleSignup={handleSignup}/>;
+      content = <Login handleSignup={handleSignup} />;
       break;
     }
     case "signup": {
       selected = "";
-      content = <Signup handleLogin={handleLogin}/>;
+      content = <Signup handleLogin={handleLogin} />;
       break;
     }
     case "newQuestion": {
