@@ -31,7 +31,7 @@ const UserProfile = ({ uid, handleAnswer }) => {
         <div className="qaLists left-alligned">
           <div className="qaList">
             <div className="qalist-title">Questions</div>
-            <div className="list-subtitle">{user.ansList.length}</div>
+            <div className="list-subtitle">{user.askList.length}</div>
             <QAList
               /*
               items={[
@@ -55,7 +55,7 @@ const UserProfile = ({ uid, handleAnswer }) => {
 
           <div className="qaList">
             <div className="qalist-title">Answers</div>
-            <div className="list-subtitle">{user.askList.length}</div>
+            <div className="list-subtitle">{user.ansList.length}</div>
             <QAList
               /*
               items={[
