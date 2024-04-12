@@ -3,7 +3,10 @@ const Question = require("../models/questions");
 const Answer = require("../models/answers");
 
 const getQuestions = () => {
-  return Question.find({}).populate("answers").populate("tags");
+  return Question.find({})
+    .populate("answers")
+    .populate("tags")
+    .populate("asked_by");
 };
 
 const addTag = async (tname) => {

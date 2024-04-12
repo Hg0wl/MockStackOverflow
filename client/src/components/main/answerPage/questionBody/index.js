@@ -45,10 +45,6 @@ const QuestionBody = ({
             <Author
               askby={askby}
               meta={"Asked " + meta}
-              reputation={0}
-              img={
-                "https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg"
-              }
               handleUser={handleUser}
             ></Author>
             <div className="num_answers">

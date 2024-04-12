@@ -2,6 +2,7 @@ const express = require("express");
 const Question = require("../models/questions");
 const Answer = require("../models/answers");
 const Tag = require("../models/tags");
+const User = require("../models/users");
 const {
   addTag,
   getQuestionsByOrder,
@@ -23,8 +24,9 @@ const getQuestionsByFilter = async (req, res) => {
 // To get Questions by Id
 const getQuestionById = async (req, res) => {
   let question = await Question.findById(req.params.qid)
-    .populate("answers")
-    .populate("tags");
+    .populate({ path: "answers", populate: "ans_by" })
+    .populate("tags")
+    .populate("asked_by");
   question.views += 1;
 
   question.save(question);
@@ -37,27 +39,24 @@ const addQuestion = async (req, res) => {
   let tagPromises = q.tags.map((tag) => addTag(tag));
   let tagIds = await Promise.all(tagPromises);
 
-  if (q._id) {
-    res.send({
-      _id: q._id,
-      answers: q.answers,
-      tags: q.tags,
-      text: q.text,
-      title: q.title,
-    });
-  } else {
-    let question = await questionCreate(
-      q.title,
-      q.text,
-      tagIds,
-      [],
-      q.asked_by,
-      q.ask_date_time,
-      0
-    );
-    console.log(question);
-    res.send(question);
-  }
+  //Assign this question to a user
+  let question = await questionCreate(
+    q.title,
+    q.text,
+    tagIds,
+    [],
+    q.asked_by,
+    q.ask_date_time,
+    0
+  );
+
+  await User.findOneAndUpdate(
+    { _id: { $eq: q.asked_by } },
+    { $push: { askList: { $each: [question._id], $position: 0 } } },
+    { new: true }
+  );
+
+  res.send(question);
 };
 
 function questionCreate(

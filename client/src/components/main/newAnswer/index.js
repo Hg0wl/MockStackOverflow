@@ -24,10 +24,10 @@ const NewAnswer = ({ qid, handleAnswer }) => {
     if (!isValid) {
       return;
     }
-    
+
     const answer = {
       text: text,
-      ans_by: "Default name for testing",
+      ans_by: "6618797b60c765e5487e5387",
       ans_date_time: new Date(),
     };
 

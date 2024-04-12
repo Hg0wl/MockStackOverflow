@@ -1,6 +1,6 @@
 import "./index.css";
 
-const Author = ({ meta, askby, reputation, img, handleUser }) => {
+const Author = ({ meta, askby, handleUser }) => {
   return (
     <div
       className={
@@ -9,15 +9,15 @@ const Author = ({ meta, askby, reputation, img, handleUser }) => {
     >
       <div className="answer_question_meta author_text">{meta}</div>
       <div className="profile_container">
-        <img src={img} className="profile_image"></img>
+        <img src={askby.profile_pic} className="profile_image"></img>
         <div className="profile_info">
           <div
             className="question_author author_text"
-            onClick={() => handleUser()}
+            onClick={() => handleUser(askby._id)}
           >
-            {askby}
+            {askby.username}
           </div>
-          <div className="reputation author_text">{reputation}</div>
+          <div className="reputation author_text">{askby.reputation}</div>
         </div>
       </div>
     </div>

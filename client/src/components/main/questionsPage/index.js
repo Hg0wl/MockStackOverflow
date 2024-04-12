@@ -43,7 +43,7 @@ const QuestionPage = ({
   ]);
  */
   //This is how we shuold read questions from the database
-
+  console.log(qlist);
   useEffect(() => {
     const fetchData = async () => {
       let res = await getQuestionsByFilter(order, search);

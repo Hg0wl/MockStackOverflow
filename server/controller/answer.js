@@ -1,6 +1,7 @@
 const express = require("express");
 const Answer = require("../models/answers");
 const Question = require("../models/questions");
+const User = require("../models/users");
 
 const router = express.Router();
 
@@ -11,9 +12,15 @@ const addAnswer = async (req, res) => {
 
   let answer = await answerCreate(ans.text, ans.ans_by, ans.ans_date_time);
 
-  let question = await Question.findOneAndUpdate(
+  await Question.findOneAndUpdate(
     { _id: { $eq: qid } },
     { $push: { answers: { $each: [answer._id], $position: 0 } } },
+    { new: true }
+  );
+
+  await User.findOneAndUpdate(
+    { _id: { $eq: ans.ans_by } },
+    { $addToSet: { ansList: { $each: [qid]} } },
     { new: true }
   );
 
