@@ -7,6 +7,8 @@ var Answer = mongoose.Schema(
     text: { type: String, required: true },
     ans_by: { type: Schema.Types.ObjectId, ref: "User", required: true },
     ans_date_time: { type: Date, required: true },
+    upvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    downvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { collection: "Answer" }
 );

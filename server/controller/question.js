@@ -59,6 +59,53 @@ const addQuestion = async (req, res) => {
   res.send(question);
 };
 
+const upvote = async (req, res) => {
+  //Add to upvote list
+  let qid = req.body.qid;
+  let uid = req.body.uid;
+
+  let question = await Question.findById(qid);
+
+  if (question.upvotes.includes(uid)) {
+    question = await Question.findOneAndUpdate(
+      { _id: { $eq: qid } },
+      { $pull: { downvotes: uid, upvotes: uid } },
+      { new: true }
+    );
+  } else {
+    question = await Question.findOneAndUpdate(
+      { _id: { $eq: qid } },
+      { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
+      { new: true }
+    );
+  }
+
+  res.send(question);
+};
+const downvote = async (req, res) => {
+  //Add to downvote list
+  let qid = req.body.qid;
+  let uid = req.body.uid;
+
+  let question = await Question.findById(qid);
+
+  if (question.downvotes.includes(uid)) {
+    question = await Question.findOneAndUpdate(
+      { _id: { $eq: qid } },
+      { $pull: { downvotes: uid, upvotes: uid } },
+      { new: true }
+    );
+  } else {
+    question = await Question.findOneAndUpdate(
+      { _id: { $eq: qid } },
+      { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
+      { new: true }
+    );
+  }
+
+  res.send(question);
+};
+
 function questionCreate(
   title,
   text,
@@ -89,5 +136,11 @@ router.get("/getQuestionById/:qid", (req, res) => getQuestionById(req, res));
 
 router.use("/addQuestion", express.json());
 router.post("/addQuestion", (req, res) => addQuestion(req, res));
+
+router.use("/upvote", express.json());
+router.post("/upvote", (req, res) => upvote(req, res));
+
+router.use("/downvote", express.json());
+router.post("/downvote", (req, res) => downvote(req, res));
 
 module.exports = router;

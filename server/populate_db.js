@@ -27,8 +27,8 @@ function tagCreate(name) {
   return tag.save();
 }
 
-function answerCreate(text, ans_by, ans_date_time) {
-  let answerdetail = { text: text };
+function answerCreate(text, ans_by, ans_date_time, upvotes, downvotes) {
+  let answerdetail = { text: text, upvotes: upvotes, downvotes: downvotes };
   if (ans_by != false) answerdetail.ans_by = ans_by;
   if (ans_date_time != false) answerdetail.ans_date_time = ans_date_time;
 
@@ -54,6 +54,7 @@ function userCreate(
     askList,
     ansList,
   };
+
   let user = User(userDetail);
   return user.save();
 }
@@ -65,13 +66,17 @@ function questionCreate(
   answers,
   asked_by,
   ask_date_time,
-  views
+  views,
+  upvotes, 
+  downvotes
 ) {
   qstndetail = {
     title: title,
     text: text,
     tags: tags,
     asked_by: asked_by,
+    upvotes: upvotes, 
+    downvotes: downvotes
   };
   if (answers != false) qstndetail.answers = answers;
   if (ask_date_time != false) qstndetail.ask_date_time = ask_date_time;
@@ -120,42 +125,58 @@ const populate = async () => {
   let a1 = await answerCreate(
     "React Router is mostly a wrapper around the history library. history handles interaction with the browser's window.history for you with its browser and hash histories. It also provides a memory history which is useful for environments that don't have a global history. This is particularly useful in mobile app development (react-native) and unit testing with Node.",
     u1,
-    new Date("2023-11-20T03:24:42")
+    new Date("2023-11-20T03:24:42"),
+    [u2, u3],
+    [u1]
   );
   let a2 = await answerCreate(
     "On my end, I like to have a single history object that I can carry even outside components. I like to have a single history.js file that I import on demand, and just manipulate it. You just have to change BrowserRouter to Router, and specify the history prop. This doesn't change anything for you, except that you have your own history object that you can manipulate as you want. You need to install history, the library used by react-router.",
     u2,
-    new Date("2023-11-23T08:24:00")
+    new Date("2023-11-23T08:24:00"),
+    [u2, u3],
+    [u1]
   );
   let a3 = await answerCreate(
     "Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background.",
     u3,
-    new Date("2023-11-18T09:24:00")
+    new Date("2023-11-18T09:24:00"),
+    [u2],
+    [u1, u3]
   );
   let a4 = await answerCreate(
     "YourPreference yourPrefrence = YourPreference.getInstance(context); yourPreference.saveData(YOUR_KEY,YOUR_VALUE);",
     u1,
-    new Date("2023-11-12T03:30:00")
+    new Date("2023-11-12T03:30:00"),
+    [u1],
+    [u2, u3]
   );
   let a5 = await answerCreate(
     "I just found all the above examples just too confusing, so I wrote my own. ",
     u2,
-    new Date("2023-11-01T15:24:19")
+    new Date("2023-11-01T15:24:19"),
+    [u1],
+    [u2, u3]
   );
   let a6 = await answerCreate(
     "Storing content as BLOBs in databases.",
     u3,
-    new Date("2023-02-19T18:20:59")
+    new Date("2023-02-19T18:20:59"),
+    [u1],
+    [u2, u3]
   );
   let a7 = await answerCreate(
     "Using GridFS to chunk and store content.",
     u1,
-    new Date("2023-02-22T17:19:00")
+    new Date("2023-02-22T17:19:00"),
+    [u1],
+    [u2, u3]
   );
   let a8 = await answerCreate(
     "Store data in a SQLLite database.",
     u2,
-    new Date("2023-03-22T21:17:53")
+    new Date("2023-03-22T21:17:53"),
+    [u1],
+    [u2, u3]
   );
   await questionCreate(
     "Programmatically navigate using React router",
@@ -164,7 +185,9 @@ const populate = async () => {
     [a1, a2],
     u3,
     new Date("2022-01-20T03:00:00"),
-    10
+    10,
+    [u1],
+    [u2, u3]
   );
   await questionCreate(
     "android studio save string shared preference, start activity and load the saved string",
@@ -173,7 +196,9 @@ const populate = async () => {
     [a3, a4, a5],
     u1,
     new Date("2023-01-10T11:24:30"),
-    121
+    121,
+    [u1],
+    []
   );
   await questionCreate(
     "Object storage for a web application",
@@ -182,7 +207,9 @@ const populate = async () => {
     [a6, a7],
     u2,
     new Date("2023-02-18T01:02:15"),
-    200
+    200,
+    [],
+    []
   );
   await questionCreate(
     "Quick question about storage on android",
@@ -191,7 +218,9 @@ const populate = async () => {
     [a8],
     u3,
     new Date("2023-03-10T14:28:01"),
-    103
+    103,
+    [],
+    [u1]
   );
   if (db) db.close();
   console.log("done");

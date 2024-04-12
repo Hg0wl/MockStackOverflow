@@ -27,7 +27,7 @@ const NewAnswer = ({ qid, handleAnswer }) => {
 
     const answer = {
       text: text,
-      ans_by: "6618797b60c765e5487e5387",
+      ans_by: "661974964d0bb703784662b3",
       ans_date_time: new Date(),
     };
 

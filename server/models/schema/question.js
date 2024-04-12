@@ -11,6 +11,8 @@ var Question = mongoose.Schema(
     views: { type: Number, required: true, default: 0 },
     tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
     answers: [{ type: Schema.Types.ObjectId, ref: "Answer" }],
+    upvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    downvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { collection: "Question" }
 );

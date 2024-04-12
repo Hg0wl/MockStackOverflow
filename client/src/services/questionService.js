@@ -25,4 +25,21 @@ const addQuestion = async (q) => {
   return res.data;
 };
 
-export { getQuestionsByFilter, getQuestionById, addQuestion };
+const upvoteQuestion = async (qid, uid = "661974964d0bb703784662b3") => {
+  const data = { qid: qid, uid: uid };
+  const res = await api.post(`${QUESTION_API_URL}/upvote`, data);
+
+  console.log(res);
+  console.log(res.data);
+
+  return res.data;
+};
+
+const downvoteQuestion = async (qid, uid = "661974964d0bb703784662b3") => {
+  const data = { qid: qid, uid: uid };
+  const res = await api.post(`${QUESTION_API_URL}/downvote`, data);
+
+  return res.data;
+};
+
+export { getQuestionsByFilter, getQuestionById, addQuestion, upvoteQuestion, downvoteQuestion };
