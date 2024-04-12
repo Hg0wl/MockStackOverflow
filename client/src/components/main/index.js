@@ -14,6 +14,7 @@ const Main = ({ search = "", title, setQuestionPage, loginState }) => {
   const [page, setPage] = useState("home");
   const [questionOrder, setQuestionOrder] = useState("newest");
   const [qid, setQid] = useState("");
+  const [uid, setUid] = useState("");
   let selected = "";
   let content = null;
 
@@ -40,7 +41,8 @@ const Main = ({ search = "", title, setQuestionPage, loginState }) => {
   };
 
   //Will likely need to pass some user id or username
-  const handleUser = () => {
+  const handleUser = (_uid) => {
+    setUid(_uid)
     setPage("user");
   };
 
@@ -107,7 +109,7 @@ const Main = ({ search = "", title, setQuestionPage, loginState }) => {
     }
     case "user": {
       selected = "";
-      content = <UserProfile handleAnswer={handleAnswer} />;
+      content = <UserProfile uid={uid} handleAnswer={handleAnswer} />;
       break;
     }
     case "login": {
