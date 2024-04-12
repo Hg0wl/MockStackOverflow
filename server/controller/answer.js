@@ -20,9 +20,56 @@ const addAnswer = async (req, res) => {
 
   await User.findOneAndUpdate(
     { _id: { $eq: ans.ans_by } },
-    { $addToSet: { ansList: { $each: [qid]} } },
+    { $addToSet: { ansList: { $each: [qid] } } },
     { new: true }
   );
+
+  res.send(answer);
+};
+
+const upvote = async (req, res) => {
+  //Add to upvote list
+  let aid = req.body.aid;
+  let uid = req.body.uid;
+
+  let answer = await Answer.findById(aid);
+
+  if (answer.upvotes.includes(uid)) {
+    answer = await Answer.findOneAndUpdate(
+      { _id: { $eq: aid } },
+      { $pull: { downvotes: uid, upvotes: uid } },
+      { new: true }
+    );
+  } else {
+    answer = await Answer.findOneAndUpdate(
+      { _id: { $eq: aid } },
+      { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
+      { new: true }
+    );
+  }
+
+  res.send(answer);
+};
+const downvote = async (req, res) => {
+  //Add to downvote list
+  let aid = req.body.aid;
+  let uid = req.body.uid;
+
+  let answer = await Answer.findById(aid);
+
+  if (answer.downvotes.includes(uid)) {
+    answer = await Answer.findOneAndUpdate(
+      { _id: { $eq: aid } },
+      { $pull: { downvotes: uid, upvotes: uid } },
+      { new: true }
+    );
+  } else {
+    answer = await Answer.findOneAndUpdate(
+      { _id: { $eq: aid } },
+      { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
+      { new: true }
+    );
+  }
 
   res.send(answer);
 };
@@ -39,5 +86,11 @@ function answerCreate(text, ans_by, ans_date_time) {
 
 router.use("/addAnswer", express.json());
 router.post("/addAnswer", (req, res) => addAnswer(req, res));
+
+router.use("/upvote", express.json());
+router.post("/upvote", (req, res) => upvote(req, res));
+
+router.use("/downvote", express.json());
+router.post("/downvote", (req, res) => downvote(req, res));
 
 module.exports = router;

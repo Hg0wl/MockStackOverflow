@@ -6,7 +6,7 @@ const Question = ({ q, clickTag, handleAnswer, handleUser }) => {
     return (
     <div className="question right_padding">
       <div className="postStats">
-        <div className="vote-stat">{q.votes} votes</div>
+        <div className="vote-stat">{q.upvotes.length - q.downvotes.length} votes</div>
         <div>{q.answers.length || 0} answers</div>
         <div>{q.views} views</div>
       </div>

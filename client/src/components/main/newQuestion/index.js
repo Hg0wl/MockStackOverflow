@@ -64,7 +64,7 @@ const NewQuestion = ({ handleQuestions }) => {
       text: text,
       tags: tags,
       // Hardcoded value for now. MUST BE CHANGED EVERY TIME YOU RELOAD THE SERVER
-      asked_by: "6618797b60c765e5487e5387",
+      asked_by: "661974964d0bb703784662b3",
       ask_date_time: new Date(),
     };
 

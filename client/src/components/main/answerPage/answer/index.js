@@ -1,16 +1,23 @@
 import { handleHyperlink } from "../../../../tool";
-import Vote from "../vote"
-import Author from "../author"
+import Vote from "../vote";
+import Author from "../author";
 import "./index.css";
 
+import {
+  upvoteAnswer,
+  downvoteAnswer,
+} from "../../../../services/answerService";
+
 // Component for the Answer Page
-const Answer = ({ text, ansBy, meta, votes, handleUser }) => {
+const Answer = ({ text, ansBy, meta, handleUser, aid, initVotes, initVoteStatus }) => {
   return (
     <div className="answer">
       <Vote
-        handleDownvote={() => {}}
-        handleUpvote={() => {}}
-        initVotes={votes}
+        handleDownvote={downvoteAnswer}
+        handleUpvote={upvoteAnswer}
+        initVotes={initVotes}
+        id={aid}
+        initVoteStatus={initVoteStatus}
       ></Vote>
       <div className="answer_body">
         <div id="answerText" className="answerText">

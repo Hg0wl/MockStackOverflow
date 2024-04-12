@@ -17,10 +17,22 @@
   align-items: center;
 }
 
+.selected-vote-button {
+  border: 1px solid #ddd;
+  background-color: #ac81e8;
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .big-vote-count {
-    font-weight: bold;
-    font-size: larger;
-    margin: 5px 0 5px 0;
+  font-weight: bold;
+  font-size: larger;
+  margin: 5px 0 5px 0;
 }
 
 .vote-button:hover {

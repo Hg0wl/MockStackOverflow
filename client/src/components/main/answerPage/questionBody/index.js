@@ -3,6 +3,10 @@ import React from "react";
 import Vote from "../vote";
 import Author from "../author";
 import { handleHyperlink } from "../../../../tool";
+import {
+  upvoteQuestion,
+  downvoteQuestion,
+} from "../../../../services/questionService";
 
 // Component for the Question's Body
 const QuestionBody = ({
@@ -13,14 +17,19 @@ const QuestionBody = ({
   clickTag,
   numAnswers,
   handleUser,
+  qid,
+  initVotes,
+  initVoteStatus,
 }) => {
   return (
     <div id="questionBody" className="questionBody right_padding">
       <div className="answer_question_text">
         <Vote
-          handleDownvote={() => {}}
-          handleUpvote={() => {}}
-          initVotes={0}
+          handleDownvote={downvoteQuestion}
+          handleUpvote={upvoteQuestion}
+          initVotes={initVotes}
+          id={qid}
+          initVoteStatus={initVoteStatus}
         ></Vote>
 
         <div className="question-body">

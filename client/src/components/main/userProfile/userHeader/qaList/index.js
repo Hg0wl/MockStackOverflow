@@ -8,7 +8,7 @@ const QAList = ({ items, handleAnswer }) => {
       {items.map((i, idx) => {
         return (
           <ListItem
-            votes={i.votes}
+            votes={i.upvotes.length - i.downvotes.length}
             title={i.title}
             date={i.ask_date_time}
             qid={i._id}
