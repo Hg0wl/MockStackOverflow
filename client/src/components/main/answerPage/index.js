@@ -13,6 +13,8 @@ const AnswerPage = ({
   handleNewAnswer,
   clickTag,
   handleUser,
+  loggedInUser,
+  handleLogin,
 }) => {
   let [question, setQuestion] = useState({});
   useEffect(() => {
@@ -24,9 +26,9 @@ const AnswerPage = ({
   }, [qid]);
 
   const getInitVoteStatus = (item) => {
-    if (item.upvotes.includes("661974964d0bb703784662b3")) {
+    if (item.upvotes.includes(loggedInUser)) {
       return "upvote";
-    } else if (item.downvotes.includes("661974964d0bb703784662b3")) {
+    } else if (item.downvotes.includes(loggedInUser)) {
       return "downvote";
     } else {
       return "";
@@ -55,6 +57,8 @@ const AnswerPage = ({
           qid={qid}
           initVotes={question.upvotes.length - question.downvotes.length}
           initVoteStatus={getInitVoteStatus(question)}
+          loggedInUser={loggedInUser}
+          handleLogin={handleLogin}
         />
         {question &&
           question.answers &&
@@ -68,6 +72,8 @@ const AnswerPage = ({
               aid={a._id}
               initVotes={a.upvotes.length - a.downvotes.length}
               initVoteStatus={getInitVoteStatus(a)}
+              loggedInUser={loggedInUser}
+              handleLogin={handleLogin}
             />
           ))}
         <button

@@ -9,7 +9,17 @@ import {
 } from "../../../../services/answerService";
 
 // Component for the Answer Page
-const Answer = ({ text, ansBy, meta, handleUser, aid, initVotes, initVoteStatus }) => {
+const Answer = ({
+  text,
+  ansBy,
+  meta,
+  handleUser,
+  aid,
+  initVotes,
+  initVoteStatus,
+  loggedInUser,
+  handleLogin,
+}) => {
   return (
     <div className="answer">
       <Vote
@@ -18,6 +28,8 @@ const Answer = ({ text, ansBy, meta, handleUser, aid, initVotes, initVoteStatus 
         initVotes={initVotes}
         id={aid}
         initVoteStatus={initVoteStatus}
+        loggedInUser={loggedInUser}
+        handleLogin={handleLogin}
       ></Vote>
       <div className="answer_body">
         <div id="answerText" className="answerText">

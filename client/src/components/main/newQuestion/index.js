@@ -7,7 +7,7 @@ import { validateHyperlink } from "../../../tool";
 
 import { addQuestion } from "../../../services/questionService";
 
-const NewQuestion = ({ handleQuestions }) => {
+const NewQuestion = ({ handleQuestions, loggedInUser }) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [tag, setTag] = useState("");
@@ -63,8 +63,7 @@ const NewQuestion = ({ handleQuestions }) => {
       title: title,
       text: text,
       tags: tags,
-      // Hardcoded value for now. MUST BE CHANGED EVERY TIME YOU RELOAD THE SERVER
-      asked_by: "661974964d0bb703784662b3",
+      asked_by: loggedInUser,
       ask_date_time: new Date(),
     };
 

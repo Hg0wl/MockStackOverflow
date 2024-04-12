@@ -29,11 +29,13 @@ const questionController = require("./controller/question");
 const tagController = require("./controller/tag");
 const answerController = require("./controller/answer");
 const userController = require("./controller/user");
+const loginController = require("./controller/login");
 
 app.use("/question", questionController);
 app.use("/tag", tagController);
 app.use("/answer", answerController);
 app.use("/user", userController);
+app.use("/login", loginController);
 
 let server = app.listen(port, () => {
   console.log(`Server starts at http://localhost:${port}`);

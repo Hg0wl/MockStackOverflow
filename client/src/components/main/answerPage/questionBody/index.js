@@ -20,6 +20,8 @@ const QuestionBody = ({
   qid,
   initVotes,
   initVoteStatus,
+  loggedInUser,
+  handleLogin
 }) => {
   return (
     <div id="questionBody" className="questionBody right_padding">
@@ -30,6 +32,8 @@ const QuestionBody = ({
           initVotes={initVotes}
           id={qid}
           initVoteStatus={initVoteStatus}
+          loggedInUser = {loggedInUser}
+          handleLogin={handleLogin}
         ></Vote>
 
         <div className="question-body">

@@ -10,14 +10,14 @@ const addAnswer = async (qid, ans) => {
   return res.data;
 };
 
-const upvoteAnswer = async (aid, uid = "661974964d0bb703784662b3") => {
+const upvoteAnswer = async (aid, uid ) => {
   const data = { aid: aid, uid: uid };
   const res = await api.post(`${ANSWER_API_URL}/upvote`, data);
 
   return res.data;
 };
 
-const downvoteAnswer = async (aid, uid = "661974964d0bb703784662b3") => {
+const downvoteAnswer = async (aid, uid ) => {
   const data = { aid: aid, uid: uid };
   const res = await api.post(`${ANSWER_API_URL}/downvote`, data);
 

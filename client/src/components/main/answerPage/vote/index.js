@@ -7,14 +7,16 @@ const Vote = ({
   initVotes,
   id,
   initVoteStatus,
+  loggedInUser,
+  handleLogin,
 }) => {
   const [votes, updateVotes] = useState(initVotes);
   const [voteStatus, updateVoteStatus] = useState(initVoteStatus);
 
   const changeVoteStatus = (question) => {
-    if (question.upvotes.includes("661974964d0bb703784662b3")) {
+    if (question.upvotes.includes(loggedInUser)) {
       updateVoteStatus("upvote");
-    } else if (question.downvotes.includes("661974964d0bb703784662b3")) {
+    } else if (question.downvotes.includes(loggedInUser)) {
       updateVoteStatus("downvote");
     } else {
       updateVoteStatus("");
@@ -25,9 +27,13 @@ const Vote = ({
     <div className="vote-buttons">
       <button
         onClick={async () => {
-          let question = await handleUpvote(id);
-          updateVotes(question.upvotes.length - question.downvotes.length);
-          changeVoteStatus(question);
+          if (loggedInUser != "") {
+            let question = await handleUpvote(id, loggedInUser);
+            updateVotes(question.upvotes.length - question.downvotes.length);
+            changeVoteStatus(question);
+          } else {
+            handleLogin();
+          }
         }}
         className={
           voteStatus == "upvote" ? "selected-vote-button" : "vote-button"
@@ -40,9 +46,13 @@ const Vote = ({
       <p className="big-vote-count">{votes}</p>
       <button
         onClick={async () => {
-          let question = await handleDownvote(id);
-          updateVotes(question.upvotes.length - question.downvotes.length);
-          changeVoteStatus(question);
+          if (loggedInUser != "") {
+            let question = await handleDownvote(id, loggedInUser);
+            updateVotes(question.upvotes.length - question.downvotes.length);
+            changeVoteStatus(question);
+          } else {
+            handleLogin();
+          }
         }}
         className={
           voteStatus == "downvote" ? "selected-vote-button" : "vote-button"
