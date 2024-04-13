@@ -24,7 +24,7 @@ const Signup = ({ handleLogin, setLoggedInUser, handleQuestions }) => {
         setErrorMessage("Passwords don't match");
       }
     } catch (error) {
-      setErrorMessage("Something went wrong :(");
+      setErrorMessage("A user with that username already exists");
     }
   };
 

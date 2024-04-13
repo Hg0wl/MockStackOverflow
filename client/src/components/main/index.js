@@ -29,23 +29,28 @@ const Main = ({
   const handleQuestions = () => {
     setQuestionPage();
     setPage("home");
+    setUid("");
   };
 
   const handleTags = () => {
     setPage("tag");
+    setUid("");
   };
 
   const handleAnswer = (_qid) => {
     setQid(_qid);
     setPage("answer");
+    setUid("");
   };
 
   const handleLogin = () => {
     setPage("login");
+    setUid("");
   };
 
   const handleSignup = () => {
     setPage("signup");
+    setUid("");
   };
 
   //Will likely need to pass some user id or username
@@ -96,13 +101,14 @@ const Main = ({
   } else if (loginState == "signup" && page != "signup") {
     handleSignup();
   } else if (loginState == "logout" && page != "home") {
-    handleQuestions()
+    handleQuestions();
   }
 
   useEffect(() => {
-    if (uid != "") handleUser(uid);
+    if (uid != "") {
+      handleUser(uid);
+    }
   }, [uid]);
-
 
   switch (page) {
     case "home": {
@@ -134,7 +140,14 @@ const Main = ({
     }
     case "user": {
       selected = "";
-      content = <UserProfile uid={uid} handleAnswer={handleAnswer} />;
+      content = (
+        <UserProfile
+          uid={uid}
+          handleAnswer={handleAnswer}
+          currentUser={loggedInUser == uid}
+          loggedInUser={loggedInUser}
+        />
+      );
       break;
     }
     case "login": {

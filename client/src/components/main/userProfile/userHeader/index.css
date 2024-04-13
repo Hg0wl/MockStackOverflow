@@ -7,10 +7,25 @@
   align-items: center;
 }
 
+input[type="file"] {
+  display: none;
+}
+
+.upload-image {
+  cursor: pointer;
+}
+
 .header-profile {
   width: 150px;
   height: 150px;
   border-radius: 5px;
+}
+
+.edit-username-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .user-header-info {
@@ -18,11 +33,58 @@
   flex-direction: column;
 }
 
+.edit-icon {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
 .header-username {
   font-size: xx-large;
   margin: 0 0 5px 10px;
 }
 
+.username-input {
+  font-size: xx-large;
+  margin: 0 0 5px 10px;
+  padding: 0.6%;
+  border: 1px solid #dddddd;
+  background-color: white;
+  border-radius: 0.5rem;
+}
+
+.username-input-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.username-input:focus {
+  outline: none;
+}
+
+.username-error-profile {
+  color: red;
+  padding-left: 10px;
+}
+
+.username-input-buttons {
+  border-radius: 0.5rem;
+  background-color: #3a86ff;
+  border-style: none;
+  padding: 10px 10px;
+  margin-bottom: 5px;
+  height: fit-content;
+  color: white;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: larger;
+}
+
+.username-input-buttons:hover {
+  background-color: #2656a1;
+}
 .user-header-meta {
   font-size: small;
   color: #939393;
