@@ -1,5 +1,5 @@
 import "./index.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SideBarNav from "./sidebarNav";
 import QuestionPage from "./questionsPage";
 import TagPage from "./tagPage";
@@ -10,11 +10,19 @@ import UserProfile from "./userProfile";
 import Login from "./loginPage";
 import Signup from "./signupPage";
 
-const Main = ({ search = "", title, setQuestionPage, loginState }) => {
+const Main = ({
+  search = "",
+  title,
+  setQuestionPage,
+  loginState,
+  setLoggedInUser,
+  loggedInUser,
+  setUid,
+  uid,
+}) => {
   const [page, setPage] = useState("home");
   const [questionOrder, setQuestionOrder] = useState("newest");
   const [qid, setQid] = useState("");
-  const [uid, setUid] = useState("");
   let selected = "";
   let content = null;
 
@@ -42,7 +50,7 @@ const Main = ({ search = "", title, setQuestionPage, loginState }) => {
 
   //Will likely need to pass some user id or username
   const handleUser = (_uid) => {
-    setUid(_uid)
+    setUid(_uid);
     setPage("user");
   };
 
@@ -52,11 +60,19 @@ const Main = ({ search = "", title, setQuestionPage, loginState }) => {
   };
 
   const handleNewQuestion = () => {
-    setPage("newQuestion");
+    if (loggedInUser != "") {
+      setPage("newQuestion");
+    } else {
+      setPage("login");
+    }
   };
 
   const handleNewAnswer = () => {
-    setPage("newAnswer");
+    if (loggedInUser != "") {
+      setPage("newAnswer");
+    } else {
+      setPage("login");
+    }
   };
 
   const getQuestionPage = (order = "newest", search = "") => {
@@ -81,6 +97,14 @@ const Main = ({ search = "", title, setQuestionPage, loginState }) => {
     handleSignup();
   }
 
+  useEffect(() => {
+    if (uid != "") handleUser(uid);
+  }, [uid]);
+
+  useEffect(() => {
+    handleQuestions();
+  }, [loggedInUser]);
+
   switch (page) {
     case "home": {
       selected = "q";
@@ -96,6 +120,8 @@ const Main = ({ search = "", title, setQuestionPage, loginState }) => {
           handleNewAnswer={handleNewAnswer}
           clickTag={clickTag}
           handleUser={handleUser}
+          loggedInUser={loggedInUser}
+          handleLogin={handleLogin}
         />
       );
       break;
@@ -114,7 +140,13 @@ const Main = ({ search = "", title, setQuestionPage, loginState }) => {
     }
     case "login": {
       selected = "";
-      content = <Login handleSignup={handleSignup} />;
+      content = (
+        <Login
+          handleSignup={handleSignup}
+          setLoggedInUser={setLoggedInUser}
+          handleQuestions={handleQuestions}
+        />
+      );
       break;
     }
     case "signup": {
@@ -124,12 +156,23 @@ const Main = ({ search = "", title, setQuestionPage, loginState }) => {
     }
     case "newQuestion": {
       selected = "";
-      content = <NewQuestion handleQuestions={handleQuestions} />;
+      content = (
+        <NewQuestion
+          handleQuestions={handleQuestions}
+          loggedInUser={loggedInUser}
+        />
+      );
       break;
     }
     case "newAnswer": {
       selected = "";
-      content = <NewAnswer qid={qid} handleAnswer={handleAnswer} />;
+      content = (
+        <NewAnswer
+          qid={qid}
+          handleAnswer={handleAnswer}
+          loggedInUser={loggedInUser}
+        />
+      );
       break;
     }
 

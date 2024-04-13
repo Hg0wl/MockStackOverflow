@@ -1,9 +1,11 @@
 import "./index.css"
 import { useState } from "react"
 import LoginButtons from "./loginButtons"
+import ProfileBanner from "./profileBanner";
 
-const Header = ({ search, setQuestionPage, handleLogin, handleSignup }) => {
+const Header = ({ search, setQuestionPage, handleLogin, handleSignup, loggedInUser, handleUser, setLoggedInUser }) => {
   const [val, setVal] = useState(search);
+  console.log(loggedInUser)
   return (
     <div className="header_container">
       <div className="purpleLine"></div>
@@ -27,8 +29,8 @@ const Header = ({ search, setQuestionPage, handleLogin, handleSignup }) => {
             }}
           />
         </div>
-        {/*Add if statement to check if user is logged in*/}
-        <LoginButtons handleLogin={handleLogin} handleSignup={handleSignup} />
+        {(loggedInUser == ""? <LoginButtons handleLogin={handleLogin} handleSignup={handleSignup} />: <ProfileBanner loggedInUser={loggedInUser} handleUser={handleUser} setLoggedInUser={setLoggedInUser}></ProfileBanner>)}
+        
       </div>
     </div>
   );

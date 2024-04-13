@@ -12,7 +12,6 @@ const getQuestionsByFilter = async (order = "newest", search = "") => {
 
 // To get Questions by id
 const getQuestionById = async (qid) => {
-    console.log("Calling get question by id!")
   const res = await api.get(`${QUESTION_API_URL}/getQuestionById/${qid}`);
 
   return res.data;
@@ -25,21 +24,24 @@ const addQuestion = async (q) => {
   return res.data;
 };
 
-const upvoteQuestion = async (qid, uid = "661974964d0bb703784662b3") => {
+const upvoteQuestion = async (qid, uid) => {
   const data = { qid: qid, uid: uid };
   const res = await api.post(`${QUESTION_API_URL}/upvote`, data);
-
-  console.log(res);
-  console.log(res.data);
 
   return res.data;
 };
 
-const downvoteQuestion = async (qid, uid = "661974964d0bb703784662b3") => {
+const downvoteQuestion = async (qid, uid) => {
   const data = { qid: qid, uid: uid };
   const res = await api.post(`${QUESTION_API_URL}/downvote`, data);
 
   return res.data;
 };
 
-export { getQuestionsByFilter, getQuestionById, addQuestion, upvoteQuestion, downvoteQuestion };
+export {
+  getQuestionsByFilter,
+  getQuestionById,
+  addQuestion,
+  upvoteQuestion,
+  downvoteQuestion,
+};
