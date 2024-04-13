@@ -5,7 +5,6 @@ import ProfileBanner from "./profileBanner";
 
 const Header = ({ search, setQuestionPage, handleLogin, handleSignup, loggedInUser, handleUser, setLoggedInUser }) => {
   const [val, setVal] = useState(search);
-  console.log(loggedInUser)
   return (
     <div className="header_container">
       <div className="purpleLine"></div>

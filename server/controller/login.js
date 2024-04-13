@@ -2,7 +2,6 @@ const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const csurf = require("csurf");
-const cors = require("cors");
 const User = require("../models/users");
 
 const router = express.Router();

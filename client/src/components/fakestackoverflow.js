@@ -20,6 +20,9 @@ export default function fakeStackOverflow() {
   }
 
   const setLoggedInUser = (uid) => {
+    if (uid == "") {
+      setLoginState("logout")
+    }
     setUser(uid)
   }
 
