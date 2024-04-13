@@ -17,33 +17,7 @@ const QuestionPage = ({
   questionOrder,
 }) => {
   const [qlist, setQlist] = useState([]);
-  //For now using a hardcoded value for testing
-  /*
-  const [qlist, setQlist] = useState([
-    {
-      answers: [],
-      views: 0,
-      votes: 0,
-      title: "Test Question",
-      text: "Here is a question. It is a very good question. So good in fact that is is deserving of a preamble to introduce it. A preamble that only an author worthy of writing could pen of course. An author such as I, Blue Toad from the game Super Mario 3D World (and not any of the other Toads, please try not to get us confused. Anyway, can anywone tell me the answer to this homework problem?",
-      tags: [{ name: "java" }, { name: "junit" }],
-      asked_by: "Blue Toad",
-      ask_date_time: new Date(),
-    },
-    {
-      answers: [],
-      views: 500,
-      votes: 100,
-      title: "Another Test Question",
-      text: "Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi Yoshi ",
-      tags: [{ name: "yoshi" }],
-      asked_by: "Yoshi",
-      ask_date_time: new Date(),
-    },
-  ]);
- */
-  //This is how we shuold read questions from the database
-  console.log(qlist);
+
   useEffect(() => {
     const fetchData = async () => {
       let res = await getQuestionsByFilter(order, search);

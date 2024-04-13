@@ -2,7 +2,6 @@ import { getMetaData } from "../../../../../tool";
 import "./index.css";
 
 const Author = ({ asked_by, ask_date_time, handleUser }) => {
-  console.log(asked_by);
   return (
     <div className="lastActivity">
       <img src={asked_by.profile_pic} className="question-page-image"></img>

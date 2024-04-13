@@ -95,15 +95,14 @@ const Main = ({
     handleLogin();
   } else if (loginState == "signup" && page != "signup") {
     handleSignup();
+  } else if (loginState == "logout" && page != "home") {
+    handleQuestions()
   }
 
   useEffect(() => {
     if (uid != "") handleUser(uid);
   }, [uid]);
 
-  useEffect(() => {
-    handleQuestions();
-  }, [loggedInUser]);
 
   switch (page) {
     case "home": {
@@ -151,7 +150,13 @@ const Main = ({
     }
     case "signup": {
       selected = "";
-      content = <Signup handleLogin={handleLogin} />;
+      content = (
+        <Signup
+          handleLogin={handleLogin}
+          setLoggedInUser={setLoggedInUser}
+          handleQuestions={handleQuestions}
+        />
+      );
       break;
     }
     case "newQuestion": {
