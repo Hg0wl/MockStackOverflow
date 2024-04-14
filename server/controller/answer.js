@@ -40,11 +40,20 @@ const upvote = async (req, res) => {
       { $pull: { downvotes: uid, upvotes: uid } },
       { new: true }
     );
+
+    await User.findOneAndUpdate(
+      { _id: { $eq: uid } },
+      { $inc: { reputation: -10 } }
+    );
   } else {
     answer = await Answer.findOneAndUpdate(
       { _id: { $eq: aid } },
       { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
       { new: true }
+    );
+    await User.findOneAndUpdate(
+      { _id: { $eq: uid } },
+      { $inc: { reputation: 10 } }
     );
   }
 
@@ -63,11 +72,19 @@ const downvote = async (req, res) => {
       { $pull: { downvotes: uid, upvotes: uid } },
       { new: true }
     );
+    await User.findOneAndUpdate(
+      { _id: { $eq: answer.ans_by._id } },
+      { $inc: { reputation: 2 } }
+    );
   } else {
     answer = await Answer.findOneAndUpdate(
       { _id: { $eq: aid } },
       { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
       { new: true }
+    );
+    await User.findOneAndUpdate(
+      { _id: { $eq: answer.ans_by._id } },
+      { $inc: { reputation: -2 } }
     );
   }
 
