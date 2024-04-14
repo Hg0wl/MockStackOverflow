@@ -31,6 +31,19 @@ const upvoteQuestion = async (qid, uid) => {
   return res.data;
 };
 
+const removeTag = async (qid, tid) => {
+  const data = { qid: qid, tid: tid };
+  const res = await api.post(`${QUESTION_API_URL}/removeTag`, data);
+
+  return res.data;
+};
+
+const addTags = async (tags, qid) => {
+  const res = await api.post(`${QUESTION_API_URL}/addTags`, {tags: tags, qid: qid})
+
+  return res.data
+}
+
 const downvoteQuestion = async (qid, uid) => {
   const data = { qid: qid, uid: uid };
   const res = await api.post(`${QUESTION_API_URL}/downvote`, data);
@@ -39,7 +52,9 @@ const downvoteQuestion = async (qid, uid) => {
 };
 
 const deleteQuestion = async (qid) => {
-  const res = await api.post(`${QUESTION_API_URL}/deleteQuestion`, { qid: qid });
+  const res = await api.post(`${QUESTION_API_URL}/deleteQuestion`, {
+    qid: qid,
+  });
   return res.data;
 };
 
@@ -49,5 +64,7 @@ export {
   addQuestion,
   upvoteQuestion,
   downvoteQuestion,
-  deleteQuestion
+  deleteQuestion,
+  removeTag,
+  addTags
 };

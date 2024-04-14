@@ -29,12 +29,54 @@
 }
 
 .answer_question_right {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #ddd;
 }
 
 .num_answers {
-    font-size: larger;
-    margin-bottom: 10px;
+  font-size: larger;
+  margin-bottom: 10px;
+}
+
+.tag-edit {
+  width: 15px;
+  height: 15px;
+}
+
+.new-tag-input {
+  border: 1px solid #dddddd;
+  background-color: white;
+  border-radius: 8px;
+  margin-right: 1%;
+  padding: 0.5% 0.5% 0.5% 0.5%;
+  font-size: small;
+}
+
+.new-tag-input:focus {
+  outline: none;
+}
+
+.edit-confirm {
+  color: white;
+  background: #3A86FF;
+  border-width: 0;
+  border-radius: 8px;
+  margin-right: 1%;
+  padding: 0.5% 0.5% 0.5% 0.5%;
+  font-size: small;
+  cursor: pointer;
+}
+
+.edit-confirm:hover {
+  background-color: #2656a1;
+}
+
+.tag-strikethrough:hover {
+  text-decoration:line-through;
+}
+
+.edit-tag-error {
+  color: red;
+  font-size: small;
 }
