@@ -29,6 +29,13 @@
   align-items: center;
 }
 
+.trash-icon {
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  margin-top: 10px;
+}
+
 .big-vote-count {
   font-weight: bold;
   font-size: larger;

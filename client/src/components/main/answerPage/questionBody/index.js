@@ -6,6 +6,7 @@ import { handleHyperlink } from "../../../../tool";
 import {
   upvoteQuestion,
   downvoteQuestion,
+  deleteQuestion,
 } from "../../../../services/questionService";
 
 // Component for the Question's Body
@@ -21,8 +22,14 @@ const QuestionBody = ({
   initVotes,
   initVoteStatus,
   loggedInUser,
-  handleLogin
+  handleLogin,
+  handleQuestions,
 }) => {
+  const handleDeleteQuestion = async () => {
+    let res = await deleteQuestion(qid);
+    if (res.success) handleQuestions();
+  };
+
   return (
     <div id="questionBody" className="questionBody right_padding">
       <div className="answer_question_text">
@@ -32,8 +39,9 @@ const QuestionBody = ({
           initVotes={initVotes}
           id={qid}
           initVoteStatus={initVoteStatus}
-          loggedInUser = {loggedInUser}
+          loggedInUser={loggedInUser}
           handleLogin={handleLogin}
+          handleDelete={handleDeleteQuestion}
         ></Vote>
 
         <div className="question-body">

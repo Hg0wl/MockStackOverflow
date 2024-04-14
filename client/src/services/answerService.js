@@ -24,4 +24,9 @@ const downvoteAnswer = async (aid, uid ) => {
   return res.data;
 };
 
-export { addAnswer, upvoteAnswer, downvoteAnswer };
+const deleteAnswer = async (aid) => {
+  const res = await api.post(`${ANSWER_API_URL}/deleteAnswer`, { aid: aid });
+  return res.data
+}
+
+export { addAnswer, upvoteAnswer, downvoteAnswer, deleteAnswer };
