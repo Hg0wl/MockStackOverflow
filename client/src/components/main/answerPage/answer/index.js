@@ -6,6 +6,7 @@ import "./index.css";
 import {
   upvoteAnswer,
   downvoteAnswer,
+  deleteAnswer
 } from "../../../../services/answerService";
 
 // Component for the Answer Page
@@ -19,7 +20,10 @@ const Answer = ({
   initVoteStatus,
   loggedInUser,
   handleLogin,
+  handleDeleteAnswer
 }) => {
+  
+
   return (
     <div className="answer">
       <Vote
@@ -30,6 +34,7 @@ const Answer = ({
         initVoteStatus={initVoteStatus}
         loggedInUser={loggedInUser}
         handleLogin={handleLogin}
+        handleDelete={handleDeleteAnswer}
       ></Vote>
       <div className="answer_body">
         <div id="answerText" className="answerText">

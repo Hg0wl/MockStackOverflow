@@ -127,6 +127,7 @@ const Main = ({
           handleUser={handleUser}
           loggedInUser={loggedInUser}
           handleLogin={handleLogin}
+          handleQuestions={handleQuestions}
         />
       );
       break;

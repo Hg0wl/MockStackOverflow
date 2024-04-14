@@ -38,10 +38,16 @@ const downvoteQuestion = async (qid, uid) => {
   return res.data;
 };
 
+const deleteQuestion = async (qid) => {
+  const res = await api.post(`${QUESTION_API_URL}/deleteQuestion`, { qid: qid });
+  return res.data;
+};
+
 export {
   getQuestionsByFilter,
   getQuestionById,
   addQuestion,
   upvoteQuestion,
   downvoteQuestion,
+  deleteQuestion
 };

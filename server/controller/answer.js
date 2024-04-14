@@ -91,6 +91,18 @@ const downvote = async (req, res) => {
   res.send(answer);
 };
 
+const deleteAnswer = async (req, res) => {
+  try {
+    let aid = req.body.aid;
+    await Answer.findByIdAndDelete(aid);
+
+    res.send({ success: true });
+  } catch (error) {
+    console.log(error);
+    res.send({ success: false });
+  }
+};
+
 function answerCreate(text, ans_by, ans_date_time) {
   let answerdetail = { text: text };
   if (ans_by != false) answerdetail.ans_by = ans_by;
@@ -109,5 +121,8 @@ router.post("/upvote", (req, res) => upvote(req, res));
 
 router.use("/downvote", express.json());
 router.post("/downvote", (req, res) => downvote(req, res));
+
+router.use("/deleteAnswer", express.json());
+router.post("/deleteAnswer", (req, res) => deleteAnswer(req, res));
 
 module.exports = router;

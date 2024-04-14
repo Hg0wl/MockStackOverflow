@@ -16,8 +16,6 @@ const UserProfile = ({ uid, handleAnswer, currentUser, loggedInUser }) => {
     fetchData().catch((e) => console.log(e));
   }, [uid]);
 
-  console.log(user);
-
   try {
     console.log(user.username);
     return (

@@ -58,3 +58,7 @@
     color: red;
     align-self: center;
 }
+
+.login-input:focus {
+    outline: none;
+}

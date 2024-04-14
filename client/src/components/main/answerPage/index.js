@@ -5,6 +5,7 @@ import AnswerHeader from "./header";
 import "./index.css";
 import QuestionBody from "./questionBody";
 import { getQuestionById } from "../../../services/questionService";
+import { deleteAnswer } from "../../../services/answerService";
 
 // Component for the Answers page
 const AnswerPage = ({
@@ -15,6 +16,7 @@ const AnswerPage = ({
   handleUser,
   loggedInUser,
   handleLogin,
+  handleQuestions,
 }) => {
   let [question, setQuestion] = useState({});
   useEffect(() => {
@@ -35,7 +37,6 @@ const AnswerPage = ({
     }
   };
 
-  console.log(question);
   try {
     return (
       <div className="question-container">
@@ -59,6 +60,7 @@ const AnswerPage = ({
           initVoteStatus={getInitVoteStatus(question)}
           loggedInUser={loggedInUser}
           handleLogin={handleLogin}
+          handleQuestions={handleQuestions}
         />
         {question &&
           question.answers &&
@@ -74,6 +76,13 @@ const AnswerPage = ({
               initVoteStatus={getInitVoteStatus(a)}
               loggedInUser={loggedInUser}
               handleLogin={handleLogin}
+              handleDeleteAnswer={async () => {
+                const res = await deleteAnswer(a._id);
+                if (res.success) {
+                  let updatedQuestion = await getQuestionById(qid);
+                  setQuestion(updatedQuestion);
+                }
+              }}
             />
           ))}
         <button

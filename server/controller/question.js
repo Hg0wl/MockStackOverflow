@@ -92,6 +92,7 @@ const upvote = async (req, res) => {
 
   res.send(question);
 };
+
 const downvote = async (req, res) => {
   //Add to downvote list
   let qid = req.body.qid;
@@ -124,6 +125,17 @@ const downvote = async (req, res) => {
   }
 
   res.send(question);
+};
+
+const deleteQuestion = async (req, res) => {
+  try {
+    let qid = req.body.qid;
+    await Question.findByIdAndDelete(qid);
+
+    res.send({ success: true });
+  } catch {
+    res.send({ success: false });
+  }
 };
 
 function questionCreate(
@@ -162,5 +174,8 @@ router.post("/upvote", (req, res) => upvote(req, res));
 
 router.use("/downvote", express.json());
 router.post("/downvote", (req, res) => downvote(req, res));
+
+router.use("/deleteQuestion", express.json());
+router.post("/deleteQuestion", (req, res) => deleteQuestion(req, res));
 
 module.exports = router;

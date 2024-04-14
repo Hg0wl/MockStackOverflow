@@ -114,6 +114,15 @@ const populate = async () => {
     [],
     []
   );
+  let u5 = await userCreate(
+    "Mod",
+    "password",
+    "https://i.pinimg.com/originals/03/3f/fd/033ffd18548bfa8b8645c2576c3f8739.jpg",
+    10000,
+    new Date("2023-11-20T03:24:42"),
+    [],
+    []
+  );
 
   let t1 = await tagCreate("react");
   let t2 = await tagCreate("javascript");
