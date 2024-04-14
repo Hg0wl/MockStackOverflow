@@ -138,6 +138,43 @@ const deleteQuestion = async (req, res) => {
   }
 };
 
+const removeTag = async (req, res) => {
+  try {
+    let qid = req.body.qid;
+    let tid = req.body.tid;
+    let question = await Question.findOneAndUpdate(
+      { _id: { $eq: qid } },
+      { $pull: { tags: tid } },
+      { new: true }
+    ).populate("tags");
+
+    res.send({ success: true, tags: question.tags });
+  } catch (error) {
+    console.log(error);
+    res.send({ success: false });
+  }
+};
+
+const addTags = async (req, res) => {
+  try {
+    let tags = req.body.tags
+    let qid = req.body.qid
+    let tagPromises = tags.map((tag) => addTag(tag));
+    let tagIds = await Promise.all(tagPromises);
+
+    let question = await Question.findOneAndUpdate(
+      {_id: {$eq: qid}},
+      {$addToSet: {tags: {$each: tagIds}}},
+      {new: true}
+    ).populate("tags")
+
+    res.send({success: true, tags: question.tags})
+  } catch (error) {
+    console.log(error)
+    res.send({success: false})
+  }
+}
+
 function questionCreate(
   title,
   text,
@@ -177,5 +214,11 @@ router.post("/downvote", (req, res) => downvote(req, res));
 
 router.use("/deleteQuestion", express.json());
 router.post("/deleteQuestion", (req, res) => deleteQuestion(req, res));
+
+router.use("/removeTag", express.json());
+router.post("/removeTag", (req, res) => removeTag(req, res));
+
+router.use("/addTags", express.json());
+router.post("/addTags", (req, res) => addTags(req, res));
 
 module.exports = router;
