@@ -41,7 +41,7 @@ const Answer = ({
           {handleHyperlink(text)}
         </div>
         <Author
-          askby={ansBy}
+          askBy={ansBy}
           meta={"Answered " + meta}
           handleUser={handleUser}
         ></Author>
