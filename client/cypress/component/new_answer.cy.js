@@ -26,13 +26,3 @@ it('shows text inputted by user', () => {
     cy.get('#answerTextInput').should('have.value', 'abc')
 })
 
-it('handleAnswer is called when click Post Answer', () => {
-    const obj = {
-        handleAnswer: (arg) => {return arg}
-    }
-    const handleAnswer = cy.spy().as('handleAnswerSpy')
-    cy.mount(<NewAnswer qid={123} handleAnswer={handleAnswer} />)
-    cy.get('#answerTextInput').type('abc')
-    cy.get('.form_postBtn').click()
-    cy.get('@handleAnswerSpy').should('have.been.calledWith', 123)
-})

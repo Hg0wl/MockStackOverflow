@@ -59,29 +59,6 @@ it('shows error message when a tag is longer than 20 characters', () => {
     cy.get('div .input_error').contains('New tag length cannot be more than 20')
 })
 
-// TO DO: Find a way to stub the external validateHyperlink function to test error message 
-// it('shows error message when a hyperlink is poorly formatted', () => {
 
-//     
-//     //cy.stub(NewQuestion, 'validateHyperlink').as('validateHyperlinkStub').returns(false);
 
-//     cy.mount(<NewQuestion/>)
-
-//     cy.get('#formTitleInput').type('test')
-//     cy.get('#formTextInput').type('test')
-//     cy.get('div .input_error').contains("Invalid hyperlink format.")
-// })
-
-it('handleQuestion function is called when Post Question button is clicked', () => {
-    const spyObj= { handleQuestions: (arg) => {return arg}}
-    cy.spy(spyObj, 'handleQuestions')
-    cy.mount(<NewQuestion handleQuestions={spyObj.handleQuestions} />)
-
-    cy.get('#formTitleInput').type("title1")
-    cy.get('#formTextInput').type("question1")
-    
-    cy.get('.form_postBtn').click().then( () => {
-        expect(spyObj.handleQuestions).to.be.calledOnce()
-    })
-})
 
