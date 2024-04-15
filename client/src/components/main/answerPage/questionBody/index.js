@@ -14,7 +14,7 @@ import {
 // Component for the Question's Body
 const QuestionBody = ({
   text,
-  askby,
+  askBy,
   tagsInit,
   meta,
   clickTag,
@@ -27,6 +27,7 @@ const QuestionBody = ({
   handleLogin,
   handleQuestions,
 }) => {
+  console.log(`Asked by: ${askBy}`);
   const [user, setUser] = useState({});
   const [editingTags, setEditing] = useState(false);
   const [tags, setTags] = useState(tagsInit);
@@ -145,7 +146,7 @@ const QuestionBody = ({
               )}
             </div>
             <Author
-              askby={askby}
+              askBy={askBy}
               meta={"Asked " + meta}
               handleUser={handleUser}
             ></Author>

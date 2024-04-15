@@ -47,7 +47,6 @@ const AnswerPage = ({
           ask_date_time={question.ask_date_time}
         />
         <QuestionBody
-          views={question && question.views}
           text={question && question.text}
           askby={question && question.asked_by}
           tagsInit={question && question.tags}
