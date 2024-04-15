@@ -10,9 +10,7 @@ const getUserById = async (uid) => {
   return res.data;
 };
 
-const uploadImage = (file) => {
-  console.log(file);
-  console.log(file.type.match(/image.*/));
+const uploadImage = async (file, uid) => {
   /* Is the file an image? */
   if (!file || !file.type.match(/image.*/)) return;
 
@@ -20,13 +18,14 @@ const uploadImage = (file) => {
   document.body.className = "uploading";
 
   /* Lets build a FormData object*/
-  var fd = new FormData(); // I wrote about it: https://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
+  var fd = new FormData(); 
   fd.append("image", file); // Append the file
-  var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
-  xhr.open("POST", "https://api.imgur.com/3/image.json"); // Boooom!
+  var xhr = new XMLHttpRequest(); // Create the XHR 
+  xhr.open("POST", "https://api.imgur.com/3/image.json");
+  let pfp = "https://i.pinimg.com/originals/03/3f/fd/033ffd18548bfa8b8645c2576c3f8739.jpg"
   xhr.onload = function () {
     // Big win!
-    console.log(JSON.parse(xhr.responseText).data.link);
+    pfp = JSON.parse(xhr.responseText).data.link;
   };
 
   xhr.setRequestHeader("Authorization", "Client-ID 486a4056dc8671d");
@@ -34,7 +33,8 @@ const uploadImage = (file) => {
   /* And now, we send the formdata */
   xhr.send(fd);
 
-  console.log(fd);
+  const res = await api.post(`${USER_API_URL}/changeProfilePicture`, {link: pfp, uid: uid})
+  return res.data
 };
 
 const updateUsername = async (username, uid) => {
