@@ -48,7 +48,7 @@ const AnswerPage = ({
         />
         <QuestionBody
           text={question && question.text}
-          askby={question && question.asked_by}
+          askBy={question && question.asked_by}
           tagsInit={question && question.tags}
           clickTag={clickTag}
           meta={question && getMetaData(new Date(question.ask_date_time))}
