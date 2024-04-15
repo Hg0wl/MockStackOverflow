@@ -13,7 +13,6 @@ const getUserById = async (req, res) => {
 const changeUsername = async (req, res) => {
   let newUsername = req.body.username;
   let uid = req.body.uid;
-  console.log(newUsername);
 
   let userList = await User.find({ username: { $eq: newUsername } });
   if (userList.length == 0) {
@@ -32,7 +31,26 @@ const changeUsername = async (req, res) => {
   }
 };
 
+const changeProfilePicture = async (req, res) => {
+  try {
+    let link = req.body.link;
+    let uid = req.body.uid;
+
+    await User.findOneAndUpdate(
+      { _id: { $eq: uid } },
+      { $set: { profile_pic: link } }
+    );
+
+    res.send({ success: true, link: link });
+  } catch (error) {
+    res.send({ success: false });
+  }
+};
+
 router.get("/getUserById/:uid", (req, res) => getUserById(req, res));
 router.post("/changeUsername", (req, res) => changeUsername(req, res));
+router.post("/changeProfilePicture", (req, res) =>
+  changeProfilePicture(req, res)
+);
 
 module.exports = router;
