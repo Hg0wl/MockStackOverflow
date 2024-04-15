@@ -34,22 +34,25 @@ const Signup = ({ handleLogin, setLoggedInUser, handleQuestions }) => {
       <div className="login-panel">
         <div className="login-text">Username</div>
         <input
+          id="signupUsernameInput"
           className="login-input"
           onChange={(e) => setUsername(e.target.value)}
         ></input>
         <div className="login-text">Password</div>
         <input
+          id="signupPasswordInput"
           className="login-input"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         ></input>
         <div className="login-text">Confirm Password</div>
         <input
+          id="signupPasswordConfirm"
           className="login-input"
           type="password"
           onChange={(e) => setConfirm(e.target.value)}
         ></input>
-        <div className="incorrect-credentials">{errorMessage}</div>
+        <div id="signupErr" className="incorrect-credentials">{errorMessage}</div>
         <button className="login-form-button" onClick={() => handleSignup()}>
           Signup
         </button>
