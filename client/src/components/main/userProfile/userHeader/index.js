@@ -55,18 +55,21 @@ const UserHeader = ({
             editingUsername ? (
               <div className="username-input-container">
                 <input
+                  id="newUsernameInput"
                   className="username-input"
                   defaultValue={currentUsername}
                   placeholder="Enter Username..."
                   onChange={(e) => setNewUsername(e.target.value)}
                 ></input>
                 <button
+                  id="changeProfileDoneBtn"
                   className="username-input-buttons"
                   onClick={() => handleChangeUsername()}
                 >
                   Done
                 </button>
                 <button
+                  id="changeProfileCancelBtn"
                   className="username-input-buttons"
                   onClick={() => {
                     setEditing(false);
@@ -80,11 +83,13 @@ const UserHeader = ({
             ) : (
               <div className="edit-username-container">
                 <p className="header-username">{currentUsername}</p>
-                <img
-                  className="edit-icon"
-                  src="https://www.svgrepo.com/show/304506/edit-pen.svg"
-                  onClick={() => setEditing(true)}
-                ></img>
+                <div id="startEditing" onClick={() => setEditing(true)}>
+                  <img
+                    id="startEditing"
+                    className="edit-icon"
+                    src="https://www.svgrepo.com/show/304506/edit-pen.svg"
+                  ></img>
+                </div>
               </div>
             )
           ) : (
