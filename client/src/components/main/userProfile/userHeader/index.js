@@ -1,6 +1,6 @@
 import "./index.css";
 import { getMetaData } from "../../../../tool";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uploadImage, updateUsername } from "../../../../services/userService";
 
 const UserHeader = ({
@@ -15,11 +15,11 @@ const UserHeader = ({
   const [errorMessage, setErrorMessage] = useState("");
   const [newUsername, setNewUsername] = useState(username);
   const [currentUsername, setCurrentUsername] = useState(username);
-  const [pfp, setPicture] = useState(picture)
+  const [pfp, setPicture] = useState(picture);
 
   const handleChangeUsername = async () => {
     setNewUsername(newUsername.trim());
-    let nameToSet = newUsername.trim()
+    let nameToSet = newUsername.trim();
     if (nameToSet == currentUsername) {
       setEditing(false);
     } else if (nameToSet.replace(/\s/g, "") == "") {
@@ -36,13 +36,21 @@ const UserHeader = ({
     }
   };
 
-  const handleChangeProfilePicture = async(file) => {
-      let res = await uploadImage(file, loggedInUser);
+  const handleChangeProfilePicture = async (file) => {
+    let res = await uploadImage(file, loggedInUser);
 
-      if (res.success) {
-        setPicture(res.link)
-      }
-  }
+    if (res.success) {
+      setPicture(res.link);
+    }
+  };
+
+  useEffect(() => {setPicture(picture);}, [picture])
+
+  useEffect(() => {
+    setCurrentUsername(username);
+    setNewUsername(username);
+    setErrorMessage("")
+  }, [username]);
 
   try {
     return (

@@ -77,16 +77,27 @@ const upvote = async (req, res) => {
       { _id: { $eq: question.asked_by._id } },
       { $inc: { reputation: -10 } }
     );
-  } else {
+  } else if (question.downvotes.includes(uid)) {
     question = await Question.findOneAndUpdate(
       { _id: { $eq: qid } },
       { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
       { new: true }
     );
 
+    console.log(question.upvotes);
+    await User.findOneAndUpdate(
+      { _id: { $eq: question.asked_by._id } },
+      { $inc: { reputation: 12 } }
+    );
+  } else {
     await User.findOneAndUpdate(
       { _id: { $eq: question.asked_by._id } },
       { $inc: { reputation: 10 } }
+    );
+    question = await Question.findOneAndUpdate(
+      { _id: { $eq: qid } },
+      { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
+      { new: true }
     );
   }
 
@@ -101,6 +112,7 @@ const downvote = async (req, res) => {
   let question = await Question.findById(qid);
 
   if (question.downvotes.includes(uid)) {
+    console.log("downvotes includes");
     question = await Question.findOneAndUpdate(
       { _id: { $eq: qid } },
       { $pull: { downvotes: uid, upvotes: uid } },
@@ -108,8 +120,20 @@ const downvote = async (req, res) => {
     );
 
     await User.findOneAndUpdate(
-      { _id: { $eq: uid } },
+      { _id: { $eq: question.asked_by._id } },
       { $inc: { reputation: 2 } }
+    );
+  } else if (question.upvotes.includes(uid)) {
+    console.log("downvotes not includes");
+    question = await Question.findOneAndUpdate(
+      { _id: { $eq: qid } },
+      { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
+      { new: true }
+    );
+
+    await User.findOneAndUpdate(
+      { _id: { $eq: question.asked_by._id } },
+      { $inc: { reputation: -12 } }
     );
   } else {
     question = await Question.findOneAndUpdate(
@@ -119,8 +143,9 @@ const downvote = async (req, res) => {
     );
 
     await User.findOneAndUpdate(
-      { _id: { $eq: uid } },
-      { $inc: { reputation: -2 } }
+      { _id: { $eq: question.asked_by._id } },
+      { $inc: { reputation: -2 } },
+      { new: true }
     );
   }
 
@@ -142,6 +167,7 @@ const removeTag = async (req, res) => {
   try {
     let qid = req.body.qid;
     let tid = req.body.tid;
+    console.log(qid, tid);
     let question = await Question.findOneAndUpdate(
       { _id: { $eq: qid } },
       { $pull: { tags: tid } },
@@ -157,23 +183,23 @@ const removeTag = async (req, res) => {
 
 const addTags = async (req, res) => {
   try {
-    let tags = req.body.tags
-    let qid = req.body.qid
+    let tags = req.body.tags;
+    let qid = req.body.qid;
     let tagPromises = tags.map((tag) => addTag(tag));
     let tagIds = await Promise.all(tagPromises);
 
     let question = await Question.findOneAndUpdate(
-      {_id: {$eq: qid}},
-      {$addToSet: {tags: {$each: tagIds}}},
-      {new: true}
-    ).populate("tags")
+      { _id: { $eq: qid } },
+      { $addToSet: { tags: { $each: tagIds } } },
+      { new: true }
+    ).populate("tags");
 
-    res.send({success: true, tags: question.tags})
+    res.send({ success: true, tags: question.tags });
   } catch (error) {
-    console.log(error)
-    res.send({success: false})
+    console.log(error);
+    res.send({ success: false });
   }
-}
+};
 
 function questionCreate(
   title,

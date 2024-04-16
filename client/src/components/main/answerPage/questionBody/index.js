@@ -31,8 +31,8 @@ const QuestionBody = ({
   const [user, setUser] = useState({});
   const [editingTags, setEditing] = useState(false);
   const [tags, setTags] = useState(tagsInit);
-  const [tagText, setTagText] = useState("")
-  const [tagErr, setTagErr] = useState("")
+  const [tagText, setTagText] = useState("");
+  const [tagErr, setTagErr] = useState("");
 
   useEffect(() => {
     console.log("Calling useEffect");
@@ -51,6 +51,7 @@ const QuestionBody = ({
 
   const handleTagText = async () => {
     let newTags = tagText.split(" ").filter((tag) => tag.trim() != "");
+
     if (newTags.length + tags.length > 5) {
       setTagErr("Cannot have more than 5 tags");
       return;
@@ -63,15 +64,16 @@ const QuestionBody = ({
       }
     }
 
-    let res = await addTags(newTags, qid)
+    let res = await addTags(newTags, qid);
     if (res.success) {
-      setTags(res.tags)
-      setEditing(false)
-      setTagErr("")
+      setTags(res.tags);
+      setTagText("")
+      setEditing(false);
+      setTagErr("");
     } else {
-      setTagErr("Something went wrong :(")
+      setTagErr("Something went wrong :(");
     }
-  }
+  };
 
   return (
     <div id="questionBody" className="questionBody right_padding">
@@ -103,10 +105,10 @@ const QuestionBody = ({
                     onClick={async (e) => {
                       e.stopPropagation();
                       if (editingTags) {
-                        let res = await removeTag(qid, tag._id)
-                        console.log(res)
+                        let res = await removeTag(qid, tag._id);
+                        console.log(res);
                         if (res.success) {
-                          setTags(res.tags)
+                          setTags(res.tags);
                         }
                       } else {
                         clickTag(tag.name);
@@ -120,15 +122,19 @@ const QuestionBody = ({
               {user.reputation >= 10000 ? (
                 editingTags ? (
                   <>
-                    <input className="new-tag-input" onChange={(e) => setTagText(e.target.value)}></input>
+                    <input
+                      className="new-tag-input"
+                      onChange={(e) => setTagText(e.target.value)}
+                    ></input>
                     <button
                       className="edit-confirm"
                       onClick={() => {
-                        handleTagText()
+                        handleTagText();
                       }}
                     >
                       Done
-                    </button> <p className="edit-tag-error">{tagErr}</p>
+                    </button>
+                    <p className="edit-tag-error">{tagErr}</p>
                   </>
                 ) : (
                   <button
