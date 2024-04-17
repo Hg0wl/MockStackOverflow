@@ -154,57 +154,72 @@ describe("POST /changeUsername", () => {
     expect(response.body.success).toBe(true);
   });
 
-  it ("should reject the request to update username when username already exists",
-    async () => {
-      const mockReqQuery = {
-        username: "User3",
-        uid: "65e9b5a995b6c7045a30d825",
-      };
+  it("should reject the request to update username when username already exists", async () => {
+    const mockReqQuery = {
+      username: "User3",
+      uid: "65e9b5a995b6c7045a30d825",
+    };
 
-      User.find = jest
-        .fn()
-        .mockResolvedValue(
-          mockUsers.filter((user) => user.username == mockReqQuery.username)
-        );
-
-      const response = await supertest(server)
-        .post(`/user/changeUsername`)
-        .send(mockReqQuery);
-
-      expect(response.status).toBe(200);
-      expect(response.body.success).toBe(false);
-      expect(response.body.message).toBe(
-        "A user with this username already exists"
+    User.find = jest
+      .fn()
+      .mockResolvedValue(
+        mockUsers.filter((user) => user.username == mockReqQuery.username)
       );
-    }
-  );
+
+    const response = await supertest(server)
+      .post(`/user/changeUsername`)
+      .send(mockReqQuery);
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(false);
+    expect(response.body.message).toBe(
+      "A user with this username already exists"
+    );
+  });
 });
 
 describe("POST /changeProfilePicture", () => {
-    it("should successfully update the user's profile picture", async () => {
-        const mockReqQuery = {
-          link: "newlink.com",
-          uid: "65e9b5a995b6c7045a30d826",
-        };
+  it("should successfully update the user's profile picture", async () => {
+    const mockReqQuery = {
+      link: "newlink.com",
+      uid: "65e9b5a995b6c7045a30d826",
+    };
 
-        const updatedUser = {
-          _id: "65e9b5a995b6c7045a30d826",
-          username: "User3",
-          password: "password",
-          profile_pic:
-            "newlink.com",
-          reputation: 250,
-          join_date: new Date("2023-11-12T03:30:00").toString(),
-          askList: [],
-          ansList: [],
-        };
+    const updatedUser = {
+      _id: "65e9b5a995b6c7045a30d826",
+      username: "User3",
+      password: "password",
+      profile_pic: "newlink.com",
+      reputation: 250,
+      join_date: new Date("2023-11-12T03:30:00").toString(),
+      askList: [],
+      ansList: [],
+    };
 
-        User.findOneAndUpdate = jest.fn().mockResolvedValue(updatedUser);
+    User.findOneAndUpdate = jest.fn().mockResolvedValue(updatedUser);
 
-        const res = await supertest(server).post("/user/changeProfilePicture").send(mockReqQuery);
+    const res = await supertest(server)
+      .post("/user/changeProfilePicture")
+      .send(mockReqQuery);
 
-        expect(res.status).toBe(200)
-        expect(res.body.success).toBe(true);
-        expect(res.body.link).toBe("newlink.com")
-    })
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.link).toBe("newlink.com");
+  });
+
+  it("should handle errors in updating the user's profile", async () => {
+    const mockReqQuery = {
+      link: "newlink.com",
+      uid: "65e9b5a995b6c7045a30d826",
+    };
+
+    User.findOneAndUpdate = jest.fn().mockRejectedValue(new Error());
+
+    const res = await supertest(server)
+      .post("/user/changeProfilePicture")
+      .send(mockReqQuery);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(false);
+  });
 });
