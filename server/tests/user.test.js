@@ -1,7 +1,5 @@
 const supertest = require("supertest");
-const { default: mongoose } = require("mongoose");
 
-const Question = require("../models/questions");
 const User = require("../models/users");
 
 // Mocking the models

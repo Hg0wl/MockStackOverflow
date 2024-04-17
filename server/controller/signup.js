@@ -22,13 +22,11 @@ function userCreate(
     ansList,
   };
 
-  let user = User(userDetail);
-  return user.save();
+  return User.create(userDetail);
 }
 
 router.post("/signup", async (req, res) => {
   const { username, password } = req.body;
-    console.log(username, password)
   let user = {}
   try {
     user = await userCreate(
