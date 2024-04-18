@@ -8,12 +8,18 @@ const Signup = ({ handleLogin, setLoggedInUser, handleQuestions }) => {
   const [confirmPassword, setConfirm] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  /**
+   * Handles signing up as a new user
+   * Sends inputted username and password to server if inputted passwords are correct
+   * If the server sends back a successful response, redirects to home page and logs user in
+   * Otherwise, displays appropreate error message.
+   */
   const handleSignup = async () => {
     // Make sure to include the CSRF token in the headers
     try {
       if (password == confirmPassword) {
         const response = await signup(username, password);
-        console.log(response);
+
         if (response.success) {
           setLoggedInUser(response.user._id);
           handleQuestions();

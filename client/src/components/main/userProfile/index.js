@@ -15,41 +15,36 @@ const UserProfile = ({ uid, handleAnswer, currentUser, loggedInUser }) => {
     fetchData().catch((e) => console.log(e));
   }, [uid]);
 
-  try {
-    console.log(user.username);
-    return (
-      <div className="profile">
-        <UserHeader
-          picture={user.profile_pic}
-          username={user.username}
-          joinDate={user.join_date}
-          reputation={user.reputation}
-          currentUser={currentUser}
-          loggedInUser={loggedInUser}
-        />
-        <div className="qaLists left-alligned">
-          <div className="qaList">
-            <div className="qalist-title">Questions</div>
-            <div className="list-subtitle">{user.askList.length}</div>
-            <QAList
-              handleAnswer={handleAnswer}
-              items={user.askList}
-            ></QAList>
-          </div>
-          <div className="qaList">
-            <div className="qalist-title">Answers</div>
-            <div className="list-subtitle">{user.ansList.length}</div>
-            <QAList
-              items={user.ansList}
-              handleAnswer={handleAnswer}
-            ></QAList>
-          </div>
+  return (
+    <div className="profile">
+      <UserHeader
+        picture={user && user.profile_pic}
+        username={user && user.username}
+        joinDate={user && user.join_date}
+        reputation={user && user.reputation}
+        currentUser={currentUser}
+        loggedInUser={loggedInUser}
+      />
+      <div className="qaLists left-alligned">
+        <div className="qaList">
+          <div className="qalist-title">Questions</div>
+          <div className="list-subtitle">{user.askList ? user.askList.length : 0}</div>
+          <QAList
+            handleAnswer={handleAnswer}
+            items={user && user.askList}
+          ></QAList>
+        </div>
+        <div className="qaList">
+          <div className="qalist-title">Answers</div>
+          <div className="list-subtitle">{user.ansList ? user.ansList.length : 0}</div>
+          <QAList
+            items={user && user.ansList}
+            handleAnswer={handleAnswer}
+          ></QAList>
         </div>
       </div>
-    );
-  } catch {
-    return <></>;
-  }
+    </div>
+  );
 };
 
 export default UserProfile;

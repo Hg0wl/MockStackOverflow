@@ -17,14 +17,21 @@ const UserHeader = ({
   const [currentUsername, setCurrentUsername] = useState(username);
   const [pfp, setPicture] = useState(picture);
 
+  /**
+   * Called when making a change to a user's username
+   * If the inputted username is valid, sends a request to the server to update it
+   */
   const handleChangeUsername = async () => {
+    console.log("changing")
     setNewUsername(newUsername.trim());
     let nameToSet = newUsername.trim();
+
     if (nameToSet == currentUsername) {
       setEditing(false);
-    } else if (nameToSet.replace(/\s/g, "") == "") {
-      setErrorMessage("New username cannot be empty");
-    } else {
+      return;
+    }
+
+    if (validateUsername(nameToSet)) {
       const res = await updateUsername(nameToSet, loggedInUser);
 
       if (res.success) {
@@ -36,6 +43,25 @@ const UserHeader = ({
     }
   };
 
+  /**
+   * Validates the given username
+   *
+   * @param {*} nameToSet The username to validate
+   * @returns True if the username is valid false otherwise
+   */
+  const validateUsername = (nameToSet) => {
+    if (nameToSet.replace(/\s/g, "") == "") {
+      setErrorMessage("New username cannot be empty");
+      return false;
+    }
+    return true;
+  };
+
+  /**
+   * Sends a request to the server to change the user's profile picture to the inputted picture
+   *
+   * @param {*} file the new profile picture
+   */
   const handleChangeProfilePicture = async (file) => {
     let res = await uploadImage(file, loggedInUser);
 
@@ -44,15 +70,72 @@ const UserHeader = ({
     }
   };
 
-  useEffect(() => {setPicture(picture);}, [picture])
+  /**
+   * Renders the username based on if the profile being looked at belongs to the current user or not
+   * 
+   * @returns a react component representing the usr's username.  
+   */
+  const renderUsername = () => {
+    if (currentUser) {
+      if (editingUsername) {
+        return (
+          <div className="username-input-container">
+            <input
+              id="newUsernameInput"
+              className="username-input"
+              defaultValue={currentUsername}
+              placeholder="Enter Username..."
+              onChange={(e) => setNewUsername(e.target.value)}
+            ></input>
+            <button
+              id="changeProfileDoneBtn"
+              className="username-input-buttons"
+              onClick={() => handleChangeUsername()}
+            >
+              Done
+            </button>
+            <button
+              id="changeProfileCancelBtn"
+              className="username-input-buttons"
+              onClick={() => {
+                setEditing(false);
+                setNewUsername(currentUsername);
+              }}
+            >
+              Cancel
+            </button>
+            <p className="username-error-profile">{errorMessage}</p>
+          </div>
+        );
+      } else {
+        return (
+          <div className="edit-username-container">
+            <p className="header-username">{currentUsername}</p>
+            <div id="startEditing" onClick={() => setEditing(true)}>
+              <img
+                id="startEditing"
+                className="edit-icon"
+                src="https://www.svgrepo.com/show/304506/edit-pen.svg"
+              ></img>
+            </div>
+          </div>
+        );
+      }
+    }
+
+    return <p className="header-username">{currentUsername}</p>;
+  };
+
+  useEffect(() => {
+    setPicture(picture);
+  }, [picture]);
 
   useEffect(() => {
     setCurrentUsername(username);
     setNewUsername(username);
-    setErrorMessage("")
+    setErrorMessage("");
   }, [username]);
 
-  try {
     return (
       <div className="user-header">
         {currentUser ? (
@@ -70,50 +153,7 @@ const UserHeader = ({
           }
         ></input>
         <div className="user-header-info">
-          {currentUser ? (
-            editingUsername ? (
-              <div className="username-input-container">
-                <input
-                  id="newUsernameInput"
-                  className="username-input"
-                  defaultValue={currentUsername}
-                  placeholder="Enter Username..."
-                  onChange={(e) => setNewUsername(e.target.value)}
-                ></input>
-                <button
-                  id="changeProfileDoneBtn"
-                  className="username-input-buttons"
-                  onClick={() => handleChangeUsername()}
-                >
-                  Done
-                </button>
-                <button
-                  id="changeProfileCancelBtn"
-                  className="username-input-buttons"
-                  onClick={() => {
-                    setEditing(false);
-                    setNewUsername(currentUsername);
-                  }}
-                >
-                  Cancel
-                </button>
-                <p className="username-error-profile">{errorMessage}</p>
-              </div>
-            ) : (
-              <div className="edit-username-container">
-                <p className="header-username">{currentUsername}</p>
-                <div id="startEditing" onClick={() => setEditing(true)}>
-                  <img
-                    id="startEditing"
-                    className="edit-icon"
-                    src="https://www.svgrepo.com/show/304506/edit-pen.svg"
-                  ></img>
-                </div>
-              </div>
-            )
-          ) : (
-            <p className="header-username">{currentUsername}</p>
-          )}
+          {renderUsername()}
           <p className="user-header-meta">
             Joined {getMetaData(new Date(joinDate))}
           </p>
@@ -121,10 +161,6 @@ const UserHeader = ({
         </div>
       </div>
     );
-  } catch (error) {
-    console.log(error);
-    return <></>;
-  }
 };
 
 export default UserHeader;

@@ -80,10 +80,24 @@ describe('GET /getQuestion', () => {
    
     getQuestionsByOrder.mockResolvedValueOnce(mockQuestions);
     filterQuestionsBySearch.mockReturnValueOnce(mockQuestions);
+
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
+
+
     // Making the request
     const response = await supertest(server)
-      .get('/question/getQuestion')
-      .query(mockReqQuery);
+      .get("/question/getQuestion")
+      .query(mockReqQuery)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);;
 
     // Asserting the response
     expect(response.status).toBe(200);
@@ -129,10 +143,22 @@ describe('GET /getQuestionById/:qid', () => {
             })
         )}
     ));
+
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
    
     // Making the request
     const response = await supertest(server)
-      .get(`/question/getQuestionById/${mockReqParams.qid}`);
+      .get(`/question/getQuestionById/${mockReqParams.qid}`)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);;
 
     // Asserting the response
     expect(response.status).toBe(200);
@@ -170,10 +196,23 @@ describe('POST /addQuestion', () => {
     Question.create.mockResolvedValueOnce(mockQuestion);
     User.findOneAndUpdate = jest.fn()
 
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
+
+
     // Making the request
     const response = await supertest(server)
-      .post('/question/addQuestion')
-      .send(mockQuestion);
+      .post("/question/addQuestion")
+      .send(mockQuestion)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);;
 
     // Asserting the response
     expect(response.status).toBe(200);

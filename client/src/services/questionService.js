@@ -1,60 +1,91 @@
-import { REACT_APP_API_URL, api } from "./config";
+import { REACT_APP_API_URL, api, getCsrfHeader } from "./config";
 
 const QUESTION_API_URL = `${REACT_APP_API_URL}/question`;
 
 // To get Questions by Filter
 const getQuestionsByFilter = async (order = "newest", search = "") => {
   const res = await api.get(
-    `${QUESTION_API_URL}/getQuestion?order=${order}&search=${search}`
+    `${QUESTION_API_URL}/getQuestion?order=${order}&search=${search}`,
+    getCsrfHeader()
   );
   return res.data;
 };
 
 // To get Questions by id
 const getQuestionById = async (qid) => {
-  const res = await api.get(`${QUESTION_API_URL}/getQuestionById/${qid}`);
+  const res = await api.get(
+    `${QUESTION_API_URL}/getQuestionById/${qid}`,
+    getCsrfHeader()
+  );
 
   return res.data;
 };
 
 // To add Questions
 const addQuestion = async (q) => {
-  const res = await api.post(`${QUESTION_API_URL}/addQuestion`, q);
+  const res = await api.post(
+    `${QUESTION_API_URL}/addQuestion`,
+    q,
+    getCsrfHeader()
+  );
 
   return res.data;
 };
 
 const upvoteQuestion = async (qid, uid) => {
   const data = { qid: qid, uid: uid };
-  const res = await api.post(`${QUESTION_API_URL}/upvote`, data);
+  const res = await api.post(
+    `${QUESTION_API_URL}/upvote`,
+    data,
+    getCsrfHeader()
+  );
 
   return res.data;
 };
 
 const removeTag = async (qid, tid) => {
   const data = { qid: qid, tid: tid };
-  const res = await api.post(`${QUESTION_API_URL}/removeTag`, data);
+  const res = await api.post(
+    `${QUESTION_API_URL}/removeTag`,
+    data,
+    getCsrfHeader()
+  );
 
   return res.data;
 };
 
 const addTags = async (tags, qid) => {
-  const res = await api.post(`${QUESTION_API_URL}/addTags`, {tags: tags, qid: qid})
+  const res = await api.post(
+    `${QUESTION_API_URL}/addTags`,
+    {
+      tags: tags,
+      qid: qid,
+    },
+    getCsrfHeader()
+  );
 
-  return res.data
-}
+  return res.data;
+};
 
 const downvoteQuestion = async (qid, uid) => {
   const data = { qid: qid, uid: uid };
-  const res = await api.post(`${QUESTION_API_URL}/downvote`, data);
+  const res = await api.post(
+    `${QUESTION_API_URL}/downvote`,
+    data,
+    getCsrfHeader()
+  );
 
   return res.data;
 };
 
 const deleteQuestion = async (qid) => {
-  const res = await api.post(`${QUESTION_API_URL}/deleteQuestion`, {
-    qid: qid,
-  });
+  const res = await api.post(
+    `${QUESTION_API_URL}/deleteQuestion`,
+    {
+      qid: qid,
+    },
+    getCsrfHeader()
+  );
   return res.data;
 };
 
@@ -66,5 +97,5 @@ export {
   downvoteQuestion,
   deleteQuestion,
   removeTag,
-  addTags
+  addTags,
 };

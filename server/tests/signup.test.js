@@ -14,7 +14,7 @@ describe("POST /signup", () => {
 
   afterEach(async () => {
     server.close();
-});
+  });
 
   it("should create and return a new user when given valid credentials", async () => {
     mockReqBody = { username: "newUser", password: "password" };
@@ -26,12 +26,24 @@ describe("POST /signup", () => {
 
     User.create.mockResolvedValueOnce(mockUser);
 
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
+
     const res = await supertest(server)
       .post("/signup/signup")
-      .send(mockReqBody);
+      .send(mockReqBody)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);
 
     expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true)
+    expect(res.body.success).toBe(true);
     expect(res.body.user.password).toBe(mockUser.password);
     expect(res.body.user.username).toBe(mockUser.username);
   });
@@ -41,9 +53,21 @@ describe("POST /signup", () => {
 
     User.create.mockRejectedValue(new Error());
 
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
+
     const res = await supertest(server)
       .post("/signup/signup")
-      .send(mockReqBody);
+      .send(mockReqBody)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);
 
     expect(res.status).toBe(401);
     expect(res.body.success).toBe(false);
