@@ -161,7 +161,7 @@ describe('POST /addQuestion', () => {
       _id: '65e9b58910afe6e94fc6e6fe',
       title: 'Question 3 Title',
       text: 'Question 3 Text',
-      tags: [tag1, tag2],
+      tags: mockTags,
       answers: [ans1],
       asked_by: {username: 'testUser'},
     }
