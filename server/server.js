@@ -5,10 +5,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { MONGO_URL, CLIENT_URL, port } = require('./config');
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/fake_so";
-const CLIENT_URL = "http://localhost:3000";
-const port = 8000;
+
+// const MONGO_URL = "mongodb://127.0.0.1:27017/fake_so";
+// const MONGO_URL = "mongodb://mongodb:27017/fake_so";
+// const CLIENT_URL = "http://localhost:3000";
+// const port = 8000;
 
 mongoose.connect(MONGO_URL);
 
