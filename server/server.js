@@ -5,6 +5,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const csurf = require("csurf");
+const session = require("express-session");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/fake_so";
 const CLIENT_URL = "http://localhost:3000";
@@ -20,6 +22,17 @@ app.use(
     origin: [CLIENT_URL],
   })
 );
+
+app.use(
+  session({
+    secret: "your-secret-key", // never hardcode in source code. hard-coded here for demonstration purposes.
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// Set up CSRF protection
+app.use(csurf());
 
 app.use(express.json());
 

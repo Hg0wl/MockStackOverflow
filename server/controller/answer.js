@@ -42,30 +42,18 @@ const upvote = async (req, res) => {
         { new: true }
       );
 
-      await User.findOneAndUpdate(
-        { _id: { $eq: answer.ans_by._id } },
-        { $inc: { reputation: -10 } }
-      );
-    } else if (answer.downvotes.includes(uid)) {
-      answer = await Answer.findOneAndUpdate(
-        { _id: { $eq: aid } },
-        { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
-        { new: true }
-      );
-      await User.findOneAndUpdate(
-        { _id: { $eq: answer.ans_by._id } },
-        { $inc: { reputation: 12 } }
-      );
+      updateUserReputation(-10, answer.ans_by._id);
     } else {
       answer = await Answer.findOneAndUpdate(
         { _id: { $eq: aid } },
         { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
         { new: true }
       );
-      await User.findOneAndUpdate(
-        { _id: { $eq: answer.ans_by._id } },
-        { $inc: { reputation: 10 } }
-      );
+      if (answer.downvotes.includes(uid)) {
+        updateUserReputation(12, answer.ans_by._id);
+      } else {
+        updateUserReputation(10, answer.ans_by._id);
+      }
     }
 
     res.send(answer);
@@ -86,34 +74,29 @@ const downvote = async (req, res) => {
         { $pull: { downvotes: uid, upvotes: uid } },
         { new: true }
       );
-      await User.findOneAndUpdate(
-        { _id: { $eq: answer.ans_by._id } },
-        { $inc: { reputation: 2 } }
-      );
-    } else if (answer.upvotes.includes(uid)) {
-      answer = await Answer.findOneAndUpdate(
-        { _id: { $eq: aid } },
-        { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
-        { new: true }
-      );
-      await User.findOneAndUpdate(
-        { _id: { $eq: answer.ans_by._id } },
-        { $inc: { reputation: -12 } }
-      );
+      updateUserReputation(2, answer.ans_by._id);
     } else {
       answer = await Answer.findOneAndUpdate(
         { _id: { $eq: aid } },
         { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
         { new: true }
       );
-      await User.findOneAndUpdate(
-        { _id: { $eq: answer.ans_by._id } },
-        { $inc: { reputation: -2 } }
-      );
+      if (answer.upvotes.includes(uid)) {
+        updateUserReputation(-12, answer.ans_by._id);
+      } else {
+        updateUserReputation(-2, answer.ans_by._id);
+      }
     }
 
     res.send(answer);
   }
+};
+
+const updateUserReputation = async (delta, id) => {
+  await User.findOneAndUpdate(
+    { _id: { $eq: id } },
+    { $inc: { reputation: delta } }
+  );
 };
 
 const deleteAnswer = async (req, res) => {
@@ -123,8 +106,10 @@ const deleteAnswer = async (req, res) => {
     let user = answer.ans_by;
     await user.populate("ansList");
 
-    const results = await Promise.all(user.ansList.map((q) => q.populate("answers")))
-    user.ansList =  results.filter((q) => {
+    const results = await Promise.all(
+      user.ansList.map((q) => q.populate("answers"))
+    );
+    user.ansList = results.filter((q) => {
       let ansCount = 0;
       q.answers.forEach((ans) => {
         if (ans.ans_by.toString() == user._id) {
@@ -132,7 +117,7 @@ const deleteAnswer = async (req, res) => {
         }
       });
       return ansCount != 1;
-    });    
+    });
 
     await Answer.findByIdAndDelete(aid);
     await user.save();

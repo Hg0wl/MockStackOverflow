@@ -1,4 +1,4 @@
-import { REACT_APP_API_URL, api } from "./config";
+import { REACT_APP_API_URL, api, getCsrfHeader } from "./config";
 
 const USER_API_URL = `${REACT_APP_API_URL}/user`;
 
@@ -17,11 +17,12 @@ const uploadImage = async (file, uid) => {
   document.body.className = "uploading";
 
   /* Lets build a FormData object*/
-  var fd = new FormData(); 
+  var fd = new FormData();
   fd.append("image", file); // Append the file
-  var xhr = new XMLHttpRequest(); // Create the XHR 
+  var xhr = new XMLHttpRequest(); // Create the XHR
   xhr.open("POST", "https://api.imgur.com/3/image.json");
-  let pfp = "https://i.pinimg.com/originals/03/3f/fd/033ffd18548bfa8b8645c2576c3f8739.jpg"
+  let pfp =
+    "https://i.pinimg.com/originals/03/3f/fd/033ffd18548bfa8b8645c2576c3f8739.jpg";
   xhr.onload = function () {
     // Big win!
     pfp = JSON.parse(xhr.responseText).data.link;
@@ -32,15 +33,23 @@ const uploadImage = async (file, uid) => {
   /* And now, we send the formdata */
   xhr.send(fd);
 
-  const res = await api.post(`${USER_API_URL}/changeProfilePicture`, {link: pfp, uid: uid})
-  return res.data
+  const res = await api.post(
+    `${USER_API_URL}/changeProfilePicture`,
+    { link: pfp, uid: uid },
+    getCsrfHeader()
+  );
+  return res.data;
 };
 
 const updateUsername = async (username, uid) => {
-    const res = await api.post(`${USER_API_URL}/changeUsername`, {
+  const res = await api.post(
+    `${USER_API_URL}/changeUsername`,
+    {
       username: username,
-      uid: uid
-    });
-    return res.data
-}
+      uid: uid,
+    },
+    getCsrfHeader()
+  );
+  return res.data;
+};
 export { getUserById, uploadImage, updateUsername };

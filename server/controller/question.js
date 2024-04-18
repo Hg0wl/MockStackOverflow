@@ -1,7 +1,5 @@
 const express = require("express");
 const Question = require("../models/questions");
-const Answer = require("../models/answers");
-const Tag = require("../models/tags");
 const User = require("../models/users");
 const {
   addTag,
@@ -74,27 +72,13 @@ const upvote = async (req, res) => {
         { new: true }
       );
 
-      await User.findOneAndUpdate(
-        { _id: { $eq: question.asked_by._id } },
-        { $inc: { reputation: -10 } }
-      );
-    } else if (question.downvotes.includes(uid)) {
-      question = await Question.findOneAndUpdate(
-        { _id: { $eq: qid } },
-        { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
-        { new: true }
-      );
-
-      console.log(question.upvotes);
-      await User.findOneAndUpdate(
-        { _id: { $eq: question.asked_by._id } },
-        { $inc: { reputation: 12 } }
-      );
+      updateUserReputation(-10, question.asked_by._id);
     } else {
-      await User.findOneAndUpdate(
-        { _id: { $eq: question.asked_by._id } },
-        { $inc: { reputation: 10 } }
-      );
+      if (question.downvotes.includes(uid)) {
+        updateUserReputation(12, question.asked_by._id);
+      } else {
+        updateUserReputation(10, question.asked_by._id);
+      }
       question = await Question.findOneAndUpdate(
         { _id: { $eq: qid } },
         { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
@@ -115,45 +99,35 @@ const downvote = async (req, res) => {
 
   if (question) {
     if (question.downvotes.includes(uid)) {
-      console.log("downvotes includes");
       question = await Question.findOneAndUpdate(
         { _id: { $eq: qid } },
         { $pull: { downvotes: uid, upvotes: uid } },
         { new: true }
       );
 
-      await User.findOneAndUpdate(
-        { _id: { $eq: question.asked_by._id } },
-        { $inc: { reputation: 2 } }
-      );
-    } else if (question.upvotes.includes(uid)) {
-      console.log("downvotes not includes");
-      question = await Question.findOneAndUpdate(
-        { _id: { $eq: qid } },
-        { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
-        { new: true }
-      );
-
-      await User.findOneAndUpdate(
-        { _id: { $eq: question.asked_by._id } },
-        { $inc: { reputation: -12 } }
-      );
+      updateUserReputation(2, question.asked_by._id);
     } else {
+      if (question.upvotes.includes(uid)) {
+        updateUserReputation(-12, question.asked_by._id);
+      } else {
+        updateUserReputation(-2, question.asked_by._id);
+      }
       question = await Question.findOneAndUpdate(
         { _id: { $eq: qid } },
         { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
-        { new: true }
-      );
-
-      await User.findOneAndUpdate(
-        { _id: { $eq: question.asked_by._id } },
-        { $inc: { reputation: -2 } },
         { new: true }
       );
     }
 
     res.send(question);
   }
+};
+
+const updateUserReputation = async (delta, id) => {
+  await User.findOneAndUpdate(
+    { _id: { $eq: id } },
+    { $inc: { reputation: delta } }
+  );
 };
 
 const deleteQuestion = async (req, res) => {
@@ -224,8 +198,8 @@ function questionCreate(
   if (ask_date_time != false) qstndetail.ask_date_time = ask_date_time;
   if (views != false) qstndetail.views = views;
 
-  let qstn = new Question(qstndetail);
-  return qstn.save();
+  let qstn = Question.create(qstndetail);
+  return qstn;
 }
 
 // add appropriate TP verbs and their endpoints to the router
