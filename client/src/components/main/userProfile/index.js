@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 const UserProfile = ({ uid, handleAnswer, currentUser, loggedInUser }) => {
   const [user, setUser] = useState({});
   useEffect(() => {
-    console.log("Calling useEffect");
     const fetchData = async () => {
       let res = await getUserById(uid);
       setUser(res || []);

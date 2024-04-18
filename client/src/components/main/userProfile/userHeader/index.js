@@ -1,6 +1,6 @@
 import "./index.css";
 import { getMetaData } from "../../../../tool";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uploadImage, updateUsername } from "../../../../services/userService";
 
 const UserHeader = ({
@@ -15,10 +15,11 @@ const UserHeader = ({
   const [errorMessage, setErrorMessage] = useState("");
   const [newUsername, setNewUsername] = useState(username);
   const [currentUsername, setCurrentUsername] = useState(username);
+  const [pfp, setPicture] = useState(picture);
 
   const handleChangeUsername = async () => {
     setNewUsername(newUsername.trim());
-    let nameToSet = newUsername.trim()
+    let nameToSet = newUsername.trim();
     if (nameToSet == currentUsername) {
       setEditing(false);
     } else if (nameToSet.replace(/\s/g, "") == "") {
@@ -35,20 +36,38 @@ const UserHeader = ({
     }
   };
 
+  const handleChangeProfilePicture = async (file) => {
+    let res = await uploadImage(file, loggedInUser);
+
+    if (res.success) {
+      setPicture(res.link);
+    }
+  };
+
+  useEffect(() => {setPicture(picture);}, [picture])
+
+  useEffect(() => {
+    setCurrentUsername(username);
+    setNewUsername(username);
+    setErrorMessage("")
+  }, [username]);
+
   try {
     return (
       <div className="user-header">
         {currentUser ? (
           <label htmlFor="file-upload" className="left-alligned upload-image">
-            <img src={picture} className="header-profile"></img>
+            <img src={pfp} className="header-profile"></img>
           </label>
         ) : (
-          <img src={picture} className="left-alligned header-profile"></img>
+          <img src={pfp} className="left-alligned header-profile"></img>
         )}
         <input
           type="file"
           id="file-upload"
-          onChange={(files) => uploadImage(files.target.files[0])}
+          onChange={(files) =>
+            handleChangeProfilePicture(files.target.files[0])
+          }
         ></input>
         <div className="user-header-info">
           {currentUser ? (
