@@ -128,9 +128,10 @@ function answerCreate(text, ans_by, ans_date_time) {
   if (ans_by != false) answerdetail.ans_by = ans_by;
   if (ans_date_time != false) answerdetail.ans_date_time = ans_date_time;
 
-  let answer = new Answer(answerdetail);
-  answer.save();
-  return answer;
+  // let answer = new Answer(answerdetail);
+  // answer.save();
+  // return answer;
+  return Answer.create(answerdetail)
 }
 
 router.use("/addAnswer", express.json());
