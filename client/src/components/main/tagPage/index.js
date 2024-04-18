@@ -5,33 +5,7 @@ import { getTagsWithQuestionNumber } from "../../../services/tagService";
 
 const TagPage = ({ clickTag, handleNewQuestion }) => {
   const [tlist, setTlist] = useState([]);
-  /*
-  const [tlist, setTlist] = useState([
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java-script", qcnt: 200 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 },
-    { name: "java", qcnt: 1 }
-  ]); */
-
-  // Should use this to read questions from server
-  
+    
   useEffect(() => {
     const fetchData = async () => {
       let res = await getTagsWithQuestionNumber();

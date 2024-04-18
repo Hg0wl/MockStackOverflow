@@ -19,6 +19,7 @@
         "mockingoose": "^2.16.2",
         "mongoose": "*",
         "mysql": "*",
+        "react-error-boundary": "^4.0.13",
         "supertest": "^6.3.4"
     },
     "devDependencies": {

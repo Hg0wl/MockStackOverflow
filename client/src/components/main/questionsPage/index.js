@@ -27,6 +27,23 @@ const QuestionPage = ({
     fetchData().catch((e) => console.log(e));
   }, [order, search]);
 
+  /**
+   * Renders qlist as a list of Question componenets
+   * 
+   * @returns A list of Question components coresponding to qlist
+   */
+  const renderQuestions = () => {
+    return qlist.map((q, idx) => (
+      <Question
+        q={q}
+        key={idx}
+        clickTag={clickTag}
+        handleAnswer={handleAnswer}
+        handleUser={handleUser}
+      />
+    ));
+  };
+
   return (
     <div className="question-container">
       <QuestionHeader
@@ -37,15 +54,7 @@ const QuestionPage = ({
         questionOrder={questionOrder}
       />
       <div id="question_list" className="question_list">
-        {qlist.map((q, idx) => (
-          <Question
-            q={q}
-            key={idx}
-            clickTag={clickTag}
-            handleAnswer={handleAnswer}
-            handleUser={handleUser}
-          />
-        ))}
+        {renderQuestions()}
       </div>
       {title_text === "Search Results" && !qlist.length && (
         <div className="bold_title right_padding">No Questions Found</div>

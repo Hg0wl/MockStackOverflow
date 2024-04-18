@@ -46,12 +46,14 @@ const getMetaData = (date) => {
 };
 
 const getPreviewText = (text, maxLength = 200) => {
+  if (text) {
     if (text.length < maxLength) {
-        return text
+      return text;
     } else {
-        return text.substring(0, maxLength-3) + "..."
+      return text.substring(0, maxLength - 3) + "...";
     }
-}
+  }
+};
 
 const getDateHelper = (date) => {
   let day = date.getDate();

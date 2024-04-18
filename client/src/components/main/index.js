@@ -26,60 +26,110 @@ const Main = ({
   let selected = "";
   let content = null;
 
+  //Pag names
+  const home = "home";
+  const tag = "tag";
+  const answer = "answer";
+  const login = "login";
+  const logout = "logout";
+  const signup = "signup";
+  const user = "user";
+  const newQuestion = "newQuestion";
+  const newAnswer = "newAnswer";
+
+  /**
+   * Set the current page to be the home page
+   */
   const handleQuestions = () => {
     setQuestionPage();
-    setPage("home");
+    setPage(home);
     setUid("");
   };
 
+  /**
+   * Sets the current page to the tag page
+   */
   const handleTags = () => {
-    setPage("tag");
+    setPage(tag);
     setUid("");
   };
 
+  /**
+   * Sets the current page to the answer page
+   * 
+   * @param {*} _qid the id of the question whose answer page to render
+   */
   const handleAnswer = (_qid) => {
     setQid(_qid);
-    setPage("answer");
+    setPage(answer);
     setUid("");
   };
 
+  /**
+   * Sets the current page to the login page
+   */
   const handleLogin = () => {
-    setPage("login");
+    setPage(login);
     setUid("");
   };
 
+  /**
+   * Sets the current page to the signup page
+   */
   const handleSignup = () => {
-    setPage("signup");
+    setPage(signup);
     setUid("");
   };
 
-  //Will likely need to pass some user id or username
+  /**
+   * Sets the current page to the user page
+   * 
+   * @param {*} _uid the id of the user whose page to redner
+   */
   const handleUser = (_uid) => {
     setUid(_uid);
-    setPage("user");
+    setPage(user);
   };
 
+  /**
+   * Called when a tag is clicked
+   * Filters the question page to render only question with the given tag name and set the page to the home page
+   * 
+   * @param {*} tname the name of the tag that was clicked
+   */
   const clickTag = (tname) => {
     setQuestionPage("[" + tname + "]", tname);
-    setPage("home");
+    setPage(home);
   };
 
+  /**
+   * Sets the page to the new question page if the user is logged in. Otherwise, sets the page to the login page
+   */
   const handleNewQuestion = () => {
     if (loggedInUser != "") {
-      setPage("newQuestion");
+      setPage(newQuestion);
     } else {
-      setPage("login");
+      setPage(login);
     }
   };
 
+  /**
+   * Sets the page to the new answer page if the user is logged in. Otherwise, sets the page to the login page
+   */
   const handleNewAnswer = () => {
     if (loggedInUser != "") {
-      setPage("newAnswer");
+      setPage(newAnswer);
     } else {
-      setPage("login");
+      setPage(login);
     }
   };
 
+  /** 
+   * @param {*} order the sorting order in which the questions should appear as a string
+   * @param {*} search any search terms inputted by the user to filter the questions by
+   * 
+   * @returns A QuestionPage component with the given configurations
+   */
   const getQuestionPage = (order = "newest", search = "") => {
     return (
       <QuestionPage
@@ -96,111 +146,118 @@ const Main = ({
     );
   };
 
-  if (loginState == "login" && page != "login") {
-    handleLogin();
-  } else if (loginState == "signup" && page != "signup") {
-    handleSignup();
-  } else if (loginState == "logout" && page != "home") {
-    handleQuestions();
-  }
-
   useEffect(() => {
     if (uid != "") {
       handleUser(uid);
     }
   }, [uid]);
 
-  switch (page) {
-    case "home": {
-      selected = "q";
-      content = getQuestionPage(questionOrder.toLowerCase(), search);
-      break;
-    }
-    case "answer": {
-      selected = "";
-      content = (
-        <AnswerPage
-          qid={qid}
-          handleNewQuestion={handleNewQuestion}
-          handleNewAnswer={handleNewAnswer}
-          clickTag={clickTag}
-          handleUser={handleUser}
-          loggedInUser={loggedInUser}
-          handleLogin={handleLogin}
-          handleQuestions={handleQuestions}
-        />
-      );
-      break;
-    }
-    case "tag": {
-      selected = "t";
-      content = (
-        <TagPage clickTag={clickTag} handleNewQuestion={handleNewQuestion} />
-      );
-      break;
-    }
-    case "user": {
-      selected = "";
-      content = (
-        <UserProfile
-          uid={uid}
-          handleAnswer={handleAnswer}
-          currentUser={loggedInUser == uid}
-          loggedInUser={loggedInUser}
-        />
-      );
-      break;
-    }
-    case "login": {
-      selected = "";
-      content = (
-        <Login
-          handleSignup={handleSignup}
-          setLoggedInUser={setLoggedInUser}
-          handleQuestions={handleQuestions}
-        />
-      );
-      break;
-    }
-    case "signup": {
-      selected = "";
-      content = (
-        <Signup
-          handleLogin={handleLogin}
-          setLoggedInUser={setLoggedInUser}
-          handleQuestions={handleQuestions}
-        />
-      );
-      break;
-    }
-    case "newQuestion": {
-      selected = "";
-      content = (
-        <NewQuestion
-          handleQuestions={handleQuestions}
-          loggedInUser={loggedInUser}
-        />
-      );
-      break;
-    }
-    case "newAnswer": {
-      selected = "";
-      content = (
-        <NewAnswer
-          qid={qid}
-          handleAnswer={handleAnswer}
-          loggedInUser={loggedInUser}
-        />
-      );
-      break;
+  /**
+   * Sets the content of the main page depending on the page variable
+   */
+  const setPageContent = () => {
+    
+    if (loginState == login && page != login) {
+      handleLogin();
+    } else if (loginState == signup && page != signup) {
+      handleSignup();
+    } else if (loginState == logout && page != home) {
+      handleQuestions();
     }
 
-    default:
-      selected = "q";
-      content = getQuestionPage();
-      break;
-  }
+    switch (page) {
+      case home: {
+        selected = "q";
+        content = getQuestionPage(questionOrder.toLowerCase(), search);
+        break;
+      }
+      case answer: {
+        selected = "";
+        content = (
+          <AnswerPage
+            qid={qid}
+            handleNewQuestion={handleNewQuestion}
+            handleNewAnswer={handleNewAnswer}
+            clickTag={clickTag}
+            handleUser={handleUser}
+            loggedInUser={loggedInUser}
+            handleLogin={handleLogin}
+            handleQuestions={handleQuestions}
+          />
+        );
+        break;
+      }
+      case tag: {
+        selected = "t";
+        content = (
+          <TagPage clickTag={clickTag} handleNewQuestion={handleNewQuestion} />
+        );
+        break;
+      }
+      case user: {
+        selected = "";
+        content = (
+          <UserProfile
+            uid={uid}
+            handleAnswer={handleAnswer}
+            currentUser={loggedInUser == uid}
+            loggedInUser={loggedInUser}
+          />
+        );
+        break;
+      }
+      case login: {
+        selected = "";
+        content = (
+          <Login
+            handleSignup={handleSignup}
+            setLoggedInUser={setLoggedInUser}
+            handleQuestions={handleQuestions}
+          />
+        );
+        break;
+      }
+      case signup: {
+        selected = "";
+        content = (
+          <Signup
+            handleLogin={handleLogin}
+            setLoggedInUser={setLoggedInUser}
+            handleQuestions={handleQuestions}
+          />
+        );
+        break;
+      }
+      case newQuestion: {
+        selected = "";
+        content = (
+          <NewQuestion
+            handleQuestions={handleQuestions}
+            loggedInUser={loggedInUser}
+          />
+        );
+        break;
+      }
+      case newAnswer: {
+        selected = "";
+        content = (
+          <NewAnswer
+            qid={qid}
+            handleAnswer={handleAnswer}
+            loggedInUser={loggedInUser}
+          />
+        );
+        break;
+      }
 
+      default:
+        selected = "q";
+        content = getQuestionPage();
+        break;
+    }
+  };
+
+  setPageContent();
   return (
     <div id="main" className="main">
       <SideBarNav

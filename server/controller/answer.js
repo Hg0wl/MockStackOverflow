@@ -34,41 +34,44 @@ const upvote = async (req, res) => {
 
   let answer = await Answer.findById(aid);
 
-  if (answer.upvotes.includes(uid)) {
-    answer = await Answer.findOneAndUpdate(
-      { _id: { $eq: aid } },
-      { $pull: { downvotes: uid, upvotes: uid } },
-      { new: true }
-    );
+  if (answer) {
+    if (answer.upvotes.includes(uid)) {
+      answer = await Answer.findOneAndUpdate(
+        { _id: { $eq: aid } },
+        { $pull: { downvotes: uid, upvotes: uid } },
+        { new: true }
+      );
 
-    await User.findOneAndUpdate(
-      { _id: { $eq: answer.ans_by._id } },
-      { $inc: { reputation: -10 } }
-    );
-  } else if (answer.downvotes.includes(uid)) {
-    answer = await Answer.findOneAndUpdate(
-      { _id: { $eq: aid } },
-      { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
-      { new: true }
-    );
-    await User.findOneAndUpdate(
-      { _id: { $eq: answer.ans_by._id } },
-      { $inc: { reputation: 12 } }
-    );
-  } else {
-    answer = await Answer.findOneAndUpdate(
-      { _id: { $eq: aid } },
-      { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
-      { new: true }
-    );
-    await User.findOneAndUpdate(
-      { _id: { $eq: answer.ans_by._id } },
-      { $inc: { reputation: 10 } }
-    );
+      await User.findOneAndUpdate(
+        { _id: { $eq: answer.ans_by._id } },
+        { $inc: { reputation: -10 } }
+      );
+    } else if (answer.downvotes.includes(uid)) {
+      answer = await Answer.findOneAndUpdate(
+        { _id: { $eq: aid } },
+        { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
+        { new: true }
+      );
+      await User.findOneAndUpdate(
+        { _id: { $eq: answer.ans_by._id } },
+        { $inc: { reputation: 12 } }
+      );
+    } else {
+      answer = await Answer.findOneAndUpdate(
+        { _id: { $eq: aid } },
+        { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
+        { new: true }
+      );
+      await User.findOneAndUpdate(
+        { _id: { $eq: answer.ans_by._id } },
+        { $inc: { reputation: 10 } }
+      );
+    }
+
+    res.send(answer);
   }
-
-  res.send(answer);
 };
+
 const downvote = async (req, res) => {
   //Add to downvote list
   let aid = req.body.aid;
@@ -76,39 +79,41 @@ const downvote = async (req, res) => {
 
   let answer = await Answer.findById(aid);
 
-  if (answer.downvotes.includes(uid)) {
-    answer = await Answer.findOneAndUpdate(
-      { _id: { $eq: aid } },
-      { $pull: { downvotes: uid, upvotes: uid } },
-      { new: true }
-    );
-    await User.findOneAndUpdate(
-      { _id: { $eq: answer.ans_by._id } },
-      { $inc: { reputation: 2 } }
-    );
-  } else if (answer.upvotes.includes(uid)) {
-    answer = await Answer.findOneAndUpdate(
-      { _id: { $eq: aid } },
-      { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
-      { new: true }
-    );
-    await User.findOneAndUpdate(
-      { _id: { $eq: answer.ans_by._id } },
-      { $inc: { reputation: -12 } }
-    );
-  } else {
-    answer = await Answer.findOneAndUpdate(
-      { _id: { $eq: aid } },
-      { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
-      { new: true }
-    );
-    await User.findOneAndUpdate(
-      { _id: { $eq: answer.ans_by._id } },
-      { $inc: { reputation: -2 } }
-    );
-  }
+  if (answer) {
+    if (answer.downvotes.includes(uid)) {
+      answer = await Answer.findOneAndUpdate(
+        { _id: { $eq: aid } },
+        { $pull: { downvotes: uid, upvotes: uid } },
+        { new: true }
+      );
+      await User.findOneAndUpdate(
+        { _id: { $eq: answer.ans_by._id } },
+        { $inc: { reputation: 2 } }
+      );
+    } else if (answer.upvotes.includes(uid)) {
+      answer = await Answer.findOneAndUpdate(
+        { _id: { $eq: aid } },
+        { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
+        { new: true }
+      );
+      await User.findOneAndUpdate(
+        { _id: { $eq: answer.ans_by._id } },
+        { $inc: { reputation: -12 } }
+      );
+    } else {
+      answer = await Answer.findOneAndUpdate(
+        { _id: { $eq: aid } },
+        { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
+        { new: true }
+      );
+      await User.findOneAndUpdate(
+        { _id: { $eq: answer.ans_by._id } },
+        { $inc: { reputation: -2 } }
+      );
+    }
 
-  res.send(answer);
+    res.send(answer);
+  }
 };
 
 const deleteAnswer = async (req, res) => {
@@ -128,10 +133,7 @@ function answerCreate(text, ans_by, ans_date_time) {
   if (ans_by != false) answerdetail.ans_by = ans_by;
   if (ans_date_time != false) answerdetail.ans_date_time = ans_date_time;
 
-  // let answer = new Answer(answerdetail);
-  // answer.save();
-  // return answer;
-  return Answer.create(answerdetail)
+  return Answer.create(answerdetail);
 }
 
 router.use("/addAnswer", express.json());

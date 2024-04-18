@@ -6,7 +6,6 @@ import "./index.css";
 import {
   upvoteAnswer,
   downvoteAnswer,
-  deleteAnswer
 } from "../../../../services/answerService";
 
 // Component for the Answer Page
@@ -22,8 +21,6 @@ const Answer = ({
   handleLogin,
   handleDeleteAnswer
 }) => {
-  
-
   return (
     <div className="answer">
       <Vote
@@ -41,7 +38,10 @@ const Answer = ({
           {handleHyperlink(text)}
         </div>
         <Author
-          askBy={ansBy}
+          username={ansBy && ansBy.username}
+          profile_pic={ansBy && ansBy.profile_pic}
+          aid={ansBy && ansBy.reputation}
+          reputation={ansBy && ansBy.reputation}
           meta={"Answered " + meta}
           handleUser={handleUser}
         ></Author>
