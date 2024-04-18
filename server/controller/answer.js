@@ -119,8 +119,23 @@ const downvote = async (req, res) => {
 const deleteAnswer = async (req, res) => {
   try {
     let aid = req.body.aid;
-    await Answer.findByIdAndDelete(aid);
+    let answer = await Answer.findById(aid).populate("ans_by");
+    let user = answer.ans_by;
+    await user.populate("ansList");
 
+    const results = await Promise.all(user.ansList.map((q) => q.populate("answers")))
+    user.ansList =  results.filter((q) => {
+      let ansCount = 0;
+      q.answers.forEach((ans) => {
+        if (ans.ans_by.toString() == user._id) {
+          ansCount = ansCount + 1;
+        }
+      });
+      return ansCount != 1;
+    });    
+
+    await Answer.findByIdAndDelete(aid);
+    await user.save();
     res.send({ success: true });
   } catch (error) {
     console.log(error);

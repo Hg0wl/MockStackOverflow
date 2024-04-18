@@ -40,7 +40,7 @@ const Answer = ({
         <Author
           username={ansBy && ansBy.username}
           profile_pic={ansBy && ansBy.profile_pic}
-          aid={ansBy && ansBy.reputation}
+          aid={ansBy && ansBy._id}
           reputation={ansBy && ansBy.reputation}
           meta={"Answered " + meta}
           handleUser={handleUser}

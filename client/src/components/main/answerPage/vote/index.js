@@ -16,7 +16,6 @@ const Vote = ({
   const [voteStatus, updateVoteStatus] = useState(initVoteStatus);
   const [user, setUser] = useState({});
   useEffect(() => {
-    console.log("Calling useEffect");
     const fetchData = async () => {
       let res = await getUserById(loggedInUser);
       setUser(res || []);
@@ -24,6 +23,14 @@ const Vote = ({
 
     fetchData().catch((e) => console.log(e));
   }, [loggedInUser]);
+
+  useEffect(() => {
+    updateVotes(initVotes)
+  }, [initVotes])
+
+  useEffect(() => {
+    updateVoteStatus(initVoteStatus)
+  }, [initVoteStatus])
 
   /**
    * Updates the "vote status" of this item

@@ -22,6 +22,7 @@ const UserHeader = ({
    * If the inputted username is valid, sends a request to the server to update it
    */
   const handleChangeUsername = async () => {
+    console.log("changing")
     setNewUsername(newUsername.trim());
     let nameToSet = newUsername.trim();
 
@@ -30,7 +31,7 @@ const UserHeader = ({
       return;
     }
 
-    if (!validateUsername(nameToSet)) {
+    if (validateUsername(nameToSet)) {
       const res = await updateUsername(nameToSet, loggedInUser);
 
       if (res.success) {

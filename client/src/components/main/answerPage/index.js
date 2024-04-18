@@ -54,9 +54,9 @@ const AnswerPage = ({
    * @param {*} question
    */
   const renderAnswers = (question) => {
-    question &&
+    return (question &&
       question.answers &&
-      question.answers.map((a, idx) => renderAnswer(a, idx));
+      question.answers.map((a, idx) => renderAnswer(a, idx)));
   };
 
   /**

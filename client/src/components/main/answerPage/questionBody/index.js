@@ -42,6 +42,10 @@ const QuestionBody = ({
     fetchData().catch((e) => console.log(e));
   }, [loggedInUser]);
 
+  useEffect(() => {
+    setTags(tagsInit)
+  }, [tagsInit])
+
   /**
    * Deletes the current question from the server and returns to the home page if successful
    */
@@ -121,7 +125,8 @@ const QuestionBody = ({
    * @returns A list of react components representing tag buttons
    */
   const renderTags = () => {
-    if (tags) {
+    console.log(tags)
+    if (tags != null) {
       return tags.map((tag, idx) => {
         return (
           <button
@@ -207,7 +212,7 @@ const QuestionBody = ({
             <Author
               username={askBy && askBy.username}
               profile_pic={askBy && askBy.profile_pic}
-              aid={askBy&& askBy.reputation}
+              aid={askBy && askBy._id}
               reputation={askBy && askBy.reputation}
               meta={"Asked " + meta}
               handleUser={handleUser}
