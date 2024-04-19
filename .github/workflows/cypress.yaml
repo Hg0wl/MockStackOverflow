@@ -63,12 +63,12 @@ jobs:
       run: npm install cypress
       working-directory: client/
 
-    - name: Run component tests
-      run: npx cypress run --spec cypress/component/
+    - name: Run e2e tests
+      run: npx cypress run --e2e
       working-directory: client/
 
-    - name: Run e2e tests
-      run: npx cypress run --spec cypress/e2e/
+    - name: Run component tests
+      run:  npx cypress run --component
       working-directory: client/
 
     - name: Kill the node server process

@@ -23,9 +23,11 @@ const NewQuestion = ({ handleQuestions, loggedInUser }) => {
   const postQuestion = async () => {
     let tags = tag.split(" ").filter((tag) => tag.trim() != "");
 
-    if (!validateTitleText()) return;
-    if (!validateText()) return;
-    if (!validateTags(tags)) return;
+    let validTitle = validateTitleText();
+    let validTags = validateTags(tags);
+    let validText = validateText();
+
+    if (!(validTitle && validTags && validText)) return;
 
     const question = {
       title: title,
@@ -43,10 +45,11 @@ const NewQuestion = ({ handleQuestions, loggedInUser }) => {
 
   /**
    * Validates the title text by ensuring it is not empty and does not exceed 100 characters
-   * 
+   *
    * @returns true if the title text is valid, false otherwise
    */
   const validateTitleText = () => {
+    console.log("validating title");
     if (!title) {
       setTitleErr("Title cannot be empty");
       return false;
@@ -60,10 +63,12 @@ const NewQuestion = ({ handleQuestions, loggedInUser }) => {
 
   /**
    * Validates the body text by ensuring it is not empty and hyperlink formats are valid
-   * 
+   *
    * @returns true if the body text is valid, false otherwise
    */
   const validateText = () => {
+    console.log("validating text");
+
     if (!text) {
       setTextErr("Question text cannot be empty");
       return false;
@@ -80,12 +85,14 @@ const NewQuestion = ({ handleQuestions, loggedInUser }) => {
 
   /**
    * Validates that the inputted tags are valid by ensuring there are less than 6 of them
-   * and none of their lengths exceeds 20 characters. 
-   * 
+   * and none of their lengths exceeds 20 characters.
+   *
    * @param {*} tags a list of tag strings to validate
    * @returns true if all tags are valid, false otherwise
    */
   const validateTags = (tags) => {
+    console.log("validating tags");
+
     if (tags.length > 5) {
       setTagErr("Cannot have more than 5 tags");
       return false;
