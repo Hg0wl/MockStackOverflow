@@ -56,7 +56,7 @@ jobs:
       working-directory: client/
 
     - name: Start the Client
-      run: start npm start
+      run: (start npm start) -and (npx wait-on http://localhost:3000)
       working-directory: client/
 
     - name: Wait for Client
