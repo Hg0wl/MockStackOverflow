@@ -56,8 +56,11 @@ jobs:
       working-directory: client/
 
     - name: Start the Client
-      run: (start npm start); (npx wait-on http://localhost:3000)`  
+      run: start npm start
       working-directory: client/
+
+    - name: Wait for client 
+      run: npx wait-on http://localhost:3000
 
     - name: Install testing dependencies
       run: npm install cypress
