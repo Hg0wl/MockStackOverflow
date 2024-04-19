@@ -8,7 +8,7 @@ on:
 jobs:
   setup:
     runs-on: self-hosted
-    
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -22,5 +22,5 @@ jobs:
         run: npm install
         working-directory: server/
 
-      - run: npm run test --runInBand
+      - run: npx jest --runInBand
         working-directory: server/
