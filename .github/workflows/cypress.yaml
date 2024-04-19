@@ -14,7 +14,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Check if Node.js is installed
-      run: node --version || echo 'Node.js is not installed'
+      run: node --version -or echo 'Node.js is not installed'
       id: check_node_installed
       continue-on-error: true
 
@@ -29,7 +29,7 @@ jobs:
       working-directory: server/
 
     - name: Check if mongod is running
-      run: ps aux | grep -v grep | grep mongod || echo 'mongod is not running'
+      run: ps aux | grep -v grep | grep mongod -or echo 'mongod is not running'
       id: check_mongod_running
       continue-on-error: true
 
@@ -75,7 +75,7 @@ jobs:
       working-directory: client/
 
     - name: Kill the node server process
-      run: kill $(lsof -t -i:8000) || true
+      run: kill $(lsof -t -i:8000) -or true
 
     - name: Stop the client process
-      run: kill $(lsof -t -i:3000) || true
+      run: kill $(lsof -t -i:3000) -or true
