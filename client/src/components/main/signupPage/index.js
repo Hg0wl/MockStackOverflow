@@ -40,6 +40,8 @@ const Signup = ({ handleLogin, setLoggedInUser, handleQuestions }) => {
     // Make sure to include the CSRF token in the headers
     try {
       if (password == confirmPassword) {
+        console.log(csrfToken)
+
         const response = await signup(username, password);
 
         if (response.success) {

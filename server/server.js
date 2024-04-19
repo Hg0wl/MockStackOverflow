@@ -32,7 +32,7 @@ app.use(
   session({
     secret: "your-secret-key", // never hardcode in source code. hard-coded here for demonstration purposes.
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
   })
 );
 

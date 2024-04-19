@@ -1,7 +1,10 @@
+import { getCsrfHeader } from "../../src/services/config";
+
 // End to End Tests
 
-describe('Cypress e2e Tests', () => {
+describe("Cypress e2e Tests", () => {
   beforeEach(() => {
+    cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
     cy.exec("node ../server/populate_db.js mongodb://127.0.0.1:27017/fake_so");
   });
 
@@ -10,17 +13,17 @@ describe('Cypress e2e Tests', () => {
     cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
   });
 
-  it('1.1 | Signsup, adds three questions and one asnwer, then clicks "Questions", then click unanswered button, verifies sequence of questions', () => { 
-    cy.visit("http://localhost:3000");
+  it('1.1 | Signsup, adds three questions and one asnwer, then clicks "Questions", then click unanswered button, verifies sequence of questions', () => {
+    cy.visit("http://localhost:3000", getCsrfHeader());
 
     // Sign up
     cy.contains("Signup").click();
-    cy.get("#signupUsernameInput").type('somebodyNew');
-    cy.get("#signupPasswordInput").type('testPassword');
-    cy.get("#signupPasswordConfirm").type('testPassword');
+    cy.get("#signupUsernameInput").type("somebodyNew");
+    cy.get("#signupPasswordInput").type("testPassword");
+    cy.get("#signupPasswordConfirm").type("testPassword");
     cy.get(".login-form-button").click();
 
-    cy.wait(1000)
+    cy.wait(1000);
 
     // Add Q1
     cy.contains("Ask a Question").click();
@@ -55,14 +58,9 @@ describe('Cypress e2e Tests', () => {
     // Click 'unanswered'
     cy.contains("Unanswered").click();
     const qTitles = ["Test Question C", "Test Question B"];
-    cy.wait(1000)
+    cy.wait(1000);
     cy.get(".postTitle").each(($el, index, $list) => {
       cy.wrap($el).should("contain", qTitles[index]);
     });
   });
-
-
-
-
-
-})
+});
