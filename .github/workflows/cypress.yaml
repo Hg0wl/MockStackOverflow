@@ -57,7 +57,9 @@ jobs:
 
     - name: Start the Client
       run: start npm start
+      run: timout 20
       working-directory: client/
+      
 
     - name: Install testing dependencies
       run: npm install cypress
