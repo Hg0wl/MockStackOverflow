@@ -43,7 +43,7 @@ jobs:
     - name: Run remove_db.js
       env:
         DB_URL: ${{ env.DB_URL }}
-      run: node remove_db.js $DB_URL
+      run: node remove_db.js mongodb://127.0.0.1:27017/fake_so
       working-directory: server/
 
     - name: Start the node server
