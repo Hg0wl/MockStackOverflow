@@ -1,5 +1,5 @@
 import "./index.css";
-import { useState, useCallback, useEffect } from "react";
+import { useState } from "react";
 import { signup } from "../../../services/signupService";
 import { getCSRFToken } from "../../../services/loginService";
 
