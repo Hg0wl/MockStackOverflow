@@ -36,6 +36,7 @@ jobs:
     - name: Run mongod if not running
       if: steps.check_mongod_running.outcome == 'failure'
       run: net start MongoDB
+      continue-on-error: true
 
     - name: Set DB_URL variable
       run: echo "DB_URL=mongodb://127.0.0.1:27017/fake_so" >> $GITHUB_ENV
