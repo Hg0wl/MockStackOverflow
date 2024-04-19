@@ -48,7 +48,7 @@ jobs:
       working-directory: server/
 
     - name: Start the node server
-      run: start cmd /c "node server.js > server.log 2>&1"
+      run: cmd /c "node server.js > server.log 2>&1"
       working-directory: server/ 
 
     - name: Install dependencies in client directory
