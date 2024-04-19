@@ -1,12 +1,34 @@
 import "./index.css";
 import { useState, useCallback, useEffect } from "react";
 import { signup } from "../../../services/signupService";
+import { getCSRFToken } from "../../../services/loginService";
 
 const Signup = ({ handleLogin, setLoggedInUser, handleQuestions }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirm] = useState("");
+  const [csrfToken, setCsrfToken] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const fetchCsrfToken = useCallback(async () => {
+    try {
+      const response = await getCSRFToken();
+      setCsrfToken(response.data.csrfToken);
+    } catch (error) {
+      console.error("Error fetching CSRF token:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchCsrfAndCheckLoginStatus = async () => {
+      await fetchCsrfToken();
+    };
+
+    // Call the function only when the component mounts
+    if (!csrfToken) {
+      fetchCsrfAndCheckLoginStatus();
+    }
+  }, [csrfToken, fetchCsrfToken]);
 
   /**
    * Handles signing up as a new user
@@ -58,7 +80,9 @@ const Signup = ({ handleLogin, setLoggedInUser, handleQuestions }) => {
           type="password"
           onChange={(e) => setConfirm(e.target.value)}
         ></input>
-        <div id="signupErr" className="incorrect-credentials">{errorMessage}</div>
+        <div id="signupErr" className="incorrect-credentials">
+          {errorMessage}
+        </div>
         <button className="login-form-button" onClick={() => handleSignup()}>
           Signup
         </button>

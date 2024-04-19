@@ -3,6 +3,7 @@ import { REACT_APP_API_URL, api, getCsrfHeader } from "./config";
 const SIGNUP_API_URL = `${REACT_APP_API_URL}/signup`;
 
 const signup = async (username, password) => {
+  console.log(getCsrfHeader());
   const res = await api.post(
     `${SIGNUP_API_URL}/signup`,
     { username, password },

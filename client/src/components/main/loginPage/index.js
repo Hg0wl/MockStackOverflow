@@ -32,7 +32,7 @@ const Login = ({ handleSignup, setLoggedInUser, handleQuestions }) => {
   const handleLogin = async () => {
     // Make sure to include the CSRF token in the headers
     try {
-      const response = await login(username, password, csrfToken);
+      const response = await login(username, password);
 
       if (response.data) {
         setLoggedInUser(response.data.user._id);
