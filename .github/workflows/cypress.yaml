@@ -57,8 +57,10 @@ jobs:
 
     - name: Start the Client
       run: start npm start
-      run: timout 20
       working-directory: client/
+
+    - name: Wait for Client
+      run: timeout 20
       
 
     - name: Install testing dependencies
