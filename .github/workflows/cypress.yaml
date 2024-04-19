@@ -56,7 +56,7 @@ jobs:
       working-directory: client/
 
     - name: Start the Client
-      run: npm start &
+      run: start npm start
       working-directory: client/
 
     - name: Install testing dependencies
