@@ -39,7 +39,6 @@ describe('Cypress e2e Tests', () => {
     cy.get("#formTitleInput").type("Test Question C");
     cy.get("#formTextInput").type("Test Question C Text");
     cy.get("#formTagInput").type("javascript");
-    cy.get("#formUsernameInput").type("mks3");
     cy.contains("Post Question").click();
 
     // Add an answer to question 1

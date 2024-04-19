@@ -80,7 +80,7 @@ const Login = ({ handleSignup, setLoggedInUser, handleQuestions }) => {
         </button>
       </div>
       <div className="link-prompt">
-        Don't have an account?&apos;
+        {"Don't have an account?"}
         <a className="link" onClick={() => handleSignup()}>
           Sign Up
         </a>
