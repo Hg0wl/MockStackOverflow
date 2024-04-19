@@ -53,6 +53,7 @@ describe('Cypress e2e Tests', () => {
     // Click 'unanswered'
     cy.contains("Unanswered").click();
     const qTitles = ["Test Question C", "Test Question B"];
+    cy.wait(1000)
     cy.get(".postTitle").each(($el, index, $list) => {
       cy.wrap($el).should("contain", qTitles[index]);
     });
