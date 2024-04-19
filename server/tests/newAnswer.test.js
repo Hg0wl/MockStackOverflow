@@ -18,7 +18,6 @@ describe("POST /addAnswer", () => {
 
   afterEach(async () => {
     server.close();
-    await mongoose.disconnect();
   });
 
   it("should add a new answer to the question", async () => {

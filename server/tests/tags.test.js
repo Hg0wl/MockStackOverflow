@@ -25,7 +25,6 @@ describe("GET /getTagsWithQuestionNumber", () => {
   });
   afterEach(async () => {
     server.close();
-    await mongoose.disconnect();
   });
 
   it("should return tags with question numbers", async () => {

@@ -68,7 +68,6 @@ describe('GET /getQuestion', () => {
 
   afterEach(async() => {
     server.close();
-    await mongoose.disconnect()
   });
 
   it('should return questions by filter', async () => {
@@ -113,7 +112,6 @@ describe('GET /getQuestionById/:qid', () => {
 
   afterEach(async() => {
     server.close();
-    await mongoose.disconnect()
   });
 
   it('should return a question by id and increment its views by 1', async () => {
@@ -175,7 +173,6 @@ describe('POST /addQuestion', () => {
 
   afterEach(async() => {
     server.close();
-    await mongoose.disconnect()
   });
 
   it('should add a new question', async () => {
