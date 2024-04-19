@@ -20,6 +20,8 @@ describe('Cypress e2e Tests', () => {
     cy.get("#signupPasswordConfirm").type('testPassword');
     cy.get(".login-form-button").click();
 
+    cy.wait(1000)
+
     // Add Q1
     cy.contains("Ask a Question").click();
     cy.get("#formTitleInput").type("Test Question A");
