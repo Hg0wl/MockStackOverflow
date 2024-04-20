@@ -57,15 +57,15 @@ const filterQuestionsBySearch = (qlist, search) => {
   return res;
 };
 
-parseTags = (search) => {
+const parseTags = (search) => {
   return (search.match(/\[([^\]]+)\]/g) || []).map((word) => word.slice(1, -1));
 };
 
-parseKeyword = (search) => {
+const parseKeyword = (search) => {
   return search.replace(/\[([^\]]+)\]/g, " ").match(/\b\w+\b/g) || [];
 };
 
-checkTagInQuestion = (q, taglist) => {
+const checkTagInQuestion = (q, taglist) => {
   for (let tag of taglist) {
     for (let tid of q.tags) {
       if (tag == tid.name) {
@@ -77,7 +77,7 @@ checkTagInQuestion = (q, taglist) => {
   return false;
 };
 
-checkKeywordInQuestion = (q, keywordlist) => {
+const checkKeywordInQuestion = (q, keywordlist) => {
   for (let w of keywordlist) {
     if (
       q.title.toLowerCase().includes(w.toLowerCase()) ||
@@ -90,11 +90,11 @@ checkKeywordInQuestion = (q, keywordlist) => {
   return false;
 };
 
-getUnansweredQuestion = (questions) => {
+const getUnansweredQuestion = (questions) => {
   return getNewestQuestion(questions).filter((q) => q.answers.length == 0);
 };
 
-getActiveQuestion = (questions) => {
+const getActiveQuestion = (questions) => {
   questions.forEach((q) => {
     q.answers.forEach((a) => {
       if (q.newAnsDate == null || q.newAnsDate < a.ans_date_time) {
@@ -120,7 +120,7 @@ getActiveQuestion = (questions) => {
   });
 };
 
-getNewestQuestion = (questions) => {
+const getNewestQuestion = (questions) => {
   return questions.sort((a, b) => {
     if (a.ask_date_time > b.ask_date_time) {
       return -1;
@@ -132,7 +132,7 @@ getNewestQuestion = (questions) => {
   });
 };
 
-getTagById = (id, tags) => {
+const getTagById = (id, tags) => {
   for (let t of tags) {
     if (t.tid == id) {
       return t;
@@ -142,4 +142,4 @@ getTagById = (id, tags) => {
   return null;
 };
 
-module.exports = { addTag, getQuestionsByOrder, filterQuestionsBySearch };
+module.exports = { addTag, getQuestionsByOrder, filterQuestionsBySearch, getTagById };
