@@ -11,13 +11,13 @@ const NewAnswer = ({ qid, handleAnswer, loggedInUser }) => {
   const [textErr, setTextErr] = useState("");
 
   /**
-   * If the inputted answer is valid, sends it to the server and redirects to the 
+   * If the inputted answer is valid, sends it to the server and redirects to the
    * corresponding answer page
-   * 
-   * @returns 
+   *
+   * @returns
    */
   const postAnswer = async () => {
-    text.setText(sanitize(text))
+    setText(sanitize(text));
 
     if (!validateAnswer(text)) {
       return;
@@ -36,9 +36,9 @@ const NewAnswer = ({ qid, handleAnswer, loggedInUser }) => {
   };
 
   /**
-   * Validates the answer text 
+   * Validates the answer text
    * Ensures answer is not empty and has propery hyperlink format
-   * 
+   *
    * @returns true if it is valid, false otherwise
    */
   const validateAnswer = () => {
@@ -51,7 +51,7 @@ const NewAnswer = ({ qid, handleAnswer, loggedInUser }) => {
       setTextErr("Invalid hyperlink format.");
       return false;
     }
-    return true
+    return true;
   };
 
   return (
