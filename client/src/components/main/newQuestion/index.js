@@ -3,7 +3,7 @@ import Form from "../baseComponents/form";
 import Input from "../baseComponents/input";
 import TextArea from "../baseComponents/textarea";
 import "./index.css";
-import { validateHyperlink } from "../../../tool";
+import { validateHyperlink, sanitize } from "../../../tool";
 
 import { addQuestion } from "../../../services/questionService";
 
@@ -21,7 +21,9 @@ const NewQuestion = ({ handleQuestions, loggedInUser }) => {
    * and redirects to the questions page
    */
   const postQuestion = async () => {
-    let tags = tag.split(" ").filter((tag) => tag.trim() != "");
+    let tags = tag.split(" ").filter((tag) => tag.trim() != "").map((tag) => sanitize(tag));
+    setTitle(sanitize(title))
+    setText(sanitize(text))
 
     let validTitle = validateTitleText();
     let validTags = validateTags(tags);

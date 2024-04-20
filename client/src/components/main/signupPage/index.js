@@ -2,6 +2,7 @@ import "./index.css";
 import { useState, useEffect, useCallback } from "react";
 import { signup } from "../../../services/signupService";
 import { getCSRFToken } from "../../../services/loginService";
+import { sanitize } from "../../../tool";
 
 const Signup = ({ handleLogin, setLoggedInUser, handleQuestions }) => {
   const [username, setUsername] = useState("");
@@ -39,9 +40,11 @@ const Signup = ({ handleLogin, setLoggedInUser, handleQuestions }) => {
   const handleSignup = async () => {
     // Make sure to include the CSRF token in the headers
     try {
-      if (password == confirmPassword) {
-        console.log(csrfToken)
+      setUsername(sanitize(username));
+      setPassword(sanitize(password));
+      setConfirm(sanitize(confirmPassword))
 
+      if (password == confirmPassword && username != "" && password != "") {
         const response = await signup(username, password);
 
         if (response.success) {
@@ -50,8 +53,10 @@ const Signup = ({ handleLogin, setLoggedInUser, handleQuestions }) => {
         } else {
           setErrorMessage("A user with that username already exists");
         }
-      } else {
+      } else if (password != confirmPassword) {
         setErrorMessage("Passwords don't match");
+      } else if (username == "" || password == "") {
+        setErrorMessage("Username and password cannot be empty")
       }
     } catch (error) {
       setErrorMessage("A user with that username already exists");

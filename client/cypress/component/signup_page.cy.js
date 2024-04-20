@@ -50,3 +50,31 @@ it('Error message appears for non-matching passwords', () => {
     cy.get('.login-form-button').click()
     cy.get('#signupErr').contains("Passwords don't match")
 })
+
+it("Error message appears for empty username and passsword", () => {
+  const fakeFn = () => {
+    return;
+  };
+
+  cy.mount(
+    <Signup
+      handleLogin={fakeFn}
+      setLoggedInUser={fakeFn}
+      handleQuestions={fakeFn}
+    />
+  );
+
+  cy.get(".login-form-button").click();
+  cy.get("#signupErr").contains("Username and password cannot be empty");
+
+  cy.get("#signupPasswordInput").type("testPassword");
+  cy.get("#signupPasswordConfirm").type("testPassword");
+  cy.get(".login-form-button").click();
+  cy.get("#signupErr").contains("Username and password cannot be empty");
+
+  cy.get("#signupUsernameInput").type("testUser");
+  cy.get("#signupPasswordInput").clear();
+  cy.get("#signupPasswordConfirm").clear();
+  cy.get(".login-form-button").click();
+  cy.get("#signupErr").contains("Username and password cannot be empty");
+});

@@ -3,6 +3,7 @@ import {
   login,
   getCSRFToken,
 } from "../../../services/loginService";
+import { sanitize } from "../../../tool";
 import { useState, useCallback, useEffect } from "react";
 
 //Generate token on login or startup?
@@ -30,8 +31,10 @@ const Login = ({ handleSignup, setLoggedInUser, handleQuestions }) => {
    * If they are not, renders an error message to the user
    */
   const handleLogin = async () => {
-    // Make sure to include the CSRF token in the headers
     try {
+      setUsername(sanitize(username))
+      setPassword(sanitize(password))
+
       const response = await login(username, password);
 
       if (response.data) {

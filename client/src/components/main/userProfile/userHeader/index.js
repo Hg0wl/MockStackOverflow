@@ -1,5 +1,5 @@
 import "./index.css";
-import { getMetaData } from "../../../../tool";
+import { getMetaData, sanitize } from "../../../../tool";
 import { useEffect, useState } from "react";
 import { uploadImage, updateUsername } from "../../../../services/userService";
 
@@ -22,10 +22,9 @@ const UserHeader = ({
    * If the inputted username is valid, sends a request to the server to update it
    */
   const handleChangeUsername = async () => {
-    console.log("changing")
-    setNewUsername(newUsername.trim());
-    let nameToSet = newUsername.trim();
-
+    let nameToSet = sanitize(newUsername.trim());
+    setNewUsername(nameToSet);
+    
     if (nameToSet == currentUsername) {
       setEditing(false);
       return;

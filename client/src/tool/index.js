@@ -103,4 +103,25 @@ const handleHyperlink = (text = "") => {
   return <div dangerouslySetInnerHTML={{ __html: replacedText }} />;
 };
 
-export { getMetaData, handleHyperlink, validateHyperlink, getPreviewText };
+/**
+ * Removes potentially harmful characters from the given input
+ *
+ * @param {*} input the input to sanitize
+ * @returns a sanitized version of the input
+ */
+function sanitize(input) {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export {
+  getMetaData,
+  handleHyperlink,
+  validateHyperlink,
+  getPreviewText,
+  sanitize,
+};
