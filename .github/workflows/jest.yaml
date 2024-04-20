@@ -16,14 +16,10 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: "20"
-
+          node-version: '20'
+      
       - name: Install dependencies on the server
         run: npm install
-        working-directory: server/
-
-      - name: Install crypto dependencies in server directory
-        run: npm install crypto
         working-directory: server/
 
       - run: npx jest --runInBand --forceExit

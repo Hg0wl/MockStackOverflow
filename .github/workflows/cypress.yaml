@@ -28,10 +28,6 @@ jobs:
         run: npm install
         working-directory: server/
 
-      - name: Install crypto dependencies in server directory
-        run: npm install crypto
-        working-directory: server/
-
       - name: Check if mongod is running
         run: ps aux | grep -v grep | grep mongod -or echo 'mongod is not running'
         id: check_mongod_running
