@@ -21,4 +21,7 @@ All the features you have implemented.
 
 ## Instructions to generate and view coverage report 
 
+# Jest coverage report
+Open a terminal and cd to the `/server`. Then, run the command `npx jest --coverage --runInBand --forceExit`. When the command finished running, a code coverage report will be generated in `server/coverageIcov-report/server`. open the `index.html` file in this directory to view the code coverage report
+
 ## Extra Credit Section (if applicable)
