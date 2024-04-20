@@ -1,8 +1,6 @@
-import { getCsrfHeader } from "../../src/services/config";
-
 // End to End Tests
 
-describe("Cypress e2e Tests", () => {
+describe("Home Page Tests", () => {
   beforeEach(() => {
     cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
     cy.exec("node ../server/populate_db.js mongodb://127.0.0.1:27017/fake_so");
@@ -14,7 +12,7 @@ describe("Cypress e2e Tests", () => {
   });
 
   it('1.1 | Signsup, adds three questions and one asnwer, then clicks "Questions", then click unanswered button, verifies sequence of questions', () => {
-    cy.visit("http://localhost:3000", getCsrfHeader());
+    cy.visit("http://localhost:3000");
 
     // Sign up
     cy.contains("Signup").click();
