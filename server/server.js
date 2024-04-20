@@ -3,20 +3,12 @@
 // This is where you should start writing server-side code for this application.
 
 const express = require("express");
-const crypto = require("crypto")
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { MONGO_URL, CLIENT_URL, port } = require('./config');
 
 const csurf = require("csurf");
 const session = require("express-session");
-
-
-
-// const MONGO_URL = "mongodb://127.0.0.1:27017/fake_so";
-// const MONGO_URL = "mongodb://mongodb:27017/fake_so";
-// const CLIENT_URL = "http://localhost:3000";
-// const port = 8000;
 
 mongoose.connect(MONGO_URL);
 
@@ -69,22 +61,5 @@ process.on("SIGINT", () => {
   console.log("Server closed. Database instance disconnected");
   process.exit(0);
 });
-
-/**
- * Generates a random sesssion key
- * 
- * @returns A random session key
- */
-function generateRandomString() {
-  return new Promise(function (resolve, reject) {
-    crypto.randomBytes(48, function (err, buf) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(buf.toString("hex"));
-      }
-    });
-  });
-}
 
 module.exports = server;

@@ -9,7 +9,7 @@ const getTagsWithQuestionNumber = async (req, res) => {
   let tagsWithNumber = [];
   let counts = [];
 
-  questions = await Question.find({}).populate("tags");
+  let questions = await Question.find({}).populate("tags");
 
   tags.forEach((t) => {
     let name = t.name;

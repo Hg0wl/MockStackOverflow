@@ -186,7 +186,7 @@ function questionCreate(
   ask_date_time,
   views
 ) {
-  qstndetail = {
+  let qstndetail = {
     title: title,
     text: text,
     tags: tags,
