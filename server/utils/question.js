@@ -10,7 +10,7 @@ const getQuestions = () => {
 
 const addTag = async (tname) => {
   let tag = await Tag.findOne({ name: { $eq: tname } });
-  console.log(tname + " " + tag);
+
   if (tag != null) {
     return tag._id;
   }

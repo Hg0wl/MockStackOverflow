@@ -145,7 +145,6 @@ const removeTag = async (req, res) => {
   try {
     let qid = req.body.qid;
     let tid = req.body.tid;
-    console.log(qid, tid);
     let question = await Question.findOneAndUpdate(
       { _id: { $eq: qid } },
       { $pull: { tags: tid } },
@@ -154,7 +153,6 @@ const removeTag = async (req, res) => {
 
     res.send({ success: true, tags: question.tags });
   } catch (error) {
-    console.log(error);
     res.send({ success: false });
   }
 };
