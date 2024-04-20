@@ -2,19 +2,20 @@ import "./index.css";
 import {
   login,
   getCSRFToken,
-  checkLogin,
 } from "../../../services/loginService";
+import { sanitize } from "../../../tool";
 import { useState, useCallback, useEffect } from "react";
 
 //Generate token on login or startup?
 const Login = ({ handleSignup, setLoggedInUser, handleQuestions }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState("");
   const [csrfToken, setCsrfToken] = useState("");
   const [incorrectCredentials, setIncorrect] = useState(false);
 
+  /**
+   * Gets the csrf token from the serveer and sets the csrfToken state
+   */
   const fetchCsrfToken = useCallback(async () => {
     try {
       const response = await getCSRFToken();
@@ -24,27 +25,25 @@ const Login = ({ handleSignup, setLoggedInUser, handleQuestions }) => {
     }
   }, []);
 
-  const checkLoginStatus = useCallback(async () => {
-    try {
-      const response = await checkLogin(csrfToken);
-      const resLoggedIn = response.data.loggedIn;
-      setLoggedIn(resLoggedIn);
-      if (resLoggedIn) setUser(response.data.user.username);
-    } catch (error) {
-      console.error("Error checking login status:", error);
-    }
-  }, [csrfToken]);
-
+  /**
+   * Sends a request to the server with the inputted username and password
+   * If they are correct, loggs that user in and redirects to the homepage
+   * If they are not, renders an error message to the user
+   */
   const handleLogin = async () => {
-    // Make sure to include the CSRF token in the headers
     try {
-      const response = await login(username, password, csrfToken);
+      setUsername(sanitize(username))
+      setPassword(sanitize(password))
 
-      setLoggedIn(response.data.success);
-      setUser(response.data.user.username);
-      setLoggedInUser(response.data.user._id);
-      setIncorrect(false);
-      handleQuestions();
+      const response = await login(username, password);
+
+      if (response.data) {
+        setLoggedInUser(response.data.user._id);
+        setIncorrect(false);
+        handleQuestions();
+      } else {
+        setIncorrect(true);
+      }
     } catch (error) {
       setIncorrect(true);
     }
@@ -53,14 +52,13 @@ const Login = ({ handleSignup, setLoggedInUser, handleQuestions }) => {
   useEffect(() => {
     const fetchCsrfAndCheckLoginStatus = async () => {
       await fetchCsrfToken();
-      await checkLoginStatus();
     };
 
     // Call the function only when the component mounts
     if (!csrfToken) {
       fetchCsrfAndCheckLoginStatus();
     }
-  }, [csrfToken, fetchCsrfToken, checkLoginStatus]);
+  }, [csrfToken, fetchCsrfToken]);
 
   return (
     <div className="login-container">
@@ -85,7 +83,7 @@ const Login = ({ handleSignup, setLoggedInUser, handleQuestions }) => {
         </button>
       </div>
       <div className="link-prompt">
-        Don't have an account?&apos;
+        {"Don't have an account?"}
         <a className="link" onClick={() => handleSignup()}>
           Sign Up
         </a>

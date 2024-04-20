@@ -46,12 +46,14 @@ const getMetaData = (date) => {
 };
 
 const getPreviewText = (text, maxLength = 200) => {
+  if (text) {
     if (text.length < maxLength) {
-        return text
+      return text;
     } else {
-        return text.substring(0, maxLength-3) + "..."
+      return text.substring(0, maxLength - 3) + "...";
     }
-}
+  }
+};
 
 const getDateHelper = (date) => {
   let day = date.getDate();
@@ -101,4 +103,25 @@ const handleHyperlink = (text = "") => {
   return <div dangerouslySetInnerHTML={{ __html: replacedText }} />;
 };
 
-export { getMetaData, handleHyperlink, validateHyperlink, getPreviewText };
+/**
+ * Removes potentially harmful characters from the given input
+ *
+ * @param {*} input the input to sanitize
+ * @returns a sanitized version of the input
+ */
+function sanitize(input) {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export {
+  getMetaData,
+  handleHyperlink,
+  validateHyperlink,
+  getPreviewText,
+  sanitize,
+};

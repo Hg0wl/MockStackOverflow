@@ -1,7 +1,6 @@
 import "./index.css";
 import { getMetaData } from "../../../../tool";
 
-
 const AnswerHeader = ({
   title_text,
   views,

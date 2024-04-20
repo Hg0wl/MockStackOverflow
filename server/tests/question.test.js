@@ -1,6 +1,7 @@
 // Unit tests for utils/question.js
 const mockingoose = require("mockingoose");
 const Tag = require("../models/tags");
+const User = require("../models/users")
 const Question = require("../models/questions");
 const {
   addTag,
@@ -8,6 +9,9 @@ const {
   filterQuestionsBySearch,
 } = require("../utils/question");
 Question.schema.path("answers", Array);
+
+const supertest = require("supertest");
+let server;
 
 const _tag1 = {
   _id: "507f191e810c19729de860ea",

@@ -15,12 +15,14 @@ const ProfileBanner = ({ loggedInUser, handleUser, setLoggedInUser }) => {
     fetchData().catch((e) => console.log(e));
   }, [loggedInUser]);
 
-  const handleLogout = async () =>{
-    await logout()
-    setLoggedInUser("")
-  }
+  /**
+   * Loggs the current user out and updates the logged in status
+   */
+  const handleLogout = async () => {
+    await logout();
+    setLoggedInUser("");
+  };
 
-  try {
     return (
       <div className="profile-wrapper">
         <div onClick={() => handleUser(user._id)} className="profile-banner">
@@ -30,12 +32,13 @@ const ProfileBanner = ({ loggedInUser, handleUser, setLoggedInUser }) => {
           </div>
           <div className="profile-reputation">{user.reputation}</div>
         </div>
-        <img onClick={()=> handleLogout()} className="logout-button" src="https://cdn1.iconfinder.com/data/icons/heroicons-ui/24/logout-512.png"></img>
+        <img
+          onClick={() => handleLogout()}
+          className="logout-button"
+          src="https://cdn1.iconfinder.com/data/icons/heroicons-ui/24/logout-512.png"
+        ></img>
       </div>
     );
-  } catch (error) {
-    return <></>;
-  }
 };
 
 export default ProfileBanner;

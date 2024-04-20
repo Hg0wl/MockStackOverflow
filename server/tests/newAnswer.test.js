@@ -1,6 +1,6 @@
 // Unit tests for addAnswer in contoller/answer.js
 
-const supertest = require("supertest")
+const supertest = require("supertest");
 const { default: mongoose } = require("mongoose");
 
 const Answer = require("../models/answers");
@@ -12,49 +12,62 @@ jest.mock("../models/answers");
 
 let server;
 describe("POST /addAnswer", () => {
-
   beforeEach(() => {
     server = require("../server");
-  })
+  });
 
-  afterEach(async() => {
+  afterEach(async () => {
     server.close();
-    await mongoose.disconnect()
   });
 
   it("should add a new answer to the question", async () => {
     // Mocking the request body
-   
+
     const mockAnswer = {
-        _id: "dummyAnswerId",
-        text: "This is a test answer"
-    };
-   
-    const mockReqBody = {
-      qid: "dummyQuestionId",
-      ans: mockAnswer
+      _id: "dummyAnswerId",
+      text: "This is a test answer",
     };
 
-    
+    const mockReqBody = {
+      qid: "dummyQuestionId",
+      ans: mockAnswer,
+    };
+
     // Mock the create method of the Answer model
     Answer.create.mockResolvedValueOnce(mockAnswer);
 
     // Mocking the Question.findOneAndUpdate method
     Question.findOneAndUpdate = jest.fn().mockResolvedValueOnce({
       _id: "dummyQuestionId",
-      answers: ["dummyAnswerId"]
+      answers: ["dummyAnswerId"],
     });
 
     // Mocking User.findOneAndUpdate method
     User.findOneAndUpdate = jest.fn().mockResolvedValueOnce({
-        _id: "dummyUserId",
-        ansList: ["fakeAnsweredList"],
+      _id: "dummyUserId",
+      ansList: ["fakeAnsweredList"],
+    });
+
+    // Request CSRF token
+    const respToken = await supertest(server).get("/login/csrf-token");
+
+    // Extract CSRF token from response body
+    const token = respToken.body.csrfToken;
+
+    // Extract connect.sid cookie value from response headers
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
     });
 
     // Making the request
     const response = await supertest(server)
       .post("/answer/addAnswer")
-      .send(mockReqBody);
+      .send(mockReqBody)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);
 
     // Asserting the response
     expect(response.status).toBe(200);
@@ -62,7 +75,7 @@ describe("POST /addAnswer", () => {
 
     // Verifying that Answer.create method was called with the correct arguments
     expect(Answer.create).toHaveBeenCalledWith({
-      text: "This is a test answer"
+      text: "This is a test answer",
     });
 
     // Verifying that Question.findOneAndUpdate method was called with the correct arguments

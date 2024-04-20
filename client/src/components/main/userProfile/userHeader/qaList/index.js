@@ -2,10 +2,14 @@ import "./index.css";
 import ListItem from "./listItem";
 
 const QAList = ({ items, handleAnswer }) => {
-    try {
-  return (
-    <div className="list-container">
-      {items.map((i, idx) => {
+  /**
+   * Renders the list of items as ListItems if items is not null
+   * 
+   * @returns A list of ListItem components 
+   */
+  const renderItems = () => {
+    if (items) {
+      return items.map((i, idx) => {
         return (
           <ListItem
             votes={i.upvotes.length - i.downvotes.length}
@@ -16,9 +20,13 @@ const QAList = ({ items, handleAnswer }) => {
             key={idx}
           ></ListItem>
         );
-      })}
-    </div>
-  ); } catch (error) {return (<></>)}
+      });
+    } else {
+      return <></>;
+    }
+  };
+
+  return <div className="list-container">{renderItems()}</div>;
 };
 
 export default QAList;

@@ -101,9 +101,20 @@ describe("GET /getUserById:uid", () => {
       })),
     }));
 
-    const response = await supertest(server).get(
-      `/user/getUserById/${mockReqParams.uid}`
-    );
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
+
+    const response = await supertest(server)
+      .get(`/user/getUserById/${mockReqParams.uid}`)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockUsers[0]);
@@ -144,9 +155,21 @@ describe("POST /changeUsername", () => {
       );
     User.findOneAndUpdate = jest.fn().mockResolvedValue(updatedUser);
 
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
+
     const response = await supertest(server)
       .post(`/user/changeUsername`)
-      .send(mockReqQuery);
+      .send(mockReqQuery)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);
 
     expect(response.status).toBe(200);
     expect(response.body.success).toBe(true);
@@ -164,9 +187,21 @@ describe("POST /changeUsername", () => {
         mockUsers.filter((user) => user.username == mockReqQuery.username)
       );
 
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
+
     const response = await supertest(server)
       .post(`/user/changeUsername`)
-      .send(mockReqQuery);
+      .send(mockReqQuery)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);
 
     expect(response.status).toBe(200);
     expect(response.body.success).toBe(false);
@@ -196,9 +231,21 @@ describe("POST /changeProfilePicture", () => {
 
     User.findOneAndUpdate = jest.fn().mockResolvedValue(updatedUser);
 
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
+
     const res = await supertest(server)
       .post("/user/changeProfilePicture")
-      .send(mockReqQuery);
+      .send(mockReqQuery)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);
 
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
@@ -213,9 +260,21 @@ describe("POST /changeProfilePicture", () => {
 
     User.findOneAndUpdate = jest.fn().mockRejectedValue(new Error());
 
+    const respToken = await supertest(server).get("/login/csrf-token");
+    const token = respToken.body.csrfToken;
+
+    let connectSidValue = null;
+    respToken.headers["set-cookie"].forEach((cookie) => {
+      if (cookie.includes("connect.sid")) {
+        connectSidValue = cookie.split("=")[1].split(";")[0];
+      }
+    });
+
     const res = await supertest(server)
       .post("/user/changeProfilePicture")
-      .send(mockReqQuery);
+      .send(mockReqQuery)
+      .set("x-csrf-token", token)
+      .set("Cookie", [`connect.sid=${connectSidValue}`]);
 
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(false);

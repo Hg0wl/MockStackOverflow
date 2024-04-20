@@ -3,7 +3,7 @@ import Form from "../baseComponents/form";
 import Input from "../baseComponents/input";
 import TextArea from "../baseComponents/textarea";
 import "./index.css";
-import { validateHyperlink } from "../../../tool";
+import { validateHyperlink, sanitize } from "../../../tool";
 
 import { addQuestion } from "../../../services/questionService";
 
@@ -16,48 +16,20 @@ const NewQuestion = ({ handleQuestions, loggedInUser }) => {
   const [textErr, setTextErr] = useState("");
   const [tagErr, setTagErr] = useState("");
 
+  /**
+   * Validates the inputted question and, if valid, sends the data to the server
+   * and redirects to the questions page
+   */
   const postQuestion = async () => {
-    let isValid = true;
-    if (!title) {
-      setTitleErr("Title cannot be empty");
-      isValid = false;
-    } else if (title.length > 100) {
-      setTitleErr("Title cannot be more than 100 characters");
-      isValid = false;
-    }
+    let tags = tag.split(" ").filter((tag) => tag.trim() != "").map((tag) => sanitize(tag.toLowerCase()));
+    setTitle(sanitize(title))
+    setText(sanitize(text))
 
-    if (!text) {
-      setTextErr("Question text cannot be empty");
-      isValid = false;
-    }
+    let validTitle = validateTitleText();
+    let validTags = validateTags(tags);
+    let validText = validateText();
 
-    //Hyperlink validation
-    if (!validateHyperlink(text)) {
-      setTextErr("Invalid hyperlink format.");
-      isValid = false;
-    }
-
-    let tags = tag.split(" ").filter((tag) => tag.trim() != "");
-    if (tags.length == 0) {
-      // Do we want to keep this requirement from the previous assingment? I think its fine for questions to not have tags
-      // setTagErr("Should have at least 1 tag");
-      // isValid = false;
-    } else if (tags.length > 5) {
-      setTagErr("Cannot have more than 5 tags");
-      isValid = false;
-    }
-
-    for (let tag of tags) {
-      if (tag.length > 20) {
-        setTagErr("New tag length cannot be more than 20");
-        isValid = false;
-        break;
-      }
-    }
-
-    if (!isValid) {
-      return;
-    }
+    if (!(validTitle && validTags && validText)) return;
 
     const question = {
       title: title,
@@ -71,6 +43,71 @@ const NewQuestion = ({ handleQuestions, loggedInUser }) => {
     if (res && res._id) {
       handleQuestions();
     }
+  };
+
+  /**
+   * Validates the title text by ensuring it is not empty and does not exceed 100 characters
+   *
+   * @returns true if the title text is valid, false otherwise
+   */
+  const validateTitleText = () => {
+    console.log("validating title");
+    if (!title) {
+      setTitleErr("Title cannot be empty");
+      return false;
+    } else if (title.length > 100) {
+      setTitleErr("Title cannot be more than 100 characters");
+      return false;
+    }
+
+    return true;
+  };
+
+  /**
+   * Validates the body text by ensuring it is not empty and hyperlink formats are valid
+   *
+   * @returns true if the body text is valid, false otherwise
+   */
+  const validateText = () => {
+    console.log("validating text");
+
+    if (!text) {
+      setTextErr("Question text cannot be empty");
+      return false;
+    }
+
+    //Hyperlink validation
+    if (!validateHyperlink(text)) {
+      setTextErr("Invalid hyperlink format.");
+      return false;
+    }
+
+    return true;
+  };
+
+  /**
+   * Validates that the inputted tags are valid by ensuring there are less than 6 of them
+   * and none of their lengths exceeds 20 characters.
+   *
+   * @param {*} tags a list of tag strings to validate
+   * @returns true if all tags are valid, false otherwise
+   */
+  const validateTags = (tags) => {
+    console.log("validating tags");
+
+    if (tags.length > 5) {
+      setTagErr("Cannot have more than 5 tags");
+      return false;
+    }
+
+    for (let tag of tags) {
+      if (tag.length > 20) {
+        setTagErr("New tag length cannot be more than 20");
+        return false;
+      }
+    }
+
+    return true;
   };
 
   return (

@@ -1,36 +1,19 @@
-import { REACT_APP_API_URL, api } from "./config";
+import { REACT_APP_API_URL, api, getCsrfHeader, setCsrfHeader } from "./config";
 
 const LOGIN_API_URL = `${REACT_APP_API_URL}/login`;
 
-const login = async (username, password, csrfToken) => {
-  console.log(csrfToken);
+const login = async (username, password) => {
   const res = await api.post(
     `${LOGIN_API_URL}/login`,
     { username, password },
-    {
-      headers: {
-        "X-CSRF-Token": csrfToken,
-      },
-      withCredentials: true,
-    }
+    getCsrfHeader()
   );
 
   return res;
 };
 
 const logout = async () => {
-  const res = await api.post(`${LOGIN_API_URL}/logout`);
-
-  return res;
-};
-
-const checkLogin = async (csrfToken) => {
-  const res = await api.get(`${LOGIN_API_URL}/check-login`, {
-    headers: {
-      "X-CSRF-Token": csrfToken,
-    },
-    withCredentials: true,
-  });
+  const res = await api.post(`${LOGIN_API_URL}/logout`, getCsrfHeader());
 
   return res;
 };
@@ -40,7 +23,14 @@ const getCSRFToken = async () => {
     withCredentials: true,
   });
 
+  setCsrfHeader({
+    headers: {
+      "X-CSRF-Token": res.data.csrfToken,
+    },
+    withCredentials: true,
+  });
+
   return res;
 };
 
-export { login, logout, checkLogin, getCSRFToken };
+export { login, logout, getCSRFToken };

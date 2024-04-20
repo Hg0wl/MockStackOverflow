@@ -1,11 +1,16 @@
-import { REACT_APP_API_URL, api } from "./config";
+import { REACT_APP_API_URL, api, getCsrfHeader } from "./config";
 
 const SIGNUP_API_URL = `${REACT_APP_API_URL}/signup`;
 
 const signup = async (username, password) => {
-    const res = await api.post(`${SIGNUP_API_URL}/signup`, {username, password})
+  console.log(getCsrfHeader());
+  const res = await api.post(
+    `${SIGNUP_API_URL}/signup`,
+    { username, password },
+    getCsrfHeader()
+  );
 
-    return res.data
-}
+  return res.data;
+};
 
-export { signup }
+export { signup };

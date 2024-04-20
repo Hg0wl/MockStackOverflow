@@ -1,6 +1,5 @@
 const Tag = require("../models/tags");
 const Question = require("../models/questions");
-const Answer = require("../models/answers");
 
 const getQuestions = () => {
   return Question.find({})
@@ -11,7 +10,7 @@ const getQuestions = () => {
 
 const addTag = async (tname) => {
   let tag = await Tag.findOne({ name: { $eq: tname } });
-  console.log(tname + " " + tag);
+
   if (tag != null) {
     return tag._id;
   }

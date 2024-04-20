@@ -3,12 +3,20 @@
 // This is where you should start writing server-side code for this application.
 
 const express = require("express");
+const crypto = require("crypto")
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { MONGO_URL, CLIENT_URL, port } = require('./config');
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/fake_so";
-const CLIENT_URL = "http://localhost:3000";
-const port = 8000;
+const csurf = require("csurf");
+const session = require("express-session");
+
+
+
+// const MONGO_URL = "mongodb://127.0.0.1:27017/fake_so";
+// const MONGO_URL = "mongodb://mongodb:27017/fake_so";
+// const CLIENT_URL = "http://localhost:3000";
+// const port = 8000;
 
 mongoose.connect(MONGO_URL);
 
@@ -20,6 +28,18 @@ app.use(
     origin: [CLIENT_URL],
   })
 );
+
+var token = require("crypto").randomBytes(48).toString("hex");
+app.use(
+  session({
+    secret: token,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Set up CSRF protection
+app.use(csurf());
 
 app.use(express.json());
 
@@ -49,5 +69,22 @@ process.on("SIGINT", () => {
   console.log("Server closed. Database instance disconnected");
   process.exit(0);
 });
+
+/**
+ * Generates a random sesssion key
+ * 
+ * @returns A random session key
+ */
+function generateRandomString() {
+  return new Promise(function (resolve, reject) {
+    crypto.randomBytes(48, function (err, buf) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(buf.toString("hex"));
+      }
+    });
+  });
+}
 
 module.exports = server;
