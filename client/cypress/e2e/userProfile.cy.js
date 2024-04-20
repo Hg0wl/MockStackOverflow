@@ -139,11 +139,13 @@ describe("Tests for viewing the user profile", () => {
     cy.contains("Answer Question").click();
     cy.get("#answerTextInput").type("Answer Question 1");
     cy.contains("Post Answer").click();
+    cy.wait(500)
 
     //Add another answer to Q1
     cy.contains("Answer Question").click();
     cy.get("#answerTextInput").type("Answer Question 2");
     cy.contains("Post Answer").click();
+    cy.wait(500)
 
     //Acces user profile
     cy.get("#header").find(".profile-wrapper").find(".profile-banner").click();
