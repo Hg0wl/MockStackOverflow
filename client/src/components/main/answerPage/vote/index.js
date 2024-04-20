@@ -92,6 +92,7 @@ const Vote = ({
           onClick={handleDelete}
           className="trash-icon"
           src="https://cdn1.iconfinder.com/data/icons/hawcons/32/699013-icon-27-trash-can-512.png"
+          alt="Delete"
         />
       ) : (
         <></>
