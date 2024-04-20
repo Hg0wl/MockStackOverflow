@@ -1,4 +1,168 @@
-describe("Tests for viewing the user profile", () => {
+describe("Update User Profile", () => {
+  beforeEach(() => {
+    cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
+    cy.exec("node ../server/populate_db.js mongodb://127.0.0.1:27017/fake_so");
+  });
+
+  afterEach(() => {
+    //clear the database after each test
+    cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
+  });
+
+  it("Does not change username when pressing Cancel", () => {
+    cy.visit("http://localhost:3000");
+
+    // Log back in
+    cy.contains("Login").click();
+    cy.get("#login-username-input").type("Yoshi");
+    cy.get("#login-password-input").type("password");
+    cy.get(".login-form-button").click();
+    cy.wait(1000);
+
+    cy.get("#header").find(".profile-wrapper").find(".profile-banner").click();
+
+    cy.get("#startEditing").click()
+
+    cy.get("#changeProfileCancelBtn").click();
+    cy.get(".header-username").should("contain", "Yoshi");
+
+    cy.get("#startEditing").click();
+    cy.get("#newUsernameInput").clear();
+
+    cy.get("#changeProfileCancelBtn").click();
+    cy.get(".header-username").should("contain", "Yoshi");
+  });
+
+  it ("Changes the username when pressing Done", () => {
+    cy.visit("http://localhost:3000");
+
+    // Log back in
+    cy.contains("Login").click();
+    cy.get("#login-username-input").type("Yoshi");
+    cy.get("#login-password-input").type("password");
+    cy.get(".login-form-button").click();
+    cy.wait(1000);
+
+    cy.get("#header").find(".profile-wrapper").find(".profile-banner").click();
+
+    cy.get("#startEditing").click();
+    cy.get("#newUsernameInput").clear();
+    cy.get("#newUsernameInput").type("newYoshi");
+
+    cy.get("#changeProfileDoneBtn").click();
+    cy.get(".header-username").should("contain", "newYoshi");
+  })
+});
+
+describe("Login", () => {
+  beforeEach(() => {
+    cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
+    cy.exec("node ../server/populate_db.js mongodb://127.0.0.1:27017/fake_so");
+  });
+
+  afterEach(() => {
+    //clear the database after each test
+    cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
+  });
+
+  it("Logs a user in if they already exist", () => {
+    cy.visit("http://localhost:3000");
+
+    // Log back in
+    cy.contains("Login").click();
+    cy.get("#login-username-input").type("Yoshi");
+    cy.get("#login-password-input").type("password");
+    cy.get(".login-form-button").click();
+    cy.wait(1000);
+
+    cy.get("#header").find(".profile-wrapper").should("contain", "Yoshi");
+  });
+
+  it("Does not log user in if they provide incorrect password or username", () => {
+    cy.visit("http://localhost:3000");
+
+    // Log back in
+    cy.contains("Login").click();
+    cy.get("#login-username-input").type("Yoshi");
+    cy.get("#login-password-input").type("wrongPassword");
+    cy.get(".login-form-button").click();
+    cy.wait(1000);
+
+    cy.get(".login-container").should(
+      "contain",
+      "Incorrect username or password"
+    );
+
+    // Log back in
+    cy.get("#login-username-input").clear();
+    cy.get("#login-password-input").clear();
+    cy.get("#login-username-input").type("not Yoshi");
+    cy.get("#login-password-input").type("wrongPassword");
+    cy.get(".login-form-button").click();
+    cy.wait(1000);
+
+    cy.get(".login-container").should(
+      "contain",
+      "Incorrect username or password"
+    );
+  });
+});
+
+describe("Register for an account", () => {
+  beforeEach(() => {
+    cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
+    cy.exec("node ../server/populate_db.js mongodb://127.0.0.1:27017/fake_so");
+  });
+
+  afterEach(() => {
+    //clear the database after each test
+    cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
+  });
+
+  it("Registers a new user with the Signup page and allows that user to log back in", () => {
+    cy.visit("http://localhost:3000");
+    // Sign up
+    cy.contains("Signup").click();
+    cy.get("#signupUsernameInput").type("somebodyNew");
+    cy.get("#signupPasswordInput").type("testPassword");
+    cy.get("#signupPasswordConfirm").type("testPassword");
+    cy.get(".login-form-button").click();
+
+    cy.wait(1000);
+
+    //Log out
+    cy.get("#header").find(".profile-wrapper").find(".logout-button").click();
+
+    // Log back in
+    cy.contains("Login").click();
+    cy.get("#login-username-input").type("somebodyNew");
+    cy.get("#login-password-input").type("testPassword");
+    cy.get(".login-form-button").click();
+    cy.wait(1000);
+
+    cy.get("#header").find(".profile-wrapper").should("contain", "somebodyNew");
+  });
+
+  it("Does not allow someone to create a user with a duplicate uername", () => {
+    cy.visit("http://localhost:3000");
+    // Sign up
+    cy.contains("Signup").click();
+    cy.get("#signupUsernameInput").type("Yoshi");
+    cy.get("#signupPasswordInput").type("testPassword");
+    cy.get("#signupPasswordConfirm").type("testPassword");
+    cy.get(".login-form-button").click();
+    cy.wait(500);
+
+    cy.get(".login-container").should(
+      "contain",
+      "A user with that username already exists"
+    );
+  });
+
+  //Other erroneous inputs are handled in the component testing
+});
+
+describe("View User Profile", () => {
   beforeEach(() => {
     cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
     cy.exec("node ../server/populate_db.js mongodb://127.0.0.1:27017/fake_so");

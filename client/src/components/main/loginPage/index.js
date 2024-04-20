@@ -67,11 +67,13 @@ const Login = ({ handleSignup, setLoggedInUser, handleQuestions }) => {
         <div className="login-text">Username</div>
         <input
           className="login-input"
+          id="login-username-input"
           onChange={(e) => setUsername(e.target.value)}
         ></input>
         <div className="login-text">Password</div>
         <input
           className="login-input"
+          id="login-password-input"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         ></input>
