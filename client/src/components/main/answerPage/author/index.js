@@ -9,7 +9,7 @@ const Author = ({ meta, handleUser, profile_pic, aid, reputation, username }) =>
     >
       <div className="answer_question_meta author_text">{meta}</div>
       <div className="profile_container">
-        <img src={profile_pic} className="profile_image"></img>
+        <img src={profile_pic} className="profile_image" alt="Profile Picture"></img>
         <div className="profile_info">
           <div
             className="question_author author_text"

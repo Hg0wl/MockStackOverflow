@@ -4,7 +4,7 @@ import "./index.css";
 const Author = ({ asked_by, ask_date_time, handleUser }) => {
   return (
     <div className="lastActivity">
-      <img src={asked_by.profile_pic} className="question-page-image"></img>
+      <img src={asked_by.profile_pic} className="question-page-image" alt="Profile Picture"></img>
       <div className="question_author" onClick={() => handleUser(asked_by._id)}>
         {asked_by.username}
       </div>

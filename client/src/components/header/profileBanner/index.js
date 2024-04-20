@@ -26,7 +26,7 @@ const ProfileBanner = ({ loggedInUser, handleUser, setLoggedInUser }) => {
     return (
       <div className="profile-wrapper">
         <div onClick={() => handleUser(user._id)} className="profile-banner">
-          <img src={user.profile_pic} className="profile-image"></img>
+          <img src={user.profile_pic} className="profile-image" alt="Profile Picture"></img>
           <div className="profile-username">
             {getPreviewText(user.username, 15)}
           </div>
@@ -36,6 +36,7 @@ const ProfileBanner = ({ loggedInUser, handleUser, setLoggedInUser }) => {
           onClick={() => handleLogout()}
           className="logout-button"
           src="https://cdn1.iconfinder.com/data/icons/heroicons-ui/24/logout-512.png"
+          alt="Logout"
         ></img>
       </div>
     );

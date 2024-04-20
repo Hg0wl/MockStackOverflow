@@ -31,17 +31,18 @@ const Header = ({
         <div className="purpleLine"></div>
         <div id="header" className="header">
           <div></div>
-          <img className="logo" src="https://i.imgur.com/iC106zH.png"></img>
+          <img className="logo" src="https://i.imgur.com/iC106zH.png" alt=""></img>
           <div id="searchBar">
             <input
               className="search_bar"
-              placeholder="Search ..."
+              placeholder="  Search ..."
               type="text"
               value={val}
               onChange={(e) => {
                 setVal(e.target.value);
               }}
               onKeyDown={(e) => onEnter(e)}
+              alt=""
             />
           </div>
           {loggedInUser == "" ? (

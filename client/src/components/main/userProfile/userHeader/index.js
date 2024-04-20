@@ -115,6 +115,7 @@ const UserHeader = ({
                 id="startEditing"
                 className="edit-icon"
                 src="https://www.svgrepo.com/show/304506/edit-pen.svg"
+                alt="Edit Username"
               ></img>
             </div>
           </div>
@@ -139,10 +140,10 @@ const UserHeader = ({
       <div className="user-header">
         {currentUser ? (
           <label htmlFor="file-upload" className="left-alligned upload-image">
-            <img src={pfp} className="header-profile"></img>
+            <img src={pfp} className="header-profile" alt="Profile Picture"></img>
           </label>
         ) : (
-          <img src={pfp} className="left-alligned header-profile"></img>
+          <img src={pfp} className="left-alligned header-profile" alt="Profile Picture"></img>
         )}
         <input
           type="file"

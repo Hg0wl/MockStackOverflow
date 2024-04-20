@@ -14,6 +14,7 @@ const SideBarNav = ({ selected = "", handleQuestions, handleTags }) => {
           <img
             style={{ width: "20%", height: "20%", margin: "0 5% 0 10%" }}
             src="https://cdn-icons-png.flaticon.com/512/61/61951.png"
+            alt=""
           ></img>
           Questions
         </div>
@@ -29,6 +30,7 @@ const SideBarNav = ({ selected = "", handleQuestions, handleTags }) => {
           <img
             style={{ width: "20%", height: "20%", margin: "0 5% 0 10%" }}
             src="https://cdn-icons-png.flaticon.com/512/126/126422.png"
+            alt=""
           ></img>
           Tags
         </div>
