@@ -3,6 +3,7 @@
 // This is where you should start writing server-side code for this application.
 
 const express = require("express");
+const crypto = require("crypto")
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { MONGO_URL, CLIENT_URL, port } = require('./config');
@@ -28,9 +29,10 @@ app.use(
   })
 );
 
+var token = require("crypto").randomBytes(48).toString("hex");
 app.use(
   session({
-    secret: "your-secret-key", // never hardcode in source code. hard-coded here for demonstration purposes.
+    secret: token,
     resave: false,
     saveUninitialized: false,
   })
@@ -67,5 +69,22 @@ process.on("SIGINT", () => {
   console.log("Server closed. Database instance disconnected");
   process.exit(0);
 });
+
+/**
+ * Generates a random sesssion key
+ * 
+ * @returns A random session key
+ */
+function generateRandomString() {
+  return new Promise(function (resolve, reject) {
+    crypto.randomBytes(48, function (err, buf) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(buf.toString("hex"));
+      }
+    });
+  });
+}
 
 module.exports = server;
