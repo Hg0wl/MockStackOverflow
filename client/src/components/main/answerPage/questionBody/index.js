@@ -63,7 +63,7 @@ const QuestionBody = ({
       let newTags = tagText
         .split(" ")
         .filter((tag) => tag.trim() != "")
-        .map((tag) => sanitize(tag));
+        .map((tag) => sanitize(tag.toLowerCase()));
 
       if (!validateTags(newTags, tags)) {
         return;
