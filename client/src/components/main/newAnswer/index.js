@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Form from "../baseComponents/form";
-//import Input from "../baseComponents/input";
 import TextArea from "../baseComponents/textarea";
 
+import { sanitize } from "../../../tool";
 import { validateHyperlink } from "../../../tool";
 import { addAnswer } from "../../../services/answerService";
 
@@ -17,6 +17,8 @@ const NewAnswer = ({ qid, handleAnswer, loggedInUser }) => {
    * @returns 
    */
   const postAnswer = async () => {
+    text.setText(sanitize(text))
+
     if (!validateAnswer(text)) {
       return;
     }

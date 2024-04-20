@@ -1,7 +1,7 @@
 import "./index.css";
 import Vote from "../vote";
 import Author from "../author";
-import { handleHyperlink } from "../../../../tool";
+import { handleHyperlink, sanitize } from "../../../../tool";
 import { useState, useEffect } from "react";
 import { getUserById } from "../../../../services/userService";
 import { removeTag, addTags } from "../../../../services/questionService";
@@ -43,8 +43,8 @@ const QuestionBody = ({
   }, [loggedInUser]);
 
   useEffect(() => {
-    setTags(tagsInit)
-  }, [tagsInit])
+    setTags(tagsInit);
+  }, [tagsInit]);
 
   /**
    * Deletes the current question from the server and returns to the home page if successful
@@ -60,7 +60,10 @@ const QuestionBody = ({
    */
   const handleTagText = async () => {
     if (tagText != null) {
-      let newTags = tagText.split(" ").filter((tag) => tag.trim() != "");
+      let newTags = tagText
+        .split(" ")
+        .filter((tag) => tag.trim() != "")
+        .map((tag) => sanitize(tag));
 
       if (!validateTags(newTags, tags)) {
         return;
@@ -125,7 +128,7 @@ const QuestionBody = ({
    * @returns A list of react components representing tag buttons
    */
   const renderTags = () => {
-    console.log(tags)
+    console.log(tags);
     if (tags != null) {
       return tags.map((tag, idx) => {
         return (
