@@ -44,16 +44,16 @@ const upvote = async (req, res) => {
 
       updateUserReputation(-10, answer.ans_by._id);
     } else {
-      answer = await Answer.findOneAndUpdate(
-        { _id: { $eq: aid } },
-        { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
-        { new: true }
-      );
       if (answer.downvotes.includes(uid)) {
         updateUserReputation(12, answer.ans_by._id);
       } else {
         updateUserReputation(10, answer.ans_by._id);
       }
+      answer = await Answer.findOneAndUpdate(
+        { _id: { $eq: aid } },
+        { $addToSet: { upvotes: uid }, $pull: { downvotes: uid } },
+        { new: true }
+      );
     }
 
     res.send(answer);
@@ -76,16 +76,16 @@ const downvote = async (req, res) => {
       );
       updateUserReputation(2, answer.ans_by._id);
     } else {
-      answer = await Answer.findOneAndUpdate(
-        { _id: { $eq: aid } },
-        { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
-        { new: true }
-      );
       if (answer.upvotes.includes(uid)) {
         updateUserReputation(-12, answer.ans_by._id);
       } else {
         updateUserReputation(-2, answer.ans_by._id);
       }
+      answer = await Answer.findOneAndUpdate(
+        { _id: { $eq: aid } },
+        { $addToSet: { downvotes: uid }, $pull: { upvotes: uid } },
+        { new: true }
+      );
     }
 
     res.send(answer);

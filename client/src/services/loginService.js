@@ -18,12 +18,6 @@ const logout = async () => {
   return res;
 };
 
-const checkLogin = async () => {
-  const res = await api.get(`${LOGIN_API_URL}/check-login`, getCsrfHeader());
-
-  return res;
-};
-
 const getCSRFToken = async () => {
   const res = await api.get(`${LOGIN_API_URL}/csrf-token`, {
     withCredentials: true,
@@ -39,4 +33,4 @@ const getCSRFToken = async () => {
   return res;
 };
 
-export { login, logout, checkLogin, getCSRFToken };
+export { login, logout, getCSRFToken };

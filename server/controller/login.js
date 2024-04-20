@@ -35,10 +35,4 @@ router.post("/logout", async (req, res) => {
   res.json({ success: true });
 });
 
-// Check login status route
-router.get("/check-login", async (req, res) => {
-  const user = req.session.user;
-  res.json({ loggedIn: !!user, user });
-});
-
 module.exports = router;
