@@ -3,6 +3,18 @@ const User = require("../models/users");
 
 const router = express.Router();
 
+/**
+ * Creates a user with the given data
+ * 
+ * @param {*} username The user's username
+ * @param {*} password The password used when the user logs in
+ * @param {*} profile_pic A link the the user's profile image
+ * @param {*} reputation The ammount of reputation the user has
+ * @param {*} join_date The date the user created an account
+ * @param {*} askList The list of Questions this user asked
+ * @param {*} ansList The list of Questions this user has an answer on 
+ * @returns 
+ */
 function userCreate(
   username,
   password,
