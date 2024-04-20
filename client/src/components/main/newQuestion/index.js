@@ -21,7 +21,7 @@ const NewQuestion = ({ handleQuestions, loggedInUser }) => {
    * and redirects to the questions page
    */
   const postQuestion = async () => {
-    let tags = tag.split(" ").filter((tag) => tag.trim() != "").map((tag) => sanitize(tag));
+    let tags = tag.split(" ").filter((tag) => tag.trim() != "").map((tag) => sanitize(tag.toLowerCase()));
     setTitle(sanitize(title))
     setText(sanitize(text))
 
