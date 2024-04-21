@@ -5,7 +5,13 @@ const User = require("../models/users");
 
 const router = express.Router();
 
-// Adding answer
+/**
+ * Adds an answer to the given question in the database
+ * 
+ * @param {*} req Should contain an ans object with text, ans_by, and and_date_time fields and 
+ *                the qid to add the answer to
+ * @param {*} res The server response
+ */
 const addAnswer = async (req, res) => {
   let ans = req.body.ans;
   let qid = req.body.qid;
@@ -27,8 +33,14 @@ const addAnswer = async (req, res) => {
   res.send(answer);
 };
 
+/**
+ * Upvotes the given post by adding the given user to the answer's upvotes list or
+ * removing it if the user is already present there. Also updates the user's reputation accordingly
+ * 
+ * @param {*} req Should contain the id of the answer being upvoted and the id of the user who is upvoting
+ * @param {*} res The response of the server
+ */
 const upvote = async (req, res) => {
-  //Add to upvote list
   let aid = req.body.aid;
   let uid = req.body.uid;
 
@@ -60,8 +72,14 @@ const upvote = async (req, res) => {
   }
 };
 
+/**
+ * Downvotes the given post by adding the given user to the answer's downvotes list or
+ * removing it if the user is already present there. Also updates the user's reputation accordingly.
+ * 
+ * @param {*} req Should contain the id of the answer being downvoted and the id of the user who is downvoting
+ * @param {*} res The response of the server
+ */
 const downvote = async (req, res) => {
-  //Add to downvote list
   let aid = req.body.aid;
   let uid = req.body.uid;
 
@@ -92,6 +110,12 @@ const downvote = async (req, res) => {
   }
 };
 
+/**
+ * Adds the given value to the given user's reputation
+ * 
+ * @param {*} delta The ammount to add to the reputation 
+ * @param {*} id The id of the user whose reputation is being updated
+ */
 const updateUserReputation = async (delta, id) => {
   await User.findOneAndUpdate(
     { _id: { $eq: id } },
@@ -99,6 +123,14 @@ const updateUserReputation = async (delta, id) => {
   );
 };
 
+/**
+ * Removes the given answer from the databse. If that answer the only answer by the person who answered it,
+ * removes the associated question from the user's list of answered questions. It remains there if the user
+ * had another answer on that question
+ * 
+ * @param {*} req Should contain the id of the answer to delete
+ * @param {*} res The response of the server
+ */
 const deleteAnswer = async (req, res) => {
   try {
     let aid = req.body.aid;
@@ -128,6 +160,14 @@ const deleteAnswer = async (req, res) => {
   }
 };
 
+/**
+ * Creates an Answer with the given data and saves it to the databse
+ * 
+ * @param {*} text The body text of the answer
+ * @param {*} ans_by The user who answered
+ * @param {*} ans_date_time The time the aswer was posted
+ * @returns 
+ */
 function answerCreate(text, ans_by, ans_date_time) {
   let answerdetail = { text: text };
   if (ans_by != false) answerdetail.ans_by = ans_by;

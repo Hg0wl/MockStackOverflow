@@ -9,7 +9,12 @@ const {
 
 const router = express.Router();
 
-// To get Questions by Filter
+/**
+ * Returns a list of questions according to the given sorting and filtering criteria
+ *
+ * @param {*} req Should contain an order field to dictate sorting order and serach field to dictate filter
+ * @param {*} res The response of the server
+ */
 const getQuestionsByFilter = async (req, res) => {
   let order = req.query.order;
   let search = req.query.search;
@@ -19,7 +24,12 @@ const getQuestionsByFilter = async (req, res) => {
   res.send(questions);
 };
 
-// To get Questions by Id
+/**
+ * Responds with the Question with the given id
+ *
+ * @param {*} req should have a qid parameter that is the id of the question to send back
+ * @param {*} res the response of the server
+ */
 const getQuestionById = async (req, res) => {
   let question = await Question.findById(req.params.qid)
     .populate({ path: "answers", populate: "ans_by" })
@@ -31,7 +41,13 @@ const getQuestionById = async (req, res) => {
   res.send(question);
 };
 
-// To add Question
+/**
+ * Adds a question with the given fileds to the database
+ *
+ * @param {*} req The body shoudl consist of the fields to include in the question:
+ * title, text, tags, asked_by, and ask_date_time
+ * @param {*} res The response of the server
+ */
 const addQuestion = async (req, res) => {
   let q = req.body;
   let tagPromises = q.tags.map((tag) => addTag(tag));
@@ -57,8 +73,14 @@ const addQuestion = async (req, res) => {
   res.send(question);
 };
 
+/**
+ * Upvotes the given post by adding the given user to the question's upvotes list or
+ * removing it if the user is already present there. Also updates the user's reputation accordingly
+ *
+ * @param {*} req Should contain the id of the question being upvoted and the id of the user who is upvoting
+ * @param {*} res The response of the server
+ */
 const upvote = async (req, res) => {
-  //Add to upvote list
   let qid = req.body.qid;
   let uid = req.body.uid;
 
@@ -90,8 +112,14 @@ const upvote = async (req, res) => {
   }
 };
 
+/**
+ * Downvotes the given post by adding the given user to the question's downvotes list or
+ * removing it if the user is already present there. Also updates the user's reputation accordingly.
+ * 
+ * @param {*} req Should contain the id of the question being downvoted and the id of the user who is downvoting
+ * @param {*} res The response of the server
+ */
 const downvote = async (req, res) => {
-  //Add to downvote list
   let qid = req.body.qid;
   let uid = req.body.uid;
 
@@ -123,6 +151,12 @@ const downvote = async (req, res) => {
   }
 };
 
+/**
+ * Adds the given value to the given user's reputation
+ * 
+ * @param {*} delta The ammount to add to the reputation 
+ * @param {*} id The id of the user whose reputation is being updated
+ */
 const updateUserReputation = async (delta, id) => {
   await User.findOneAndUpdate(
     { _id: { $eq: id } },
@@ -130,6 +164,12 @@ const updateUserReputation = async (delta, id) => {
   );
 };
 
+/**
+ * Removes the given question from the database
+ * 
+ * @param {*} req should have the id of the questio to delete, qid, in the body
+ * @param {*} res the response of the server
+ */
 const deleteQuestion = async (req, res) => {
   try {
     let qid = req.body.qid;
@@ -141,6 +181,12 @@ const deleteQuestion = async (req, res) => {
   }
 };
 
+/**
+ * Removes the given tag from the given question and saves the new question to the database
+ * 
+ * @param {*} req should have the ids of the question and tag to delete in the body (qid, tid)
+ * @param {*} res 
+ */
 const removeTag = async (req, res) => {
   try {
     let qid = req.body.qid;
@@ -157,6 +203,12 @@ const removeTag = async (req, res) => {
   }
 };
 
+/**
+ * Adds the given tags to the given question
+ * 
+ * @param {*} req body should contain a list of string with new tags to add and the id of the question to add them to (tags, qid)
+ * @param {*} res the response of the server
+ */
 const addTags = async (req, res) => {
   try {
     let tags = req.body.tags;
@@ -177,6 +229,18 @@ const addTags = async (req, res) => {
   }
 };
 
+/**
+ * Creates a new question with the given data
+ * 
+ * @param {*} title the title of the question
+ * @param {*} text the body text of the question
+ * @param {*} tags a list of tags for this question
+ * @param {*} answers a list of answer for this question 
+ * @param {*} asked_by the user who asked the question
+ * @param {*} ask_date_time the time the question was asked
+ * @param {*} views the number of views on this question
+ * @returns A Question object with the given data
+ */
 function questionCreate(
   title,
   text,
