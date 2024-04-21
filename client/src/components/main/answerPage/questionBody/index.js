@@ -161,10 +161,12 @@ const QuestionBody = ({
           <>
             <input
               className="new-tag-input"
+              id="new-tag-input"
               onChange={(e) => setTagText(e.target.value)}
             ></input>
             <button
               className="edit-confirm"
+              id="tag-edit-done"
               onClick={() => {
                 handleTagText();
               }}
@@ -178,6 +180,7 @@ const QuestionBody = ({
         return (
           <button
             className="question_tag_button_full"
+            id="edit-tags-button"
             onClick={() => setEditing(true)}
           >
             <img
