@@ -40,6 +40,7 @@ describe("Posting Tests", () => {
         cy.get("#formTagInput").type("java");
         cy.contains("Post Question").click();
     
+        cy.wait(500)
         // Verify all questions are added and appear in "newest" order
         //cy.contains("Fake Stack Overflow"); // verify web page title for test
         const qTitles = [
@@ -57,6 +58,7 @@ describe("Posting Tests", () => {
     
         // Verify "Unanswered" order button shows unanswered questions only
         cy.contains("Unanswered").click();
+        cy.wait(500)
         const qTitlesUnanswered = [
           "Test Question 3",
           "Test Question 2",
@@ -109,6 +111,7 @@ describe("Posting Tests", () => {
           cy.wrap($el).should("contain", views[index]);
         });
         cy.contains("Unanswered").click();
+        cy.wait(500)
         cy.get(".postTitle").should("have.length", 1);
         cy.contains("1 question");
     });

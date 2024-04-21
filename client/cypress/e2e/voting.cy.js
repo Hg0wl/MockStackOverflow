@@ -1,102 +1,183 @@
 describe("Voting Tests", () => {
-    beforeEach(() => {
-      cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
-      cy.exec("node ../server/populate_db.js mongodb://127.0.0.1:27017/fake_so");
-    });
-  
-    afterEach(() => {
-      //clear the database after each test
-      cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
-    });
+  beforeEach(() => {
+    cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
+    cy.exec("node ../server/populate_db.js mongodb://127.0.0.1:27017/fake_so");
+  });
 
-    it("11.1 | Questions display correct number of votes", () => {
-        const votes = [
-          -1,
-          0,
-          1,
-          -1
-        ];
-       
-        cy.visit("http://localhost:3000");
-    
-        cy.get(".vote-stat").each(($el, index, $list) => {
-          cy.wrap($el).should("contain", `${votes[index]} votes`);
-        });
+  afterEach(() => {
+    //clear the database after each test
+    cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
+  });
+
+  it("11.1 | Questions display correct number of votes", () => {
+    const votes = [-1, 0, 1, -1];
+
+    cy.visit("http://localhost:3000");
+
+    cy.get(".vote-stat").each(($el, index, $list) => {
+      cy.wrap($el).should("contain", `${votes[index]} votes`);
     });
-    
-    it("11.2 | Creating a new question has 0 votes", () => {
-        const votes = [
-          0,
-          -1,
-          0,
-          1,
-          -1
-        ];
-    
-        cy.visit("http://localhost:3000");
-        
-        // Sign up
-        cy.contains("Signup").click();
-        cy.get("#signupUsernameInput").type("somebodyNew");
-        cy.get("#signupPasswordInput").type("testPassword");
-        cy.get("#signupPasswordConfirm").type("testPassword");
-        cy.get(".login-form-button").click();
-     
-        cy.wait(1000); 
-    
-        // Add a Question
-        cy.contains("Ask a Question").click();
-        cy.get("#formTitleInput").type("Test Question A");
-        cy.get("#formTextInput").type("Test Question A Text");
-        cy.get("#formTagInput").type("tag1");
-        cy.contains("Post Question").click();
-    
-        cy.get(".vote-stat").each(($el, index, $list) => {
-          cy.wrap($el).should("contain", `${votes[index]} votes`);
-        });
+  });
+
+  it("11.2 | Creating a new question has 0 votes", () => {
+    const votes = [0, -1, 0, 1, -1];
+
+    cy.visit("http://localhost:3000");
+
+    // Sign up
+    cy.contains("Signup").click();
+    cy.get("#signupUsernameInput").type("somebodyNew");
+    cy.get("#signupPasswordInput").type("testPassword");
+    cy.get("#signupPasswordConfirm").type("testPassword");
+    cy.get(".login-form-button").click();
+
+    cy.wait(1000);
+
+    // Add a Question
+    cy.contains("Ask a Question").click();
+    cy.get("#formTitleInput").type("Test Question A");
+    cy.get("#formTextInput").type("Test Question A Text");
+    cy.get("#formTagInput").type("tag1");
+    cy.contains("Post Question").click();
+
+    cy.get(".vote-stat").each(($el, index, $list) => {
+      cy.wrap($el).should("contain", `${votes[index]} votes`);
     });
-    
-    it("11.3 | Clicking upvote increments the question's vote by 1", () => {
-        cy.visit("http://localhost:3000");
-    
-        // Sign up
-        cy.contains("Signup").click();
-        cy.get("#signupUsernameInput").type("somebodyNew");
-        cy.get("#signupPasswordInput").type("testPassword");
-        cy.get("#signupPasswordConfirm").type("testPassword");
-        cy.get(".login-form-button").click();
-     
-        cy.wait(1000); 
-    
-        // Verify votes
-        cy.get(".vote-stat").eq(0).should("contain", '-1 votes');
-        cy.contains("Quick question about storage on android").click();
-        cy.get('.vote-button').eq(0).click();
-        cy.get('.big-vote-count').should("contain", '0');
-    
-        cy.get(".selected-vote-button").eq(0).click();
-        cy.contains('-1');
-    });
-    
-    it("11.4 | Clicking downvote decrements the question's vote by 1", () => {
-        cy.visit("http://localhost:3000");
-    
-        // Sign up
-        cy.contains("Signup").click();
-        cy.get("#signupUsernameInput").type("somebodyNew");
-        cy.get("#signupPasswordInput").type("testPassword");
-        cy.get("#signupPasswordConfirm").type("testPassword");
-        cy.get(".login-form-button").click();
-     
-        cy.wait(1000); 
-    
-        // Verify votes
-        cy.get(".vote-stat").eq(0).should("contain", '-1 votes');
-        cy.contains("Quick question about storage on android").click();
-        cy.get('.vote-button').eq(1).click();
-        cy.get('.big-vote-count').should("contain", '-2');
-    
-        cy.get(".selected-vote-button").eq(0).click();
-        cy.contains('-1');
-    });
+  });
+
+  it("11.3 | Clicking upvote increments the question's vote by 1", () => {
+    cy.visit("http://localhost:3000");
+
+    // Sign up
+    cy.contains("Signup").click();
+    cy.get("#signupUsernameInput").type("somebodyNew");
+    cy.get("#signupPasswordInput").type("testPassword");
+    cy.get("#signupPasswordConfirm").type("testPassword");
+    cy.get(".login-form-button").click();
+
+    cy.wait(1000);
+
+    // Verify votes
+    cy.get(".vote-stat").eq(0).should("contain", "-1 votes");
+    cy.contains("Quick question about storage on android").click();
+
+    cy.get(".vote-button").eq(0).click();
+    cy.get(".big-vote-count").should("contain", "0");
+
+    cy.get(".selected-vote-button").eq(0).click();
+    cy.contains("-1");
+
+    cy.get(".vote-button").eq(1).click();
+    cy.get(".big-vote-count").should("contain", "-2");
+
+    cy.get(".vote-button").eq(0).click();
+    cy.get(".big-vote-count").should("contain", "0");
+  });
+
+  it("11.4 | Clicking downvote decrements the question's vote by 1", () => {
+    cy.visit("http://localhost:3000");
+
+    // Sign up
+    cy.contains("Signup").click();
+    cy.get("#signupUsernameInput").type("somebodyNew");
+    cy.get("#signupPasswordInput").type("testPassword");
+    cy.get("#signupPasswordConfirm").type("testPassword");
+    cy.get(".login-form-button").click();
+
+    cy.wait(1000);
+
+    // Verify votes
+    cy.get(".vote-stat").eq(0).should("contain", "-1 votes");
+    cy.contains("Quick question about storage on android").click();
+
+    cy.get(".vote-button").eq(1).click();
+    cy.get(".big-vote-count").should("contain", "-2");
+
+    cy.get(".selected-vote-button").eq(0).click();
+    cy.contains("-1");
+
+    cy.get(".vote-button").eq(0).click();
+    cy.get(".big-vote-count").should("contain", "0");
+
+    cy.get(".vote-button").eq(0).click();
+    cy.get(".big-vote-count").should("contain", "-2");
+  });
+
+  it("11.5 | Properly updates reputation on voting", () => {
+    cy.visit("http://localhost:3000");
+
+    // Sign up
+    cy.contains("Signup").click();
+    cy.get("#signupUsernameInput").type("somebodyNew");
+    cy.get("#signupPasswordInput").type("testPassword");
+    cy.get("#signupPasswordConfirm").type("testPassword");
+    cy.get(".login-form-button").click();
+
+    cy.wait(1000);
+
+    // Verify votes
+    cy.contains("Quick question about storage on android").click();
+
+    //Adds ten reputation on upvote
+    cy.get(".vote-button").eq(0).click();
+    cy.contains("Yoshi").click();
+    cy.wait(500);
+    cy.contains("460 Reputation").should("be.visible");
+
+    cy.get(".menu-button-container").eq(0).click();
+    cy.wait(500)
+    cy.contains("Quick question about storage on android").click();
+    cy.wait(500);
+
+    //Removes 10 when removing upvote
+    cy.get(".selected-vote-button").eq(0).click();
+    cy.contains("Yoshi").click();
+    cy.wait(500);
+    cy.contains("450 Reputation").should("be.visible");
+
+    cy.get(".menu-button-container").eq(0).click();
+    cy.wait(500)
+    cy.contains("Quick question about storage on android").click();
+    cy.wait(500);
+
+    //Removes 2 reputation when removing downvote
+    cy.get(".vote-button").eq(1).click();
+    cy.contains("Yoshi").click();
+    cy.wait(500);
+    cy.contains("448 Reputation").should("be.visible");
+
+    cy.get(".menu-button-container").eq(0).click();
+    cy.wait(500);
+    cy.contains("Quick question about storage on android").click();
+    cy.wait(500);
+
+    //Adds w when removing downvote
+    cy.get(".selected-vote-button").eq(0).click();
+    cy.contains("Yoshi").click();
+    cy.wait(500);
+    cy.contains("450 Reputation").should("be.visible");
+
+    cy.get(".menu-button-container").eq(0).click();
+    cy.wait(500);
+    cy.contains("Quick question about storage on android").click();
+    cy.wait(500);
+
+    //Removes 12 when removing upvote and downvoting
+    cy.get(".vote-button").eq(0).click();
+    cy.get(".vote-button").eq(0).click();
+    cy.contains("Yoshi").click();
+    cy.wait(500);
+    cy.contains("448 Reputation").should("be.visible");
+
+    cy.get(".menu-button-container").eq(0).click();
+    cy.wait(500);
+    cy.contains("Quick question about storage on android").click();
+    cy.wait(500);
+
+    //Adds 12 when removoing downvote and upvoting
+    cy.get(".vote-button").eq(0).click();
+    cy.contains("Yoshi").click();
+    cy.wait(500);
+    cy.contains("460 Reputation").should("be.visible");
+  });
 });
