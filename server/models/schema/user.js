@@ -14,7 +14,7 @@ var User = mongoose.Schema(
     reputation: { type: Number, required: true, default: 0 },
     join_date: { type: Date, required: true },
     askList: [{ type: Schema.Types.ObjectId, ref: "Question" }],
-    ansList: [{ type: Schema.Types.ObjectId, ref: "Question", unique: true }],
+    ansList: [{ type: Schema.Types.ObjectId, ref: "Question" }],
   },
   { collection: "User" }
 );
