@@ -24,7 +24,7 @@ const UserHeader = ({
   const handleChangeUsername = async () => {
     let nameToSet = sanitize(newUsername.trim());
     setNewUsername(nameToSet);
-    
+
     if (nameToSet == currentUsername) {
       setEditing(false);
       return;
@@ -71,8 +71,8 @@ const UserHeader = ({
 
   /**
    * Renders the username based on if the profile being looked at belongs to the current user or not
-   * 
-   * @returns a react component representing the usr's username.  
+   *
+   * @returns a react component representing the usr's username.
    */
   const renderUsername = () => {
     if (currentUser) {
@@ -136,31 +136,33 @@ const UserHeader = ({
     setErrorMessage("");
   }, [username]);
 
-    return (
-      <div className="user-header">
-        {currentUser ? (
-          <label htmlFor="file-upload" className="left-alligned upload-image">
-            <img src={pfp} className="header-profile" alt="Profile Picture"></img>
-          </label>
-        ) : (
-          <img src={pfp} className="left-alligned header-profile" alt="Profile Picture"></img>
-        )}
-        <input
-          type="file"
-          id="file-upload"
-          onChange={(files) =>
-            handleChangeProfilePicture(files.target.files[0])
-          }
-        ></input>
-        <div className="user-header-info">
-          {renderUsername()}
-          <p className="user-header-meta">
-            Joined {getMetaData(new Date(joinDate))}
-          </p>
-          <p className="user-header-meta">{reputation} Reputation</p>
-        </div>
+  return (
+    <div className="user-header">
+      {currentUser ? (
+        <label htmlFor="file-upload" className="left-alligned upload-image">
+          <img src={pfp} className="header-profile" alt="Profile Picture"></img>
+        </label>
+      ) : (
+        <img
+          src={pfp}
+          className="left-alligned header-profile"
+          alt="Profile Picture"
+        ></img>
+      )}
+      <input
+        type="file"
+        id="file-upload"
+        onChange={(files) => handleChangeProfilePicture(files.target.files[0])}
+      ></input>
+      <div className="user-header-info">
+        {renderUsername()}
+        <p className="user-header-meta">
+          Joined {getMetaData(new Date(joinDate))}
+        </p>
+        <p className="user-header-meta">{reputation} Reputation</p>
       </div>
-    );
+    </div>
+  );
 };
 
 export default UserHeader;
