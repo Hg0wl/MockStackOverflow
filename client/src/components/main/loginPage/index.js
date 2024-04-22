@@ -62,7 +62,7 @@ const Login = ({ handleSignup, setLoggedInUser, handleQuestions }) => {
 
   return (
     <div className="login-container">
-      <img className="login-logo" src="https://i.imgur.com/iC106zH.png" alt="Login"></img>
+      <img className="login-logo" src="https://i.imgur.com/iC106zH.png" alt=""></img>
       <div className="login-panel">
         <div className="login-text">Username</div>
         <input
